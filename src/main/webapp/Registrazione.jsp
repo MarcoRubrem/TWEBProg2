@@ -34,8 +34,9 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success" href="#" role="button">Registrazione</a>
-            <button type="button" class="btn btn-danger">Login</button>
+            <button type="button" class="btn btn-success">Registrazione</button>
+            <a class="btn btn-success" href="Login.jsp" role="button">Login</a>
+
 
         </form>
     </div>
@@ -55,3 +56,4 @@
 </form>
 </body>
 </html>
+
