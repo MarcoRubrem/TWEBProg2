@@ -34,7 +34,7 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success" href="#" role="button">Registrazione</a>
+            <a class="btn btn-outline-success" href="Registrazione.jsp" role="button">Registrazione</a>
             <button type="button" class="btn btn-danger">Login</button>
 
         </form>
@@ -43,15 +43,79 @@
 
 <form>
     <div class="form-group">
+        <div id="accerr"></div>
         <label for="account">Account</label>
         <input type="text" class="form-control" id="account" placeholder="Account">
     </div>
     <div class="form-group">
+        <div id="pwerr"></div>
         <label for="pw">Password</label>
         <input type="password" class="form-control" id="pw" placeholder="Password">
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" onclick="login()" class="btn btn-primary">Submit</button>
+
+    <script>
+        var account;
+        var pw;
+        function setXMLHttpRequest() {
+            var xhr = null;
+            if (window.XMLHttpRequest) {      // browser standard con supporto nativo
+                xhr = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {   // browser MS Internet Explorer 6 o 						// precedente - ActiveX
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            return xhr;
+        }
+        function login() {
+            account = document.getElementById("account").value;
+            pw = document.getElementById("pw").value;
+
+            if(account === "") {
+
+                accerr = document.getElementById("accerr");
+                accerr.innerHTML = "Account obbligatorio";
+
+            }
+            else{
+
+                accerr.innerHTML = "";
+
+            }
+            if (pw === ""){
+
+                pwerr = document.getElementById("pwerr");
+                pwerr.innerHTML = "Password obbligatoria";
+            }
+            else{
+
+                pwerr.innerHTML = "";
+
+            }
+
+            var url = "login?account=" + account + "&pw="+pw;
+
+            xhrObj.open("post", url, true);
+            xhrObj.onreadystatechange = updatePage;
+            xhrObj.send(null);
+        }
+        function updatePage() {
+            var risp;
+            var accerr;
+
+            if (xhrObj.readyState === 4) {
+
+                risp = xhrObj.responseText;
+                accerr = document.getElementById("accerr");
+                accerr.innerHTML = risp;
+
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        var xhrObj = setXMLHttpRequest();
+    </script>
 
 
 </form>

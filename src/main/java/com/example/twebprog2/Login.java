@@ -1,10 +1,11 @@
-package com.example.twebprog;
+package com.example.twebprog2;
 
 import DAO.*;
 
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.print.Doc;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -57,8 +58,6 @@ public class Login extends HttpServlet {
             s.setAttribute("pw", pw);
         }
 
-
-
         try {
 
             Statement st = getConn1().createStatement();
@@ -68,22 +67,30 @@ public class Login extends HttpServlet {
 
                 if (rs.getString("account").equals(s.getAttribute("account")) && rs.getString("password").equals(s.getAttribute("pw"))) {
 
-                    urllogin = response.encodeURL("login");
-                    urlhome = response.encodeURL("hello-servlet");
                     logged=true;
 
                 }
-
             }
-            if(logged) {
+            if(!logged) {
 
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+                try {
+
+                    response.setContentType("text/plain");
+                    out.println("ATTENZIONE: Account o password non corretti");
+                    out.flush();
+                }finally {
+                    out.close();
+                }
             }
             else {
+
+                request.getRequestDispatcher("index.jsp").forward(request, response);
 
             }
         }catch (SQLException e){
             System.out.println(e.getMessage());
+        }finally {
+            out.close();
         }
 
 
