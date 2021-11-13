@@ -12,7 +12,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Prenotazioni Unito</a>
+    <a class="navbar-brand" href="index.jsp">Prenotazoni Unito</a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,15 +28,17 @@
                     Elenchi
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Corsi</a>
-                    <a class="dropdown-item" href="#">Ripetizioni</a>
-                    <a class="dropdown-item" href="#">Prenotazioni</a>
+                    <form action="btn" method="get">
+                        <input type="submit" class="dropdown-item" name="btn" value="Corsi"/>
+                        <input type="submit" class="dropdown-item" name="btn" value="Ripetizioni"/>
+                        <input type="submit" class="dropdown-item" name="btn" value="Prenotazioni"/>
+                    </form>
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-success" href="Registrazione.jsp" role="button">Registrazione</a>
-            <button type="button" class="btn btn-danger">Login</button>
+        <form class="form-inline my-2 my-lg-0" action="btn" method="get">
+            <input type="submit" class="btn btn-outline-danger" name="btn" role="button" value="Registrazione">
+            <input type="submit" class="btn btn-success" name="btn" value="Login" role="button">
 
         </form>
     </div>
@@ -56,8 +59,9 @@
     <button type="button" onclick="login()" class="btn btn-primary">Submit</button>
 
     <script>
-        var account;
-        var pw;
+        var account = document.getElementById("account").value;
+        var pw = document.getElementById("pw").value;
+
         function setXMLHttpRequest() {
             var xhr = null;
             if (window.XMLHttpRequest) {      // browser standard con supporto nativo
@@ -68,8 +72,7 @@
             return xhr;
         }
         function login() {
-            account = document.getElementById("account").value;
-            pw = document.getElementById("pw").value;
+
 
             if(account === "") {
 
@@ -103,7 +106,7 @@
             var risp;
             var accerr;
 
-            if (xhrObj.readyState === 4) {
+            if (xhrObj.readyState === 4){
 
                 risp = xhrObj.responseText;
                 accerr = document.getElementById("accerr");

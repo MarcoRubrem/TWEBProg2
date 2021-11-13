@@ -15,8 +15,8 @@ import javax.servlet.annotation.*;
 
 import static DAO.DAO.*;
 
-@WebServlet ("/login")
-public class Login extends HttpServlet {
+@WebServlet ("/btn")
+public class Btn_cntrl extends HttpServlet {
 
 
     public void init() {
@@ -25,7 +25,7 @@ public class Login extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try{
+        try {
             processRequest(request, response);
         } catch (SQLException | ServletException e) {
             e.printStackTrace();
@@ -46,55 +46,29 @@ public class Login extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        String account = request.getParameter("account");
-        String pw = request.getParameter("pw");
-        ResultSet rs = null;
-        String urllogin = null;
-        String urlhome = null;
-        boolean logged=false;
+
         HttpSession s = request.getSession();
         PrintWriter out = response.getWriter();
 
-        if (account != null && pw != null) {
-            s.setAttribute("account", account);
-            s.setAttribute("pw", pw);
-
-
-        try {
-
-            Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM utente");
-
-            while (rs.next()) {
-
-                if (rs.getString("account").equals(s.getAttribute("account")) && rs.getString("password").equals(s.getAttribute("pw"))) {
-
-                    logged=true;
-
-                }
+        ServletContext ctx = getServletContext();
+        String action = request.getParameter("btn");
+        RequestDispatcher rd = ctx.getRequestDispatcher("/index.jsp");
+        if (action!=null) {
+            if (action.equals("home") || action.equals("Prenotazioni Unito")) {
+                rd = ctx.getRequestDispatcher("/index.jsp");
             }
-            if(!logged) {
-
-                try {
-
-                    response.setContentType("text/plain");
-                    out.println("ATTENZIONE: Account o password non corretti");
-                    out.flush();
-                }finally {
-                    out.close();
-                }
+            else if (action.equals("Corsi")) {
+                rd = ctx.getRequestDispatcher("/Corsi");
             }
-            else {
-
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+            else if (action.equals("Registrazione")) {
+                rd = ctx.getRequestDispatcher("/Registrazione.jsp");
+            }
+            else if (action.equals("Login")){
+                rd = ctx.getRequestDispatcher("/Login.jsp");
 
             }
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }finally {
-            out.close();
         }
-        }
+        rd.forward(request, response);
 
 
 

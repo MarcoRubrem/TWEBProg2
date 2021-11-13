@@ -12,7 +12,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Prenotazioni Unito</a>
+    <a class="navbar-brand" href="index.jsp">Prenotazioni Unito</a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,15 +28,17 @@
                     Elenchi
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Corsi</a>
-                    <a class="dropdown-item" href="#">Ripetizioni</a>
-                    <a class="dropdown-item" href="#">Prenotazioni</a>
+                    <form action="btn" method="get">
+                    <input type="submit" class="dropdown-item" name="btn" value="Corsi"/>
+                    <input type="submit" class="dropdown-item" name="btn" value="Ripetizioni"/>
+                    <input type="submit" class="dropdown-item" name="btn" value="Prenotazioni"/>
+                    </form>
                 </div>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-outline-danger" href="#" role="button">Registrazione</a>
-            <a class="btn btn-outline-success" href="Login.jsp" role="button">Login</a>
+        <form class="form-inline my-2 my-lg-0" action="btn" method="get">
+            <input type="submit" class="btn btn-outline-danger" name="btn" role="button" value="Registrazione">
+        <input type="submit" class="btn btn-outline-success" name="btn" value="Login" role="button">
 
         </form>
     </div>
