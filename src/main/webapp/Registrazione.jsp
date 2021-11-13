@@ -53,6 +53,18 @@
         <label for="pw">Password</label>
         <input type="password" class="form-control" id="pw" placeholder="Password">
     </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="Cliente" id="Cliente" value="option1" checked>
+        <label class="form-check-label" for="Cliente">
+            Cliente
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="Amministratore Sito" id="Amministratore Sito" value="option2">
+        <label class="form-check-label" for="Amministratore Sito">
+            Amministratore Sito
+        </label>
+    </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

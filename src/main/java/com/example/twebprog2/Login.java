@@ -48,16 +48,17 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String account = request.getParameter("account");
         String pw = request.getParameter("pw");
-        ResultSet rs = null;
-        String urllogin = null;
-        String urlhome = null;
+        ResultSet rs;
         boolean logged=false;
         HttpSession s = request.getSession();
         PrintWriter out = response.getWriter();
+        ServletContext ctx = getServletContext();
 
-        if (account != null && pw != null) {
+        if(account!=null && pw!=null){
+
             s.setAttribute("account", account);
             s.setAttribute("pw", pw);
+        }
 
 
         try {
@@ -73,31 +74,10 @@ public class Login extends HttpServlet {
 
                 }
             }
-            if(!logged) {
 
-                try {
-
-                    response.setContentType("text/plain");
-                    out.println("ATTENZIONE: Account o password non corretti");
-                    out.flush();
-                }finally {
-                    out.close();
-                }
-            }
-            else {
-
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-
-            }
         }catch (SQLException e){
             System.out.println(e.getMessage());
-        }finally {
-            out.close();
         }
-        }
-
-
-
     }
 
 

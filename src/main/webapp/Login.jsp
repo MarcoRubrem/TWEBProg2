@@ -59,8 +59,7 @@
     <button type="button" onclick="login()" class="btn btn-primary">Submit</button>
 
     <script>
-        var account = document.getElementById("account").value;
-        var pw = document.getElementById("pw").value;
+
 
         function setXMLHttpRequest() {
             var xhr = null;
@@ -73,44 +72,28 @@
         }
         function login() {
 
+            var account = document.getElementById("account").value;
+            var pw = document.getElementById("pw").value;
 
-            if(account === "") {
-
-                accerr = document.getElementById("accerr");
-                accerr.innerHTML = "Account obbligatorio";
-
-            }
-            else{
-
-                accerr.innerHTML = "";
-
-            }
-            if (pw === ""){
-
-                pwerr = document.getElementById("pwerr");
-                pwerr.innerHTML = "Password obbligatoria";
-            }
-            else{
-
-                pwerr.innerHTML = "";
-
-            }
-
-            var url = "login?account=" + account + "&pw="+pw;
+            var url = "login?account="+account+"&pw="+pw;
 
             xhrObj.open("post", url, true);
             xhrObj.onreadystatechange = updatePage;
             xhrObj.send(null);
         }
         function updatePage() {
+
+            var account = document.getElementById("account").value;
+            var pw = document.getElementById("pw").value;
             var risp;
-            var accerr;
+            var accerr = document.getElementById("accerr");
 
             if (xhrObj.readyState === 4){
 
                 risp = xhrObj.responseText;
-                accerr = document.getElementById("accerr");
-                accerr.innerHTML = risp;
+                if(account === "") {
+                    accerr.innerHTML = risp;
+                }
 
             }
         }
