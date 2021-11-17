@@ -9,6 +9,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -44,7 +46,42 @@
     </div>
 </nav>
 
+<div id="app">
+    <p> Login: <input v-model="account" type="text"> </p>
+    <button v-on:click="getInfo">OK</button>
+    <p>JSessionID: {{ sessione }}</p>
+    <p>Controllo sessione: {{ altreInfo }}</p>
+    <p>account: {{ account }}</p>
+</div>
+
+<script>
+    var app = new Vue ({
+        el: '#app',
+        data: {
+            sessione:'sessione inesistente',
+            altreInfo:'---',
+            account:  'AAAA',
+            link :    'ServletSessions'
+        },
+        methods:{
+            getInfo:function(){
+                var self = this;
+                if (self.sessione==='sessione inesistente')
+                    $.post(this.link, {utente: this.account}, function (data) {
+                        self.sessione = data;
+                    });
+                else
+                    $.post(this.link, {utente: this.account, sessione: this.sessione},
+                        function (data) {
+                            self.altreInfo = data;
+                        });
+            }
+        }
+    });
+</script>
+
+
 </br>
-<a href="hello-servlet">Hello Servlet</a>
+<a href="ServletSessions">Hello Servlet</a>
 </body>
 </html>
