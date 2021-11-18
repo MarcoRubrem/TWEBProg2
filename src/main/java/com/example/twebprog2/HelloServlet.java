@@ -1,5 +1,7 @@
  package com.example.twebprog2;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +32,7 @@ public class HelloServlet extends HttpServlet {
         System.out.println("JSessionID:" + jsessionID);
         System.out.println("sessionID ricevuto:" + sessionID);
         System.out.println("userName ricevuto:" + userName);
-
+/*
         if (userName != null) {
             s.setAttribute("userName", userName); // salvo dei dati in sessione...
         }
@@ -41,5 +43,13 @@ public class HelloServlet extends HttpServlet {
             //System.out.println(jsessionID);
             out.print(jsessionID);
         }
+
+ */
+        ServletContext ctx = getServletContext();
+        RequestDispatcher rd;
+        rd = ctx.getRequestDispatcher("/Registrazione.jsp");
+        rd.forward(request, response);
+
+
     }
 }

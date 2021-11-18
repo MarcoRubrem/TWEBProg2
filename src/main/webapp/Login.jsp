@@ -81,12 +81,9 @@
             xhrObj.onreadystatechange = updatePage;
             xhrObj.send(null);
         }
-        function updatePage() {
 
-            var account = document.getElementById("account").value;
-            var pw = document.getElementById("pw").value;
-            var risp;
-            var accerr = document.getElementById("accerr");
+        /*
+        function updatePage() {
 
             if (xhrObj.readyState === 4){
 
@@ -97,6 +94,7 @@
 
             }
         }
+        */
     </script>
 
     <script type="text/javascript">
