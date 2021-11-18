@@ -13,7 +13,7 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-dark bg-dark">
     <a class="navbar-brand" href="index.jsp">Prenotazioni Unito</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,7 @@
         </ul>
         <form class="form-inline my-2 my-lg-0" action="btn" method="get">
             <input type="submit" class="btn btn-outline-danger" name="btn" role="button" value="Registrazione">
-        <input type="submit" class="btn btn-outline-success" name="btn" value="Login" role="button">
+            <input type="submit" class="btn btn-outline-success" name="btn" value="Login" role="button">
 
         </form>
     </div>
@@ -57,13 +57,7 @@
         <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
     </li>
 </ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">bestia</div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Cane</div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Porco</div>
-</div>
 
-<!--
 
 <div id="app">
     <p> Login: <input v-model="account" type="text"> </p>
@@ -98,7 +92,7 @@
         }
     });
 </script>
--->
+
 
 </br>
 <a href="ServletSessions">Hello Servlet</a>

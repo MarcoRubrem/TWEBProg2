@@ -46,13 +46,23 @@ public class Login extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         String account = request.getParameter("account");
         String pw = request.getParameter("pw");
+        if(account==""){
+
+            out.println("Account obbligatorio");
+            out.close();
+        }
+        else if(pw==""){
+
+            out.println("Password obbligatoria");
+            out.close();
+        }
         ResultSet rs;
         boolean logged=false;
         HttpSession s = request.getSession();
-        PrintWriter out = response.getWriter();
-        ServletContext ctx = getServletContext();
 
         if(account!=null && pw!=null){
 
@@ -62,7 +72,6 @@ public class Login extends HttpServlet {
 
 
         try {
-
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM utente");
 
@@ -70,14 +79,38 @@ public class Login extends HttpServlet {
 
                 if (rs.getString("account").equals(s.getAttribute("account")) && rs.getString("password").equals(s.getAttribute("pw"))) {
 
-                    logged=true;
+                    logged = true;
 
                 }
             }
 
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
+            if (logged) {
+
+                out.println("YEEEE sei loggato");
+                out.close();
+
+
+                /*
+                ServletContext ctx = getServletContext();
+                RequestDispatcher rd;
+                rd = ctx.getRequestDispatcher("/index.jsp");
+                rd.forward(request, response);*/
+
+            }
+            else{
+
+                out.println("CHi sei???");
+                out.close();
+
+
+            }
+
+
+        }catch(SQLException e){
+
+            System.out.print(e.getMessage());
         }
+
     }
 
 

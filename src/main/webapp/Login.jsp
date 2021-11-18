@@ -44,20 +44,19 @@
     </div>
 </nav>
 
-<form>
+<form method="post">
     <div class="form-group">
         <div id="accerr"></div>
         <label for="account">Account</label>
         <input type="text" class="form-control" id="account" placeholder="Account">
     </div>
     <div class="form-group">
-        <div id="pwerr"></div>
         <label for="pw">Password</label>
         <input type="password" class="form-control" id="pw" placeholder="Password">
     </div>
 
-    <button type="button" onclick="login()" class="btn btn-primary">Submit</button>
-
+    <button type="button" id="Login" onclick="login()" class="btn btn-primary">Submit</button>
+</form>
     <script>
 
 
@@ -74,27 +73,17 @@
 
             var account = document.getElementById("account").value;
             var pw = document.getElementById("pw").value;
-
-            var url = "login?account="+account+"&pw="+pw;
-
-            xhrObj.open("post", url, true);
-            xhrObj.onreadystatechange = updatePage;
-            xhrObj.send(null);
+            var params = {
+                account: account,
+                pw: pw
+            };
+            $(document).on("click", "#Login", function() {// When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
+                $.post("login", $.param(params), function(responseText) {
+                    $("#accerr").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
+                });
+            });
         }
 
-        /*
-        function updatePage() {
-
-            if (xhrObj.readyState === 4){
-
-                risp = xhrObj.responseText;
-                if(account === "") {
-                    accerr.innerHTML = risp;
-                }
-
-            }
-        }
-        */
     </script>
 
     <script type="text/javascript">
@@ -102,6 +91,6 @@
     </script>
 
 
-</form>
+
 </body>
 </html>
