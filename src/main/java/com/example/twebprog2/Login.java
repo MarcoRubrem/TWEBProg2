@@ -50,16 +50,19 @@ public class Login extends HttpServlet {
 
         String account = request.getParameter("account");
         String pw = request.getParameter("pw");
+
         if(account==""){
 
             out.println("Account obbligatorio");
             out.close();
         }
-        else if(pw==""){
+        if(pw==""){
 
             out.println("Password obbligatoria");
             out.close();
         }
+
+
         ResultSet rs;
         boolean logged=false;
         HttpSession s = request.getSession();
@@ -86,15 +89,9 @@ public class Login extends HttpServlet {
 
             if (logged) {
 
-                out.println("YEEEE sei loggato");
+                out.println("loggato");
+                out.flush();
                 out.close();
-
-
-                /*
-                ServletContext ctx = getServletContext();
-                RequestDispatcher rd;
-                rd = ctx.getRequestDispatcher("/index.jsp");
-                rd.forward(request, response);*/
 
             }
             else{

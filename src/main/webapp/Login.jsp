@@ -44,7 +44,7 @@
     </div>
 </nav>
 
-<form method="post">
+<form id= "frm-log" name="frm-login" method="post">
     <div class="form-group">
         <div id="accerr"></div>
         <label for="account">Account</label>
@@ -58,7 +58,7 @@
     <button type="button" id="Login" onclick="login()" class="btn btn-primary">Submit</button>
 </form>
     <script>
-
+        var accerr;
 
         function setXMLHttpRequest() {
             var xhr = null;
@@ -73,21 +73,32 @@
 
             var account = document.getElementById("account").value;
             var pw = document.getElementById("pw").value;
-            var params = {
-                account: account,
-                pw: pw
-            };
-            $(document).on("click", "#Login", function() {// When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
-                $.post("login", $.param(params), function(responseText) {
-                    $("#accerr").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-                });
-            });
+            accerr = document.getElementById("accerr");
+            var url = "login?account=" + account + "&pw="+pw;
+            xhrObj.open("post", url, true);
+            xhrObj.responseType = 'text';
+            xhrObj.onreadystatechange = updatePage;
+            xhrObj.send(null);
         }
+        function updatePage() {
 
+            var risp = xhrObj.responseText;
+            if (xhrObj.readyState === 4) {
+                if (xhrObj.status === 200) {
+
+                    if (risp === "loggato") {
+
+                        window.location.replace("index.jsp");
+                    } else {
+                        accerr.innerHTML = risp;
+                    }
+                }
+            }
+        }
     </script>
 
     <script type="text/javascript">
-        var xhrObj = setXMLHttpRequest();
+        const xhrObj = setXMLHttpRequest();
     </script>
 
 
