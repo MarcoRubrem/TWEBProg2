@@ -54,7 +54,7 @@ public class Btn_cntrl extends HttpServlet {
         String action = request.getParameter("btn");
         RequestDispatcher rd = ctx.getRequestDispatcher("/index.jsp");
         if (action!=null) {
-            if (action.equals("home") || action.equals("Prenotazioni Unito")) {
+            if (action.equals("home")) {
                 rd = ctx.getRequestDispatcher("/index.jsp");
             }
             else if (action.equals("Corsi")) {

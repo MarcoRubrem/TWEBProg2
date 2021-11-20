@@ -32,19 +32,7 @@ public class HelloServlet extends HttpServlet {
         System.out.println("JSessionID:" + jsessionID);
         System.out.println("sessionID ricevuto:" + sessionID);
         System.out.println("userName ricevuto:" + userName);
-/*
-        if (userName != null) {
-            s.setAttribute("userName", userName); // salvo dei dati in sessione...
-        }
-        if (sessionID!=null && jsessionID.equals(sessionID)) {
-            //System.out.println("sessione riconosciuta!");
-            out.print("sessione riconosciuta!");
-        } else {
-            //System.out.println(jsessionID);
-            out.print(jsessionID);
-        }
 
- */
         ServletContext ctx = getServletContext();
         RequestDispatcher rd;
         rd = ctx.getRequestDispatcher("/Registrazione.jsp");

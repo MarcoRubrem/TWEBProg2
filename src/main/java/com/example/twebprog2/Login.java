@@ -89,7 +89,7 @@ public class Login extends HttpServlet {
 
             if (logged) {
 
-                out.println("loggato");
+                out.print("loggato");
                 out.flush();
                 out.close();
 
