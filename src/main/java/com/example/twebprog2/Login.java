@@ -107,6 +107,8 @@ public class Login extends HttpServlet {
 
             System.out.print(e.getMessage());
         }
+        DAO.Disconnected();
+
 
     }
 
