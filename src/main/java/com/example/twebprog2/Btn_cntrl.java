@@ -52,7 +52,8 @@ public class Btn_cntrl extends HttpServlet {
 
         ServletContext ctx = getServletContext();
         String action = request.getParameter("btn");
-        RequestDispatcher rd = ctx.getRequestDispatcher("/index.jsp");
+        RequestDispatcher rd = null;
+        
         if (action!=null) {
             if (action.equals("home")) {
                 rd = ctx.getRequestDispatcher("/index.jsp");
@@ -67,6 +68,12 @@ public class Btn_cntrl extends HttpServlet {
                 rd = ctx.getRequestDispatcher("/Login.jsp");
 
             }
+            else if (action.equals("Logout")){
+                s.invalidate();
+                rd = ctx.getRequestDispatcher("/index.jsp");
+
+            }
+
         }
         rd.forward(request, response);
 

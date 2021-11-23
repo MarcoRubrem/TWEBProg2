@@ -32,7 +32,25 @@
                 <a class="nav-link" href="btn?btn=Registrazione">Registrazione<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="btn?btn=Login">Login</a>
+
+                <%
+
+                    if(session.getAttribute("account")==null){
+
+                        out.print("<a class=\"nav-link\" href=\"btn?btn=Login\">Login</a>");
+                        out.print("</li>");
+                    }
+                    else{
+
+
+                        out.print("<a class=\"nav-link\" href=\"#\">Ciao "+session.getAttribute("account")+"</a>");
+                        out.print("</li>");
+                        out.print("<li class=\"nav-item\">");
+                        out.print("<a class=\"nav-link\" href=\"btn?btn=Logout\">Logout</a>");
+                        out.print("</li>");
+
+                    }
+                %>
             </li>
         </ul>
     </div>
@@ -50,13 +68,13 @@
     </div>
     <p>Ruolo</p>
     <div class="form-check-inline">
-        <input class="form-check-input" type="radio" name="radio" id="Cliente" value="Cliente" checked>
+        <input class="form-check-input" type="radio" name="ruolo" id="Cliente" value="Cliente" checked>
         <label class="form-check-label" for="Cliente">
             Cliente
         </label>
     </div>
     <div class="form-check-inline">
-        <input class="form-check-input" type="radio" name="radio" id="Amministratore Sito" value="Amministratore Sito">
+        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">
         <label class="form-check-label" for="Amministratore Sito">
             Amministratore Sito
         </label>
@@ -78,11 +96,22 @@
     }
     function reg() {
 
+        var select;
+
         var account = document.getElementById("account").value;
         var pw = document.getElementById("pw").value;
-        var ruolo = document.getElementById("radio");
+        var ruolo = document.querySelectorAll('input[name="ruolo"]');
         accerr = document.getElementById("accerr");
-        var url = "reg?account=" + account + "&pw="+pw+"&Ruolo="+ruolo;
+
+        for(var rs of ruolo){
+
+            if(rs.checked){
+
+                select = rs.value;
+                break;
+            }
+        }
+        var url = "reg?account=" + account + "&pw="+pw+"&Ruolo="+select;
         xhrObj.open("post", url, true);
         xhrObj.responseType = 'text';
         xhrObj.onreadystatechange = updatePage;

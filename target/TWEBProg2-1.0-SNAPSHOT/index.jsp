@@ -31,8 +31,24 @@
                 <a class="nav-link" href="btn?btn=Registrazione">Registrazione</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="btn?btn=Login">Login</a>
-            </li>
+
+                <%
+
+                    if(session.getAttribute("account")==null){
+
+                        out.print("<a class=\"nav-link\" href=\"btn?btn=Login\">Login</a>");
+                        out.print("</li>");
+                    }
+                    else{
+
+                        out.print("<a class=\"nav-link\" href=\"#\">Ciao "+session.getAttribute("account")+"</a>");
+                        out.print("</li>");
+                        out.print("<li class=\"nav-item\">");
+                        out.print("<a class=\"nav-link\" href=\"btn?btn=Logout\">Logout</a>");
+                        out.print("</li>");
+
+                    }
+                                                        %>
         </ul>
     </div>
 </nav>

@@ -40,6 +40,7 @@ public class Registrazione extends HttpServlet {
         response.setContentType("text/html");
         String account=request.getParameter("account");
         String pw=request.getParameter("pw");
+        String radio = request.getParameter("Ruolo");
 
         HttpSession s = request.getSession();
         boolean copia = false;
@@ -90,7 +91,9 @@ public class Registrazione extends HttpServlet {
          } catch (SQLException e) {
 
              System.out.println(e.getMessage());
-         }
+        }
+
+
     }
 
     public void destroy() {}
