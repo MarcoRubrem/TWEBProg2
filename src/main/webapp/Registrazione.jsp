@@ -12,6 +12,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
+
+
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -83,7 +85,8 @@
     <button type="button" id="Reg" onclick="reg()" class="btn btn-primary">Submit</button>
 </form>
 <script>
-    var accerr;
+
+
 
     function setXMLHttpRequest() {
         var xhr = null;
