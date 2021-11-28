@@ -28,42 +28,35 @@
                 <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="btn?btn=Registrazione">Registrazione</a>
+                <a class="nav-link" onclick="reg()">Registrazione</a>
             </li>
             <li class="nav-item">
-
-                <%
-
-                    if(session.getAttribute("account")==null){
-
-                        out.print("<a class=\"nav-link\" href=\"btn?btn=Login\">Login</a>");
-                        out.print("</li>");
-                    }
-                    else{
-
-                        out.print("<a class=\"nav-link\" href=\"#\">Ciao "+session.getAttribute("account")+"</a>");
-                        out.print("</li>");
-                        out.print("<li class=\"nav-item\">");
-                        out.print("<a class=\"nav-link\" href=\"btn?btn=Logout\">Logout</a>");
-                        out.print("</li>");
-
-                    }
-                                                        %>
         </ul>
     </div>
 </nav>
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Profile</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-    </li>
-</ul>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Cognome</th>
+        <th scope="col">Corso</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+    </tr>
+    <tr>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+    </tr>
+    </tbody>
+</table>
+
 
 
 <div id="app">
@@ -75,6 +68,19 @@
 </div>
 
 <script>
+
+    function reg(){
+
+        var r = confirm("Per registrare un nuovo profilo, uscirai da questa sessione. Vuoi continuare?");
+
+        if(r){
+
+            window.location.replace("btn?btn=Registrazione");
+        }
+
+    }
+
+
     var app = new Vue ({
         el: '#app',
         data: {

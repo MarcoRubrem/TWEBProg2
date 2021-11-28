@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Prenotazioni Unito</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <style>
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        /* Change the link color to #111 (black) on hover */
+        li a:hover {
+            background-color: #111;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <nav>
+        <ul>
+            <li>
+                <router-link tag="a" to="/">Prenotazioni Unito</router-link>
+            </li>
+            <li>
+                <router-link tag="a" to="/">Home</router-link>
+            </li>
+            <li>
+                <router-link tag="a" to="/Login">Login</router-link>
+            </li>
+            <li>
+                <router-link tag="a" to="/Registrazione">Registrazione</router-link>
+            </li>
+
+        </ul>
+    </nav>
+
+    <router-view></router-view>
+</div>
+
+<script>
+
+    var home = {
+
+        template: '<h1>Questa è la home</h1>'
+    }
+
+    var Login = {
+
+        template: '<form id= "frm-log" name="frm-login" method="post">\n' +
+            '    <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '        <label for="account">Account</label>\n' +
+            '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
+            '    </div>\n' +
+            '    <div class="form-group">\n' +
+            '        <label for="pw">Password</label>\n' +
+            '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
+            '    </div>\n' +
+            '\n' +
+            '    <button type="button" id="Login" onclick="login()" class="btn btn-primary">Submit</button>\n' +
+            '</form>'
+    }
+
+    var Registrazione = {
+
+        template: '<form>\n' +
+            '    <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '        <label for="account">Account</label>\n' +
+            '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
+            '    </div>\n' +
+            '    <div class="form-group">\n' +
+            '        <label for="pw">Password</label>\n' +
+            '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
+            '    </div>\n' +
+            '    <p>Ruolo</p>\n' +
+            '    <div class="form-check-inline">\n' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Cliente" value="Cliente" checked>\n' +
+            '        <label class="form-check-label" for="Cliente">\n' +
+            '            Cliente\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '    <div class="form-check-inline">\n' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">\n' +
+            '        <label class="form-check-label" for="Amministratore Sito">\n' +
+            '            Amministratore Sito\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '    </br>\n' +
+            '    <button type="button" id="Reg" onclick="reg()" class="btn btn-primary">Submit</button>\n' +
+            '</form>'
+    }
+
+    var router = new VueRouter({
+
+        routes: [
+            {path: '/', component: home},
+            {path: '/Login', component: Login},
+            {path: '/Registrazione', component: Registrazione}
+        ]
+    });
+
+    var app = new Vue({
+
+        el: '#app',
+        router: router,
+
+    });
+
+</script>
+</body>
+</html>

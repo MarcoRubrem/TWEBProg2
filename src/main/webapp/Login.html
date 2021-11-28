@@ -1,5 +1,4 @@
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
@@ -50,53 +49,53 @@
 
     <button type="button" id="Login" onclick="login()" class="btn btn-primary">Submit</button>
 </form>
-    <script>
-        var accerr;
+<script>
+    var accerr;
 
-        function setXMLHttpRequest() {
-            var xhr = null;
-            if (window.XMLHttpRequest) {      // browser standard con supporto nativo
-                xhr = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {   // browser MS Internet Explorer 6 o 						// precedente - ActiveX
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            return xhr;
+    function setXMLHttpRequest() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {      // browser standard con supporto nativo
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {   // browser MS Internet Explorer 6 o 						// precedente - ActiveX
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
         }
-        function login() {
+        return xhr;
+    }
+    function login() {
 
-            var account = document.getElementById("account").value;
-            var pw = document.getElementById("pw").value;
-            accerr = document.getElementById("accerr");
-            var url = "login?account=" + account + "&pw="+pw;
-            xhrObj.open("post", url, true);
-            xhrObj.responseType = 'text';
-            xhrObj.onreadystatechange = updatePage;
-            xhrObj.send(null);
+        var account = document.getElementById("account").value;
+        var pw = document.getElementById("pw").value;
+        accerr = document.getElementById("accerr");
+        var url = "login?account=" + account + "&pw="+pw;
+        xhrObj.open("post", url, true);
+        xhrObj.responseType = 'text';
+        xhrObj.onreadystatechange = updatePage;
+        xhrObj.send(null);
 
-        }
-        function updatePage() {
+    }
+    function updatePage() {
 
 
-            if (xhrObj.readyState === 4) {
-                if (xhrObj.status === 200) {
-                    var risp = xhrObj.responseText;
-                    if(risp === "loggato"){
+        if (xhrObj.readyState === 4) {
+            if (xhrObj.status === 200) {
+                var risp = xhrObj.responseText;
+                if(risp === "loggato"){
 
-                        window.location.replace("index.jsp");
-                    }
-                    else {
+                    window.location.replace("index.jsp");
+                }
+                else {
 
-                        accerr.innerHTML = risp;
-                    }
+                    accerr.innerHTML = risp;
                 }
             }
         }
+    }
 
-    </script>
+</script>
 
-    <script type="text/javascript">
-        const xhrObj = setXMLHttpRequest();
-    </script>
+<script type="text/javascript">
+    const xhrObj = setXMLHttpRequest();
+</script>
 
 
 

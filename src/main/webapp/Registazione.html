@@ -1,5 +1,4 @@
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -37,22 +36,22 @@
 
                 <%
 
-                    if(session.getAttribute("account")==null){
+                if(session.getAttribute("account")==null){
 
-                        out.print("<a class=\"nav-link\" href=\"btn?btn=Login\">Login</a>");
-                        out.print("</li>");
-                    }
-                    else{
+                out.print("<a class=\"nav-link\" href=\"btn?btn=Login\">Login</a>");
+                out.print("</li>");
+            }
+            else{
 
 
-                        out.print("<a class=\"nav-link\" href=\"#\">Ciao "+session.getAttribute("account")+"</a>");
-                        out.print("</li>");
-                        out.print("<li class=\"nav-item\">");
-                        out.print("<a class=\"nav-link\" href=\"btn?btn=Logout\">Logout</a>");
-                        out.print("</li>");
+            out.print("<a class=\"nav-link\" href=\"#\">Ciao "+session.getAttribute("account")+"</a>");
+            out.print("</li>");
+            out.print("<li class=\"nav-item\">");
+            out.print("<a class=\"nav-link\" href=\"btn?btn=Logout\">Logout</a>");
+            out.print("</li>");
 
-                    }
-                %>
+            }
+            %>
             </li>
         </ul>
     </div>

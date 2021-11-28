@@ -62,6 +62,7 @@ public class Btn_cntrl extends HttpServlet {
                 rd = ctx.getRequestDispatcher("/Corsi");
             }
             else if (action.equals("Registrazione")) {
+                s.invalidate();
                 rd = ctx.getRequestDispatcher("/Registrazione.jsp");
             }
             else if (action.equals("Login")){
