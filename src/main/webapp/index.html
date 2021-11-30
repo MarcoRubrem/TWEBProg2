@@ -16,54 +16,32 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
-    <style>
-
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        li {
-            float: left;
-        }
-
-        li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        /* Change the link color to #111 (black) on hover */
-        li a:hover {
-            background-color: #111;
-        }
-    </style>
-
 </head>
 <body>
 
 <div id="app">
-    <nav>
-        <ul>
-            <li>
-                <router-link tag="a" to="/">Prenotazioni Unito</router-link>
-            </li>
-            <li>
-                <router-link tag="a" to="/">Home</router-link>
-            </li>
-            <li>
-                <router-link tag="a" to="/Login">Login</router-link>
-            </li>
-            <li>
-                <router-link tag="a" to="/Registrazione">Registrazione</router-link>
-            </li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <router-link class="navbar-brand"  to="/">Prenotazioni unito</router-link>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-        </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" href="#">Link</router-link>
+                </li>
+                 <li class="nav-item">
+                     <router-link class="nav-link" to="/Login">Login</router-link>
+                 </li>
+            <li class="nav-item">
+                <router-link class="nav-link" to="/Registrazione">Registrazione</router-link>
+            </li>
+            </ul>
+        </div>
     </nav>
 
     <router-view></router-view>
@@ -139,6 +117,77 @@
 
     });
 
+</script>
+
+<script>
+
+    var accerr;
+
+    function setXMLHttpRequest() {
+        var xhr = null;
+        if (window.XMLHttpRequest) {      // browser standard con supporto nativo
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {   // browser MS Internet Explorer 6 o 						// precedente - ActiveX
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return xhr;
+    }
+
+    const xhrObj = setXMLHttpRequest();
+
+    function login() {
+
+        var account = document.getElementById("account").value;
+        var pw = document.getElementById("pw").value;
+        accerr = document.getElementById("accerr");
+        var url = "login?account=" + account + "&pw="+pw;
+        xhrObj.open("post", url, true);
+        xhrObj.responseType = 'text';
+        xhrObj.onreadystatechange = updatePage;
+        xhrObj.send(null);
+
+    }
+    function reg() {
+
+        var select;
+
+        var account = document.getElementById("account").value;
+        var pw = document.getElementById("pw").value;
+        var ruolo = document.querySelectorAll('input[name="ruolo"]');
+        accerr = document.getElementById("accerr");
+
+        for(var rs of ruolo){
+
+            if(rs.checked){
+
+                select = rs.value;
+                break;
+            }
+        }
+        var url = "reg?account="+account+"&pw="+pw+"&Ruolo="+select;
+        xhrObj.open("post", url, true);
+        xhrObj.responseType = 'text';
+        xhrObj.onreadystatechange = updatePage;
+        xhrObj.send(null);
+
+    }
+    function updatePage() {
+
+
+        if (xhrObj.readyState === 4) {
+            if (xhrObj.status === 200) {
+                var risp = xhrObj.responseText;
+                if(risp === "loggato"){
+
+                    document.write("aaa");
+                }
+                else {
+
+                    accerr.innerHTML = risp;
+                }
+            }
+        }
+    }
 </script>
 </body>
 </html>
