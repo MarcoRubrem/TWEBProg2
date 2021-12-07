@@ -45,6 +45,7 @@ public class Login extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -83,7 +84,6 @@ public class Login extends HttpServlet {
                 if (rs.getString("account").equals(s.getAttribute("account")) && rs.getString("password").equals(s.getAttribute("pw"))) {
 
                     logged = true;
-
                 }
             }
 
@@ -96,7 +96,7 @@ public class Login extends HttpServlet {
             }
             else{
 
-                out.println("CHi sei???");
+                out.println("Attenzione: Nome account o password non corretti!");
                 out.close();
 
 

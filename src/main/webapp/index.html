@@ -16,10 +16,23 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
+    <style>
+
+        #reg, #log{
+
+            float: left;
+        }
+
+    </style>
+
+
+
 </head>
 <body>
 
 <div id="app">
+
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <router-link class="navbar-brand"  to="/">Prenotazioni unito</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,27 +44,51 @@
                 <li class="nav-item active">
                     <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
                 </li>
-                <li class="nav-item">
-                    <router-link class="nav-link" href="#">Link</router-link>
-                </li>
+                <span v-if="prenotazioni">
+                    <li class="nav-item">
+                    <router-link class="nav-link" to="/Prenotazioni">Le tue prenotazioni</router-link>
+                    </li></span>
+                <span v-if="Login">
                  <li class="nav-item">
-                     <router-link class="nav-link" to="/Login">Login</router-link>
-                 </li>
+                     <router-link id="log" class="nav-link" to="/Login">Login</router-link>
+                 </li></span>
+                <span v-if="Logout">
+                    <li class="nav-item">
+                     <button id="logout" class="nav-link" v-on:click="logout">Logout</button>
+                    </li></span>
             <li class="nav-item">
-                <router-link class="nav-link" to="/Registrazione">Registrazione</router-link>
+                <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
             </li>
             </ul>
         </div>
     </nav>
 
+
     <router-view></router-view>
+
 </div>
 
+
 <script>
+
+    function setXMLHttpRequest() {
+
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return xhr;
+    }
+
+    const xhrObj = setXMLHttpRequest();
 
     var home = {
 
         template: '<h1>Questa è la home</h1>'
+
+
     }
 
     var Login = {
@@ -67,8 +104,47 @@
             '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
             '    </div>\n' +
             '\n' +
-            '    <button type="button" id="Login" onclick="login()" class="btn btn-primary">Submit</button>\n' +
-            '</form>'
+            '    <button type="button" id="Login" v-on:click="log" class="btn btn-primary">Submit</button>\n' +
+            '</form>',
+
+        methods: {
+
+            log: function () {
+
+                var account = document.getElementById("account").value;
+                var pw = document.getElementById("pw").value;
+                accerr = document.getElementById("accerr");
+                var url = "login?account=" + account + "&pw="+pw;
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+
+            },
+
+            updatePage:function (){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+                        var risp = xhrObj.responseText;
+
+                        if(risp === "loggato"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                        }
+                        else {
+
+                            var accerr = document.getElementById("accerr");
+                            accerr.innerHTML = risp;
+                        }
+                    }
+                }
+
+            }
+        }
     }
 
     var Registrazione = {
@@ -97,43 +173,111 @@
             '        </label>\n' +
             '    </div>\n' +
             '    </br>\n' +
-            '    <button type="button" id="Reg" onclick="reg()" class="btn btn-primary">Submit</button>\n' +
-            '</form>'
+            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-primary">Submit</button>\n' +
+            '</form>',
+
+        methods: {
+
+            reg:function (){
+
+                var select;
+
+                var account = document.getElementById("account").value;
+                var pw = document.getElementById("pw").value;
+                var ruolo = document.querySelectorAll('input[name="ruolo"]');
+
+
+                for(var rs of ruolo){
+
+                    if(rs.checked){
+
+                        select = rs.value;
+                        break;
+                    }
+                }
+                var url = "reg?account="+account+"&pw="+pw+"&Ruolo="+select;
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+            },
+
+            updatePage:function (){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+                        var risp = xhrObj.responseText;
+
+                        if(risp === "loggato"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+
+                        }
+                        else {
+
+                            var accerr = document.getElementById("accerr");
+                            accerr.innerHTML = risp;
+                        }
+                    }
+                }
+
+            }
+
+
+        }
     }
 
-    var router = new VueRouter({
+    var Prenotazioni = {
 
-        routes: [
-            {path: '/', component: home},
-            {path: '/Login', component: Login},
-            {path: '/Registrazione', component: Registrazione}
+        template: '<h1>Queste sono le tue prenotazioni</h1>'
+    }
+
+    const router = new VueRouter({
+        routes:[
+            { path: '/', component: home },
+            { path: '/Login', component: Login },
+            { path: '/Registrazione', component: Registrazione },
+            { path: '/Prenotazioni', component: Prenotazioni}
         ]
-    });
+    })
 
     var app = new Vue({
 
         el: '#app',
         router: router,
+        data: {
+
+            message: 110,
+            prenotazioni: false,
+            Logout: false,
+            Login: true
+        },
+
+        methods: {
+
+            logout: function () {
+
+                alert("sloggato");
+                app.prenotazioni = false;
+                app.Logout = false;
+                router.push('/');
+
+            }
+        }
+
+
 
     });
+
 
 </script>
 
 <script>
+/*
 
-    var accerr;
-
-    function setXMLHttpRequest() {
-        var xhr = null;
-        if (window.XMLHttpRequest) {      // browser standard con supporto nativo
-            xhr = new XMLHttpRequest();
-        } else if (window.ActiveXObject) {   // browser MS Internet Explorer 6 o 						// precedente - ActiveX
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        return xhr;
-    }
-
-    const xhrObj = setXMLHttpRequest();
 
     function login() {
 
@@ -147,47 +291,7 @@
         xhrObj.send(null);
 
     }
-    function reg() {
-
-        var select;
-
-        var account = document.getElementById("account").value;
-        var pw = document.getElementById("pw").value;
-        var ruolo = document.querySelectorAll('input[name="ruolo"]');
-        accerr = document.getElementById("accerr");
-
-        for(var rs of ruolo){
-
-            if(rs.checked){
-
-                select = rs.value;
-                break;
-            }
-        }
-        var url = "reg?account="+account+"&pw="+pw+"&Ruolo="+select;
-        xhrObj.open("post", url, true);
-        xhrObj.responseType = 'text';
-        xhrObj.onreadystatechange = updatePage;
-        xhrObj.send(null);
-
-    }
-    function updatePage() {
-
-
-        if (xhrObj.readyState === 4) {
-            if (xhrObj.status === 200) {
-                var risp = xhrObj.responseText;
-                if(risp === "loggato"){
-
-                    document.write("aaa");
-                }
-                else {
-
-                    accerr.innerHTML = risp;
-                }
-            }
-        }
-    }
+    */
 </script>
 </body>
 </html>
