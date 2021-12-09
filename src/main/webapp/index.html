@@ -16,14 +16,7 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 
-    <style>
-
-        #reg, #log{
-
-            float: left;
-        }
-
-    </style>
+    <link rel="stylesheet" src="style.css">
 
 
 
@@ -47,15 +40,20 @@
                 <span v-if="prenotazioni">
                     <li class="nav-item">
                     <router-link class="nav-link" to="/Prenotazioni">Le tue prenotazioni</router-link>
-                    </li></span>
+                    </li>
+                </span>
+                </ul>
+            <ul class="navbar-nav">
                 <span v-if="Login">
                  <li class="nav-item">
                      <router-link id="log" class="nav-link" to="/Login">Login</router-link>
-                 </li></span>
+                 </li>
+                </span>
                 <span v-if="Logout">
                     <li class="nav-item">
                      <button id="logout" class="nav-link" v-on:click="logout">Logout</button>
-                    </li></span>
+                    </li>
+                </span>
             <li class="nav-item">
                 <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
             </li>
