@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/ServletSessions")
-public class HelloServlet extends HttpServlet {
+@WebServlet("/Home")
+public class Home extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -25,18 +25,13 @@ public class HelloServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String userName = request.getParameter("utente");
-        String sessionID = request.getParameter("sessione");
-        HttpSession s = request.getSession();
-        String jsessionID = s.getId(); // estraggo il session ID
-        System.out.println("JSessionID:" + jsessionID);
-        System.out.println("sessionID ricevuto:" + sessionID);
-        System.out.println("userName ricevuto:" + userName);
+        String param = request.getParameter("param");
 
-        ServletContext ctx = getServletContext();
-        RequestDispatcher rd;
-        rd = ctx.getRequestDispatcher("/Registrazione.jsp");
-        rd.forward(request, response);
+        if(param=="Ripetizioni"){
+
+
+        }
+
 
 
     }

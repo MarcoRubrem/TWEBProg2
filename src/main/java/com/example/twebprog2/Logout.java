@@ -43,6 +43,7 @@ public class Logout extends HttpServlet {
 
         HttpSession s = request.getSession();
         s.invalidate();
+        System.out.print("Sessione invalidata");
 
 
     }

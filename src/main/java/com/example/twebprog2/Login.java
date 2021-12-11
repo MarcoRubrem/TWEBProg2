@@ -54,12 +54,12 @@ public class Login extends HttpServlet {
 
         if(account==""){
 
-            out.println("Account obbligatorio");
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">Account obbligatorio</div>");
             out.close();
         }
         if(pw==""){
 
-            out.println("Password obbligatoria");
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">Password obbligatoria</div>");
             out.close();
         }
 
@@ -96,7 +96,7 @@ public class Login extends HttpServlet {
             }
             else{
 
-                out.println("Attenzione: Nome account o password non corretti!");
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account o password non corretti!</div>");
                 out.close();
 
 

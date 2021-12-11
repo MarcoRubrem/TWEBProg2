@@ -49,12 +49,12 @@ public class Registrazione extends HttpServlet {
 
         if(account==""){
 
-            out.println("Account obbligatorio");
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">Account obbligatorio</div>");
             out.close();
         }
         if(pw==""){
 
-            out.println("Password obbligatoria");
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">Password obbligatoria</div>");
             out.close();
         }
 
@@ -71,7 +71,7 @@ public class Registrazione extends HttpServlet {
 
              while (rs.next()) {
 
-                 if (rs.getString("account").equals(s.getAttribute("account")) && rs.getString("password").equals(s.getAttribute("pw"))) {
+                 if (rs.getString("account").equals(s.getAttribute("account"))) {
 
                      copia = true;
                  }
@@ -79,7 +79,7 @@ public class Registrazione extends HttpServlet {
 
              if (copia) {
 
-                 out.println("Attenzione! Nome Account già registrato.");
+                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione! Nome Account già registrato</div>");
                  out.close();
              } else {
 
