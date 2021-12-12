@@ -1,5 +1,9 @@
 package DAO;
 
+import Model.Corso;
+import Model.Docente;
+import Model.Ripetizione;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;

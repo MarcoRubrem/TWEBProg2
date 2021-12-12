@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 
-@WebServlet("/Home")
+ @WebServlet("/Home")
 public class Home extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
@@ -27,7 +28,7 @@ public class Home extends HttpServlet {
         PrintWriter out = response.getWriter();
         String param = request.getParameter("param");
 
-        if(param=="Ripetizioni"){
+        if(param.equals("Ripetizioni")){
 
 
         }

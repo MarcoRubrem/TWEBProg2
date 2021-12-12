@@ -1,12 +1,6 @@
 package DAO;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-
-import DAO.Persona;
-import DAO.*;
-
-import static DAO.DAO.Elenca_Ripetizioni;
 
 /* Questo esempio dimostra come connettersi a un DB MySQL
    e recuperare dati da tabella. Per un completo, che
