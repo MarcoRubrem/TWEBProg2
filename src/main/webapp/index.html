@@ -27,7 +27,7 @@
 <div id="app">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <router-link class="navbar-brand" to="/">Navbar</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -39,7 +39,7 @@
                 </li>
                 <span v-if="prenotazioni">
                     <li class="nav-item">
-                    <router-link class="nav-link" to="/Prenotazioni">Le tue prenotazioni</router-link>
+                    <router-link class="nav-link" to="/Prenotazioni">Prenotazioni</router-link>
                     </li>
                 </span>
             </ul>
@@ -53,12 +53,19 @@
                 </span>
                 <span v-if="Logout">
                     <li class="nav-item">
-                     <button id="logout" class="nav-link" v-on:click="logout">Logout</button>
+                     <button id="logout" class="nav-link" v-on:click="logout">Esci</button>
                     </li>
                 </span>
+             <span v-if="Login">
             <li class="nav-item">
                 <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
             </li>
+             </span>
+             <span v-if="Impostazioni_admin">
+             <li class="nav-item">
+                <router-link id="Impostazioni_admin" class="nav-link" to="/Impostazioni_admin">Impostazioni Admin</router-link>
+             </li>
+             </span>
             </ul>
         </div>
     </nav>
@@ -90,7 +97,7 @@
         template:
             '<div><button v-on:click="Ripetizioni">Ripetizioni</button>' +
             '<button v-on:click="Corsi">Corsi</button>' +
-            '<button v-on:click="Docenti">Docenti</button></div>' +
+            '<button v-on:click="Docenti">Docenti</button>' +
             '<div id="result"></div>' +
             '</div>',
 
@@ -107,12 +114,20 @@
 
             Corsi: function (){
 
-                alert('Corsi!');
+                var url = "Home?param=Corsi";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
             },
 
             Docenti: function (){
 
-                alert('Docenti!');
+                var url = "Home?param=Docenti";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
             },
 
             updatePage:function (){
@@ -183,12 +198,20 @@
                     if (xhrObj.status === 200) {
                         var risp = xhrObj.responseText;
 
-                        if(risp === "loggato"){
+                        if(risp === "Cliente"){
 
                             router.push('/');
                             app.prenotazioni = true;
                             app.Logout = true;
                             app.Login = false;
+                        }
+                        else if(risp === "Amministratore Sito"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                            app.Impostazioni_admin = true;
                         }
                         else {
 
@@ -304,12 +327,18 @@
         template: '<h1>Queste sono le tue prenotazioni</h1>'
     }
 
+    var Impostazioni_admin = {
+
+        template: '<h1>Queste sono le impostazioni admin</h1>'
+    }
+
     const router = new VueRouter({
         routes:[
             { path: '/', component: home },
             { path: '/Login', component: Login },
             { path: '/Registrazione', component: Registrazione },
-            { path: '/Prenotazioni', component: Prenotazioni}
+            { path: '/Prenotazioni', component: Prenotazioni },
+            { path: '/Impostazioni_admin', component: Impostazioni_admin }
         ]
     })
 
@@ -322,17 +351,18 @@
             message: 110,
             prenotazioni: false,
             Logout: false,
-            Login: true
+            Login: true,
+            Impostazioni_admin: false
         },
 
         methods: {
 
             logout: function () {
 
-                alert("sloggato");
                 app.prenotazioni = false;
                 app.Logout = false;
                 app.Login = true;
+                app.Impostazioni_admin = false;
                 router.push('/');
 
             }

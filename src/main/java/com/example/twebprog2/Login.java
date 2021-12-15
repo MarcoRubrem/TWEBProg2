@@ -21,7 +21,6 @@ public class Login extends HttpServlet {
 
     public void init() {
         String message = "Hello World!";
-        DAO.registerDriver();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -75,37 +74,24 @@ public class Login extends HttpServlet {
         }
 
 
-        try {
-            Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM utente");
+        if (DAO_utente.Logged_user(account, pw).equals("Cliente")) {
 
-            while (rs.next()) {
+            out.print("Cliente");
+            out.flush();
+            out.close();
 
-                if (rs.getString("account").equals(s.getAttribute("account")) && rs.getString("password").equals(s.getAttribute("pw"))) {
+        }
+        else if(DAO_utente.Logged_user(account, pw).equals("Amministratore Sito")){
 
-                    logged = true;
-                }
-            }
+            out.print("Amministratore Sito");
+            out.flush();
+            out.close();
+        }
+        else{
 
-            if (logged) {
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account o password non corretti!</div>");
+            out.close();
 
-                out.print("loggato");
-                out.flush();
-                out.close();
-
-            }
-            else{
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account o password non corretti!</div>");
-                out.close();
-
-
-            }
-
-
-        }catch(SQLException e){
-
-            System.out.print(e.getMessage());
         }
 
     }
