@@ -53,7 +53,7 @@
                 </span>
                 <span v-if="Logout">
                     <li class="nav-item">
-                     <button id="logout" class="nav-link" v-on:click="logout">Esci</button>
+                     <button id="logout" class="btn btn-outline-danger" v-on:click="logout">Esci</button>
                     </li>
                 </span>
              <span v-if="Login">
@@ -70,11 +70,18 @@
         </div>
     </nav>
 
+
+    <div class="intro">
+        <span v-if="intro_view"><h1 class="intro">Bentornato {{account}}! E' bello riaverti qui.</h1></span><br>
+        <h1 class="intro">{{intro}}</h1>
+    </div>
+
     <transition name="component-fade" mode="out-in">
     <router-view></router-view>
     </transition>
 
 </div>
+
 
 
 <script>
@@ -92,12 +99,17 @@
 
     const xhrObj = setXMLHttpRequest();
 
+
+
     var home = {
 
+
         template:
-            '<div><button v-on:click="Ripetizioni">Ripetizioni</button>' +
-            '<button v-on:click="Corsi">Corsi</button>' +
-            '<button v-on:click="Docenti">Docenti</button>' +
+
+            '<div id="home">' +
+            '<button class="btn btn-secondary btn-lg btn-block" v-on:click="Ripetizioni">Ripetizioni</button>\n' +
+            '<button v-on:click="Corsi" class="btn btn-secondary btn-lg btn-block">Corsi</button>\n' +
+            '<button v-on:click="Docenti" class="btn btn-secondary btn-lg btn-block">Docenti</>\n' +
             '<div id="result"></div>' +
             '</div>',
 
@@ -106,6 +118,7 @@
             Ripetizioni: function () {
 
                 var url = "Home?param=Ripetizioni";
+                app.account = "aaa";
                 xhrObj.open("post", url, true);
                 xhrObj.responseType = 'text';
                 xhrObj.onreadystatechange = this.updatePage;
@@ -133,6 +146,7 @@
             updatePage:function (){
 
                 var result = document.getElementById('result');
+                var Intro = document.getElementById('intro');
 
                 if (xhrObj.readyState === 4) {
                     if (xhrObj.status === 200) {
@@ -194,24 +208,36 @@
 
             updatePage:function (){
 
+
+
                 if (xhrObj.readyState === 4) {
                     if (xhrObj.status === 200) {
-                        var risp = xhrObj.responseText;
+                        var risp = xhrObj.responseText.split('|');
+                        var role = risp[0];
+                        var user = risp[1];
 
-                        if(risp === "Cliente"){
+                        if(role === "Cliente"){
 
                             router.push('/');
                             app.prenotazioni = true;
                             app.Logout = true;
                             app.Login = false;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
                         }
-                        else if(risp === "Amministratore Sito"){
+                        else if (role === "Amministratore Sito"){
 
                             router.push('/');
                             app.prenotazioni = true;
                             app.Logout = true;
                             app.Login = false;
                             app.Impostazioni_admin = true;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
                         }
                         else {
 
@@ -298,14 +324,31 @@
 
                 if (xhrObj.readyState === 4) {
                     if (xhrObj.status === 200) {
-                        var risp = xhrObj.responseText;
+                        var risp = xhrObj.responseText.split('|');
+                        var role = risp[0];
+                        var user = risp[1];
 
-                        if(risp === "loggato"){
+                        if(role === "Cliente"){
 
                             router.push('/');
                             app.prenotazioni = true;
                             app.Logout = true;
                             app.Login = false;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
+                        }
+                        else if (role === "Amministratore Sito"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                            app.Impostazioni_admin = true;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
 
                         }
                         else {
@@ -348,24 +391,51 @@
         router: router,
         data: {
 
-            message: 110,
+            intro: 'Benvenuto! Registrati o accedi ora per iniziare a prenotare!',
             prenotazioni: false,
             Logout: false,
             Login: true,
-            Impostazioni_admin: false
+            Impostazioni_admin: false,
+            account: '',
+            intro_view: false
         },
 
         methods: {
 
             logout: function () {
 
-                app.prenotazioni = false;
-                app.Logout = false;
-                app.Login = true;
-                app.Impostazioni_admin = false;
-                router.push('/');
+                var url = "logout";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
 
+            },
+
+        updatePage:function (){
+
+            var Intro = document.getElementById('intro');
+
+            if (xhrObj.readyState === 4) {
+                if (xhrObj.status === 200) {
+
+                    var risp = xhrObj.responseText;
+
+                    if(risp === "Sessione invalidata") {
+
+                        app.prenotazioni = false;
+                        app.Logout = false;
+                        app.Login = true;
+                        app.Impostazioni_admin = false;
+                        app.account = '';
+                        app.intro = 'Benvenuto! Registrati o accedi ora per iniziare a prenotare!';
+                        app.intro_view = false;
+                        router.push('/');
+                    }
+                }
             }
+
+        }
         }
 
 
@@ -375,23 +445,6 @@
 
 </script>
 
-<script>
-/*
 
-
-    function login() {
-
-        var account = document.getElementById("account").value;
-        var pw = document.getElementById("pw").value;
-        accerr = document.getElementById("accerr");
-        var url = "login?account=" + account + "&pw="+pw;
-        xhrObj.open("post", url, true);
-        xhrObj.responseType = 'text';
-        xhrObj.onreadystatechange = updatePage;
-        xhrObj.send(null);
-
-    }
-    */
-</script>
 </body>
 </html>

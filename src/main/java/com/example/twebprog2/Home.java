@@ -36,10 +36,13 @@ public class Home extends HttpServlet {
         String param = request.getParameter("param");
         ResultSet rs;
 
+
         if(param.equals("Ripetizioni")){
 
             try {
+
                 DAO.registerDriver();
+
                 Statement st = getConn1().createStatement();
                 rs = st.executeQuery("SELECT * FROM ripetizione");
 
@@ -74,15 +77,79 @@ public class Home extends HttpServlet {
 
         if(param.equals("Corsi")){
 
+            try {
+
+                DAO.registerDriver();
+
+                Statement st = getConn1().createStatement();
+                rs = st.executeQuery("SELECT * FROM corso");
+
+                out.println("<table class=\"table table-striped\">\n" +
+                        "  <thead>\n" +
+                        "    <tr>\n" +
+                        "      <th scope=\"col\">Titolo</th>\n" +
+                        "      <th scope=\"col\">CFU</th>\n" +
+                        "    </tr>\n" +
+                        "  </thead>\n" +
+                        "  <tbody>");
+                while(rs.next()) {
+
+                    out.println("    <tr>\n" +
+                            "      <td>"+rs.getString("titolo")+"</td>\n" +
+                            "      <td>"+rs.getInt("CFU")+"</td>\n" +
+                            "    </tr>");
+                }
+
+                out.println("  </tbody>\n" +
+                        "</table>");
+
+            }catch (SQLException e){
+
+                System.out.println(e.getMessage());
+            }
+
 
             out.close();
+            DAO.Disconnected();
 
         }
 
         if(param.equals("Docenti")){
 
+            try {
+
+                DAO.registerDriver();
+
+                Statement st = getConn1().createStatement();
+                rs = st.executeQuery("SELECT * FROM docente");
+
+                out.println("<table class=\"table table-striped\">\n" +
+                        "  <thead>\n" +
+                        "    <tr>\n" +
+                        "      <th scope=\"col\">Nome</th>\n" +
+                        "      <th scope=\"col\">Cognome</th>\n" +
+                        "    </tr>\n" +
+                        "  </thead>\n" +
+                        "  <tbody>");
+                while(rs.next()) {
+
+                    out.println("    <tr>\n" +
+                            "      <td>"+rs.getString("nome")+"</td>\n" +
+                            "      <td>"+rs.getString("cognome")+"</td>\n" +
+                            "    </tr>");
+                }
+
+                out.println("  </tbody>\n" +
+                        "</table>");
+
+            }catch (SQLException e){
+
+                System.out.println(e.getMessage());
+            }
+
 
             out.close();
+            DAO.Disconnected();
 
         }
 

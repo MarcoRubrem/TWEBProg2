@@ -76,14 +76,14 @@ public class Login extends HttpServlet {
 
         if (DAO_utente.Logged_user(account, pw).equals("Cliente")) {
 
-            out.print("Cliente");
+            out.print("Cliente|"+s.getAttribute("account"));
             out.flush();
             out.close();
 
         }
         else if(DAO_utente.Logged_user(account, pw).equals("Amministratore Sito")){
 
-            out.print("Amministratore Sito");
+            out.print("Amministratore Sito|"+s.getAttribute("account"));
             out.flush();
             out.close();
         }

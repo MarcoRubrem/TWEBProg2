@@ -34,6 +34,19 @@ body{
     margin-top: 5%;
 }
 
+#home{
+
+    margin: 0% 0% 0% 0%;
+    border: 1px solid #ffffff;
+
+}
+
+.intro{
+
+    text-align: center;
+}
+
+
 .component-fade-enter-active, .component-fade-leave-active {
     transition: opacity .3s ease;
 }
