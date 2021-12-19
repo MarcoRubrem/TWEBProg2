@@ -107,9 +107,11 @@
         template:
 
             '<div id="home">' +
-            '<button class="btn btn-secondary btn-lg btn-block" v-on:click="Ripetizioni">Ripetizioni</button>\n' +
-            '<button v-on:click="Corsi" class="btn btn-secondary btn-lg btn-block">Corsi</button>\n' +
-            '<button v-on:click="Docenti" class="btn btn-secondary btn-lg btn-block">Docenti</>\n' +
+            '<div class="btn-group" role="group" aria-label="Basic example">\n' +
+            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
+            '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
+            '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
+            '</div>' +
             '<div id="result"></div>' +
             '</div>',
 
@@ -372,7 +374,32 @@
 
     var Impostazioni_admin = {
 
-        template: '<h1>Queste sono le impostazioni admin</h1>'
+        template:
+            '<div id="home">' +
+            '<router-link to="/Impostazioni_Ripetizioni">Impostazioni Ripetizioni</router-link>\n' +
+            '<router-link to="/Impostazioni_Docenti">Impostazioni Docenti</router-link>\n' +
+            '<router-link to="/Impostazioni_Corsi">Impostazioni Corsi</router-link>\n' +
+            '<router-view></router-view>' +
+            '</div>'
+    }
+
+    var Ripetizioni_admin = {
+
+        template:
+            '<div>' +
+            'Imposta ripetizioni' +
+            '</div>'
+    }
+
+    var Docenti_admin = {
+
+        tempalte:
+            '<div>Imposta docenti</div>'
+    }
+
+    var Corsi_admin = {
+
+        template: '<div>Imposta Corsi</div>'
     }
 
     const router = new VueRouter({
@@ -381,7 +408,10 @@
             { path: '/Login', component: Login },
             { path: '/Registrazione', component: Registrazione },
             { path: '/Prenotazioni', component: Prenotazioni },
-            { path: '/Impostazioni_admin', component: Impostazioni_admin }
+            { path: '/Impostazioni_admin', component: Impostazioni_admin },
+            { path: '/Impostazioni_Ripetizioni', component: Ripetizioni_admin },
+            { path: '/Impostazioni_Docenti', component: Docenti_admin },
+            { path: '/Impostazioni_Corsi', component: Corsi_admin }
         ]
     })
 
@@ -395,7 +425,7 @@
             prenotazioni: false,
             Logout: false,
             Login: true,
-            Impostazioni_admin: false,
+            Impostazioni_admin: true,
             account: '',
             intro_view: false
         },

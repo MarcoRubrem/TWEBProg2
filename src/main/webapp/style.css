@@ -34,18 +34,22 @@ body{
     margin-top: 5%;
 }
 
-#home{
-
-    margin: 0% 0% 0% 0%;
-    border: 1px solid #ffffff;
-
-}
-
 .intro{
 
     text-align: center;
 }
 
+#home{
+
+    margin-left: 38%;
+    margin-top: 5%;
+
+}
+
+#home button{
+
+    padding: 10% 20% 10%;
+}
 
 .component-fade-enter-active, .component-fade-leave-active {
     transition: opacity .3s ease;
