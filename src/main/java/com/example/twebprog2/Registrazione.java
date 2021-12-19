@@ -47,50 +47,38 @@ public class Registrazione extends HttpServlet {
         PrintWriter out = response.getWriter();
 
 
-        if(account==""){
+        if(account.equals("")){
 
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Account obbligatorio</div>");
             out.close();
         }
-        if(pw==""){
+        if(pw.equals("")){
 
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Password obbligatoria</div>");
             out.close();
         }
 
-        if(account!=null && pw!=null){
+        s.setAttribute("account", account);
+        s.setAttribute("pw", pw);
 
-            s.setAttribute("account", account);
-            s.setAttribute("pw", pw);
+        if (DAO_utente.Registered_User(account, pw, radio).equals("Cliente")) {
+
+            out.print("Cliente|"+s.getAttribute("account"));
+            out.flush();
+            out.close();
+
         }
+        else if(DAO_utente.Registered_User(account, pw, radio).equals("Amministratore Sito")){
 
-         try {
+            out.print("Amministratore Sito|"+s.getAttribute("account"));
+            out.flush();
+            out.close();
+        }
+        else{
 
-             Statement st = DAO.getConn1().createStatement();
-             ResultSet rs = st.executeQuery("SELECT * FROM utente");
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account già registrato!</div>");
+            out.close();
 
-             while (rs.next()) {
-
-                 if (rs.getString("account").equals(s.getAttribute("account"))) {
-
-                     copia = true;
-                 }
-             }
-
-             if (copia) {
-
-                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione! Nome Account già registrato</div>");
-                 out.close();
-             } else {
-
-                 int rs2 = st.executeUpdate("Insert into utente values('" + account + "', '" + pw + "', '" + radio + "')");
-                 out.print("loggato");
-                 out.close();
-
-             }
-         } catch (SQLException e) {
-
-             System.out.println(e.getMessage());
         }
 
 

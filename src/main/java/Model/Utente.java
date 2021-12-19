@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Utente {
 
     private String account;
@@ -43,5 +45,18 @@ public class Utente {
                 ", password='" + password + '\'' +
                 ", ruolo='" + ruolo + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Utente)) return false;
+        Utente utente = (Utente) o;
+        return getAccount().equals(utente.getAccount()) && getPassword().equals(utente.getPassword()) && getRuolo().equals(utente.getRuolo());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getAccount(), getPassword(), getRuolo());
     }
 }

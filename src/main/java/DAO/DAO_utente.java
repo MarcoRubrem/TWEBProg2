@@ -37,38 +37,49 @@ public class DAO_utente {
         return out;
     }
 
-    public static String Logged_user(String account, String pw){
+    public static String Registered_User(String account, String pw, String role){
 
         ResultSet rs;
+        ArrayList<Utente> u = Elenca_utenti();
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM utente");
 
-            while (rs.next()) {
+            for(Utente us: u){
 
-                if(rs.getString("account").equals(account) && rs.getString("password").equals(pw)){
+                if(us.getAccount().equals(account)){
 
-                    return rs.getString("ruolo");
-
+                    DAO.Disconnected();
+                    return "User already registered";
                 }
             }
 
-        }catch(SQLException e) {
+            st.executeUpdate("Insert into utente values('" + account + "', '" + pw + "', '" + role + "')");
 
-            System.out.print(e.getMessage());
-        }finally {
+        } catch (Exception e) {
 
-            DAO.Disconnected();
-
+            System.out.println(e.getMessage());
         }
+
+        DAO.Disconnected();
+        return role;
+
+    }
+
+    public static String Logged_user(String account, String pw){
+
+        ArrayList<Utente> u = Elenca_utenti();
+
+            for(Utente us: u){
+
+                if(us.getAccount().equals(account) && us.getPassword().equals(pw)){
+
+                    return us.getRuolo();
+                }
+            }
 
         return "user_not_found";
     }
-
-
-
-
 }
