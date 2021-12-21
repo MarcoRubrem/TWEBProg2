@@ -39,14 +39,23 @@ body{
     text-align: center;
 }
 
-#home{
+#home_btn{
 
-    margin-left: 38%;
-    margin-top: 5%;
+    padding: 2% 10% 35% 35%;
     border: 1px solid #ffffff;
 
 }
 
+#rm_button{
+
+    padding: 2% 10% 10% 45%;
+
+}
+
+#result{
+
+
+}
 
 #home button{
 
