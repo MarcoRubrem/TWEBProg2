@@ -39,7 +39,6 @@ public class DAO_utente {
 
     public static String Registered_User(String account, String pw, String role){
 
-        ResultSet rs;
         ArrayList<Utente> u = Elenca_utenti();
 
         try {

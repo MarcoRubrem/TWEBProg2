@@ -51,12 +51,12 @@ public class Login extends HttpServlet {
         String account = request.getParameter("account");
         String pw = request.getParameter("pw");
 
-        if(account==""){
+        if(account.equals("")){
 
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Account obbligatorio</div>");
             out.close();
         }
-        if(pw==""){
+        if(pw.equals("")){
 
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Password obbligatoria</div>");
             out.close();
@@ -67,31 +67,22 @@ public class Login extends HttpServlet {
         boolean logged=false;
         HttpSession s = request.getSession();
 
-        if(account!=null && pw!=null){
-
-            s.setAttribute("account", account);
-            s.setAttribute("pw", pw);
-        }
+        s.setAttribute("account", account);
+        s.setAttribute("pw", pw);
 
 
-        if (DAO_utente.Logged_user(account, pw).equals("Cliente")) {
 
-            out.print("Cliente|"+s.getAttribute("account"));
-            out.flush();
-            out.close();
-
-        }
-        else if(DAO_utente.Logged_user(account, pw).equals("Amministratore Sito")){
-
-            out.print("Amministratore Sito|"+s.getAttribute("account"));
-            out.flush();
-            out.close();
-        }
-        else{
+        if (DAO_utente.Logged_user(account, pw).equals("user_not_found")) {
 
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account o password non corretti!</div>");
             out.close();
 
+        }
+        else{
+
+            out.print(DAO_utente.Logged_user(account, pw)+"|"+s.getAttribute("account"));
+            out.flush();
+            out.close();
         }
 
     }

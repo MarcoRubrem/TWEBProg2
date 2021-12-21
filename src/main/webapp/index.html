@@ -62,9 +62,16 @@
             </li>
              </span>
              <span v-if="Impostazioni_admin">
-             <li class="nav-item">
-                <router-link id="Impostazioni_admin" class="nav-link" to="/Impostazioni_admin">Impostazioni Admin</router-link>
-             </li>
+                 <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Impostazioni Admin
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <router-link id="Impostazioni_Ripetizioni" class="dropdown-item" to="/Impostazioni_Ripetizioni">Ripetizioni</router-link>
+                <router-link id="Impostazioni_Docenti" class="dropdown-item" to="/Impostazioni_Docenti">Docenti</router-link>
+                <router-link id="Impostazioni_Corsi" class="dropdown-item" to="/Impostazioni_Corsi">Corsi</router-link>
+        </div>
+      </li>
              </span>
             </ul>
         </div>
@@ -372,34 +379,141 @@
         template: '<h1>Queste sono le tue prenotazioni</h1>'
     }
 
-    var Impostazioni_admin = {
-
-        template:
-            '<div id="home">' +
-            '<router-link to="/Impostazioni_Ripetizioni">Impostazioni Ripetizioni</router-link>\n' +
-            '<router-link to="/Impostazioni_Docenti">Impostazioni Docenti</router-link>\n' +
-            '<router-link to="/Impostazioni_Corsi">Impostazioni Corsi</router-link>\n' +
-            '<router-view></router-view>' +
-            '</div>'
-    }
-
     var Ripetizioni_admin = {
 
         template:
-            '<div>' +
-            'Imposta ripetizioni' +
-            '</div>'
+            '<div class="container-fluid bg">\n' +
+            '    <div class="row">\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
+            '    <form class="form-container">\n' +
+            '        <h1>Registrati</h1>\n' +
+            '    <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '        <label for="account"></label>\n' +
+            '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
+            '    </div>\n' +
+            '    <div class="form-group">\n' +
+            '        <label for="pw"></label>\n' +
+            '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
+            '    </div>\n' +
+            '<div class="Role">'+
+            '    <div class="form-check-inline">' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Cliente" value="Cliente" checked>\n' +
+            '        <label class="form-check-label" for="Cliente">\n' +
+            '            Cliente\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '    <div class="form-check-inline">\n' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">\n' +
+            '        <label class="form-check-label" for="Amministratore Sito">\n' +
+            '            Amministratore\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '</div>'+
+            '<div class="sub-button">\n' +
+            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-primary">Registrati</button>\n' +
+            '</div>' +
+            '<div class="reg_link">' +
+            'Sei già registrato? <router-link id="log" class="nav-link" to="/Login">Accedi qui!</router-link>' +
+            '</div>' +
+            '</form>' +
+            '</div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '</div>\n' +
+            '</div>',
     }
 
     var Docenti_admin = {
 
-        tempalte:
-            '<div>Imposta docenti</div>'
+        template:
+            '<div class="container-fluid bg">\n' +
+            '    <div class="row">\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
+            '    <form class="form-container">\n' +
+            '        <h1>Registrati</h1>\n' +
+            '    <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '        <label for="account"></label>\n' +
+            '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
+            '    </div>\n' +
+            '    <div class="form-group">\n' +
+            '        <label for="pw"></label>\n' +
+            '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
+            '    </div>\n' +
+            '<div class="Role">'+
+            '    <div class="form-check-inline">' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Cliente" value="Cliente" checked>\n' +
+            '        <label class="form-check-label" for="Cliente">\n' +
+            '            Cliente\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '    <div class="form-check-inline">\n' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">\n' +
+            '        <label class="form-check-label" for="Amministratore Sito">\n' +
+            '            Amministratore\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '</div>'+
+            '<div class="sub-button">\n' +
+            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-primary">Registrati</button>\n' +
+            '</div>' +
+            '<div class="reg_link">' +
+            'Sei già registrato? <router-link id="log" class="nav-link" to="/Login">Accedi qui!</router-link>' +
+            '</div>' +
+            '</form>' +
+            '</div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '</div>\n' +
+            '</div>',
     }
 
     var Corsi_admin = {
 
-        template: '<div>Imposta Corsi</div>'
+        template:
+            '<div id="impostazioni admin">' +
+            '<div id="result></div>"' +
+            '</div>',
+
+        methods: {
+
+            Rm_Courses: function (){
+
+                var result = document.getElementById("result");
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+
+
+            },
+
+            Add_Courses: function () {
+
+                /*
+                var titolo = document.getElementById("Titolo").value;
+                var CFU = document.getElementById("CFU").value;
+
+                var url = "Corsi?titolo=" + titolo + "&CFU=" + CFU;
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+*/
+            },
+
+            updatePage: function () {
+
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+                        var risp = xhrObj.responseText;
+                    }
+                }
+            }
+
+        }
     }
 
     const router = new VueRouter({
@@ -408,7 +522,6 @@
             { path: '/Login', component: Login },
             { path: '/Registrazione', component: Registrazione },
             { path: '/Prenotazioni', component: Prenotazioni },
-            { path: '/Impostazioni_admin', component: Impostazioni_admin },
             { path: '/Impostazioni_Ripetizioni', component: Ripetizioni_admin },
             { path: '/Impostazioni_Docenti', component: Docenti_admin },
             { path: '/Impostazioni_Corsi', component: Corsi_admin }
