@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>Prenotazioni Unito</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+
+
+
+</head>
+<body>
+
+<div id="app">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <router-link class="navbar-brand" to="/">Navbar</router-link>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <router-link class="nav-link" to="/">Home</router-link>
+                </li>
+                <span v-if="prenotazioni">
+                    <li class="nav-item">
+                    <router-link class="nav-link" to="/Prenotazioni">Prenotazioni</router-link>
+                    </li>
+                </span>
+            </ul>
+        </div>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                    <ul class="navbar-nav ml-auto">
+                <span v-if="Login">
+                 <li class="nav-item">
+                     <router-link id="log" class="nav-link" to="/Login">Login</router-link>
+                 </li>
+                </span>
+                <span v-if="Logout">
+                    <li class="nav-item">
+                     <button id="logout" class="btn btn-outline-danger" v-on:click="logout">Esci</button>
+                    </li>
+                </span>
+             <span v-if="Login">
+            <li class="nav-item">
+                <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
+            </li>
+             </span>
+             <span v-if="Impostazioni_admin">
+             <li class="nav-item">
+                <router-link id="Impostazioni_admin" class="nav-link" to="/Impostazioni_admin">Impostazioni Admin</router-link>
+             </li>
+             </span>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="intro">
+        <span v-if="intro_view"><h1 class="intro">Bentornato {{account}}! E' bello riaverti qui.</h1></span><br>
+        <h1 class="intro">{{intro}}</h1>
+    </div>
+
+    <transition name="component-fade" mode="out-in">
+    <router-view></router-view>
+    </transition>
+
+</div>
+
+
+
+<script>
+
+    function setXMLHttpRequest() {
+
+        var xhr = null;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        return xhr;
+    }
+
+    const xhrObj = setXMLHttpRequest();
+
+
+
+    var home = {
+
+
+        template:
+
+            '<div id="home">' +
+            '<button class="btn btn-secondary btn-lg btn-block" v-on:click="Ripetizioni">Ripetizioni</button>\n' +
+            '<button v-on:click="Corsi" class="btn btn-secondary btn-lg btn-block">Corsi</button>\n' +
+            '<button v-on:click="Docenti" class="btn btn-secondary btn-lg btn-block">Docenti</>\n' +
+            '<div id="result"></div>' +
+            '</div>',
+
+        methods: {
+
+            Ripetizioni: function () {
+
+                var url = "Home?param=Ripetizioni";
+                app.account = "aaa";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+            },
+
+            Corsi: function (){
+
+                var url = "Home?param=Corsi";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+            },
+
+            Docenti: function (){
+
+                var url = "Home?param=Docenti";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+            },
+
+            updatePage:function (){
+
+                var result = document.getElementById('result');
+                var Intro = document.getElementById('intro');
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+                        var risp = xhrObj.responseText;
+                        result.innerHTML = risp;
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    var Login = {
+
+        template:
+            '<div class="container-fluid bg">\n' +
+            '    <div class="row">\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
+            '    <form class="form-container">\n' +
+            '        <h1>Accedi</h1>\n' +
+            '        <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '            <label for="account"></label>\n' +
+            '            <input type="text" class="form-control" id="account" placeholder="Account">\n' +
+            '        </div>\n' +
+            '        <div class="form-group">\n' +
+            '            <label for="pw"></label>\n' +
+            '            <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
+            '        </div>\n' +
+            '        <div class="sub-button">\n' +
+            '            <button type="button" id="Login" v-on:click="log" class="btn btn-primary">Accedi</button>\n' +
+            '        </div>\n' +
+            '        <div class="reg_link">\n' +
+            '            Non hai un account? <router-link id="reg" class="nav-link" to="/Registrazione">Registrati ora!</router-link>\n' +
+            '        </div>\n' +
+            '    </form>\n' +
+            '</div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '</div>\n' +
+            '</div>',
+
+        methods: {
+
+            log: function () {
+
+                var account = document.getElementById("account").value;
+                var pw = document.getElementById("pw").value;
+                accerr = document.getElementById("accerr");
+                var url = "login?account=" + account + "&pw="+pw;
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+
+            },
+
+            updatePage:function (){
+
+
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+                        var risp = xhrObj.responseText.split('|');
+                        var role = risp[0];
+                        var user = risp[1];
+
+                        if(role === "Cliente"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
+                        }
+                        else if (role === "Amministratore Sito"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                            app.Impostazioni_admin = true;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
+                        }
+                        else {
+
+                            var accerr = document.getElementById("accerr");
+                            accerr.innerHTML = risp;
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    var Registrazione = {
+
+        template: '<div class="container-fluid bg">\n' +
+            '    <div class="row">\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
+            '    <form class="form-container">\n' +
+            '        <h1>Registrati</h1>\n' +
+            '    <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '        <label for="account"></label>\n' +
+            '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
+            '    </div>\n' +
+            '    <div class="form-group">\n' +
+            '        <label for="pw"></label>\n' +
+            '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
+            '    </div>\n' +
+            '<div class="Role">'+
+            '    <div class="form-check-inline">' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Cliente" value="Cliente" checked>\n' +
+            '        <label class="form-check-label" for="Cliente">\n' +
+            '            Cliente\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '    <div class="form-check-inline">\n' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">\n' +
+            '        <label class="form-check-label" for="Amministratore Sito">\n' +
+            '            Amministratore\n' +
+            '        </label>\n' +
+            '    </div>\n' +
+            '</div>'+
+            '<div class="sub-button">\n' +
+            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-primary">Registrati</button>\n' +
+            '</div>' +
+            '<div class="reg_link">' +
+            'Sei già registrato? <router-link id="log" class="nav-link" to="/Login">Accedi qui!</router-link>' +
+            '</div>' +
+            '</form>' +
+            '</div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '</div>\n' +
+            '</div>',
+
+        methods: {
+
+            reg:function (){
+
+                var select;
+
+                var account = document.getElementById("account").value;
+                var pw = document.getElementById("pw").value;
+                var ruolo = document.querySelectorAll('input[name="ruolo"]');
+
+
+                for(var rs of ruolo){
+
+                    if(rs.checked){
+
+                        select = rs.value;
+                        break;
+                    }
+                }
+                var url = "reg?account="+account+"&pw="+pw+"&Ruolo="+select;
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+            },
+
+            updatePage:function (){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+                        var risp = xhrObj.responseText.split('|');
+                        var role = risp[0];
+                        var user = risp[1];
+
+                        if(role === "Cliente"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
+                        }
+                        else if (role === "Amministratore Sito"){
+
+                            router.push('/');
+                            app.prenotazioni = true;
+                            app.Logout = true;
+                            app.Login = false;
+                            app.Impostazioni_admin = true;
+                            app.account = user;
+                            app.intro_view = true;
+                            app.intro = 'Che cosa vuoi fare?';
+
+                        }
+                        else {
+
+                            var accerr = document.getElementById("accerr");
+                            accerr.innerHTML = risp;
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+    }
+
+    var Prenotazioni = {
+
+        template: '<h1>Queste sono le tue prenotazioni</h1>'
+    }
+
+    var Impostazioni_admin = {
+
+        template: '<h1>Queste sono le impostazioni admin</h1>'
+    }
+
+    const router = new VueRouter({
+        routes:[
+            { path: '/', component: home },
+            { path: '/Login', component: Login },
+            { path: '/Registrazione', component: Registrazione },
+            { path: '/Prenotazioni', component: Prenotazioni },
+            { path: '/Impostazioni_admin', component: Impostazioni_admin }
+        ]
+    })
+
+    var app = new Vue({
+
+        el: '#app',
+        router: router,
+        data: {
+
+            intro: 'Benvenuto! Registrati o accedi ora per iniziare a prenotare!',
+            prenotazioni: false,
+            Logout: false,
+            Login: true,
+            Impostazioni_admin: false,
+            account: '',
+            intro_view: false
+        },
+
+        methods: {
+
+            logout: function () {
+
+                var url = "logout";
+                xhrObj.open("post", url, true);
+                xhrObj.responseType = 'text';
+                xhrObj.onreadystatechange = this.updatePage;
+                xhrObj.send(null);
+
+            },
+
+        updatePage:function (){
+
+            var Intro = document.getElementById('intro');
+
+            if (xhrObj.readyState === 4) {
+                if (xhrObj.status === 200) {
+
+                    var risp = xhrObj.responseText;
+
+                    if(risp === "Sessione invalidata") {
+
+                        app.prenotazioni = false;
+                        app.Logout = false;
+                        app.Login = true;
+                        app.Impostazioni_admin = false;
+                        app.account = '';
+                        app.intro = 'Benvenuto! Registrati o accedi ora per iniziare a prenotare!';
+                        app.intro_view = false;
+                        router.push('/');
+                    }
+                }
+            }
+
+        }
+        }
+
+
+
+    });
+
+
+</script>
+
+
+</body>
+</html>
