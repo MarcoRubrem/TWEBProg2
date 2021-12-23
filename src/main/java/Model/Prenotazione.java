@@ -1,18 +1,22 @@
 package Model;
 
+import java.sql.Time;
+
 public class Prenotazione {
 
     private String Utente;
     private String Corso;
-    private String Data_ora;
+    private String Giorno;
+    private Time ora;
     private String nome_docente;
     private String cognome_docente;
     private String Stato;
 
-    public Prenotazione(String utente, String corso, String data_ora, String nome_docente, String cognome_docente, String stato) {
+    public Prenotazione(String utente, String corso, String giorno, Time ora, String nome_docente, String cognome_docente, String stato) {
         Utente = utente;
         Corso = corso;
-        Data_ora = data_ora;
+        Giorno = giorno;
+        this.ora = ora;
         this.nome_docente = nome_docente;
         this.cognome_docente = cognome_docente;
         Stato = stato;
@@ -34,13 +38,17 @@ public class Prenotazione {
         Corso = corso;
     }
 
-    public String getData_ora() {
-        return Data_ora;
+    public String getGiorno() {
+        return Giorno;
     }
 
-    public void setData_ora(String data_ora) {
-        Data_ora = data_ora;
+    public void setGiorno(String giorno) {
+        Giorno = giorno;
     }
+
+    public Time getOra() {return ora;}
+
+    public void setOra(Time ora) {this.ora = ora;}
 
     public String getNome_docente() {
         return nome_docente;

@@ -19,102 +19,14 @@ public class DAO {
     public static Connection getConn1() {
         return conn1;
     }
+    public static String getUrl1() { return url1; }
+    public static String getUser() { return user; }
+    public static String getPassword() { return password; }
 
     public static void setConn1(Connection conn1) {
         DAO.conn1 = conn1;
     }
 
-    public static ArrayList<Docente> Elenca_Docenti() {
-
-        ArrayList<Docente> out = new ArrayList<>();
-        try {
-            conn1 = DriverManager.getConnection(url1, user, password);
-            if (conn1 != null) {
-                System.out.println("Connected to the database test");
-            }
-
-            Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM docente");
-
-            while (rs.next()) {
-                Docente r=new Docente(rs.getString("nome"), rs.getString("cognome"));
-                out.add(r);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                try {
-                    conn1.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-        return out;
-    }
-
-
-    public static ArrayList<Ripetizione> Elenca_Ripetizioni() {
-
-        ArrayList<Ripetizione> out = new ArrayList<>();
-        try {
-            conn1 = DriverManager.getConnection(url1, user, password);
-            if (conn1 != null) {
-                System.out.println("Connected to the database test");
-            }
-
-            Statement st = conn1.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM ripetizione");
-
-            while (rs.next()) {
-                Ripetizione r=new Ripetizione(rs.getString("nome"), rs.getString("cognome"), rs.getString("corso"));
-                out.add(r);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                try {
-                    conn1.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-        return out;
-    }
-
-    public static ArrayList<Corso> Elenca_corsi() {
-
-        ArrayList<Corso> out = new ArrayList<>();
-        try {
-            conn1 = DriverManager.getConnection(url1, user, password);
-            if (conn1 != null) {
-                System.out.println("Connected to the database test");
-            }
-
-            Statement st = conn1.createStatement();
-            //int rs2=st.executeUpdate("Insert into persona values('Aldo', 'Baglio', '874356')");
-            ResultSet rs = st.executeQuery("SELECT * FROM corso");
-
-            while (rs.next()) {
-                Corso c = new Corso(rs.getString("titolo"), rs.getInt("CFU"));
-                out.add(c);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (conn1 != null) {
-                try {
-                    conn1.close();
-                } catch (SQLException e2) {
-                    System.out.println(e2.getMessage());
-                }
-            }
-        }
-        return out;
-    }
 
     public static void registerDriver() {
         try {

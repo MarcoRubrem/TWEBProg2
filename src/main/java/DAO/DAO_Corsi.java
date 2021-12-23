@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static DAO.DAO.getConn1;
 
@@ -67,5 +68,32 @@ public class DAO_Corsi {
         return true;
 
     }
+
+    public static void Rimuovi_Corso(String titolo) {
+
+        ResultSet rs;
+        ArrayList<Corso> out = new ArrayList<>();
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            rs = st.executeQuery("SELECT * FROM corso");
+
+           // while (rs.next()) {
+           //     System.out.println(rs.getString("Titolo") + " " + rs.getInt("CFU"));
+           // }
+
+            int rs2 = st.executeUpdate("delete from corso where titolo like'" + titolo + "'");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
+
+
 
 }

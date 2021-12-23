@@ -1,15 +1,23 @@
 package Model;
 
+import java.sql.Time;
+
 public class Ripetizione {
 
     private String nome;
     private String cognome;
-    private String titolo;
+    private String corso;
+    private String giorno;
+    private Time ora;
+    private String stato;
 
-    public Ripetizione(String nome, String cognome, String titolo) {
+    public Ripetizione(String nome, String cognome, String corso, String giorno, Time ora, String stato) {
         this.nome = nome;
         this.cognome = cognome;
-        this.titolo = titolo;
+        this.corso = corso;
+        this.giorno = giorno;
+        this.ora = ora;
+        this.stato = stato;
     }
 
     @Override
@@ -17,7 +25,10 @@ public class Ripetizione {
         return "Ripetizione{" +
                 "nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
-                ", titolo='" + titolo + '\'' +
+                ", corso='" + corso + '\'' +
+                ", giorno='" + giorno + '\'' +
+                ", ora='" + ora + '\'' +
+                ", stato='" + stato + '\'' +
                 '}';
     }
 
@@ -37,11 +48,25 @@ public class Ripetizione {
         this.cognome = cognome;
     }
 
-    public String getTitolo() {
-        return titolo;
+    public String getCorso() {
+        return corso;
     }
 
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
+    public void setCorso(String corso) {
+        this.corso = corso;
     }
+
+    public String getGiorno() {
+        return giorno;
+    }
+
+    public void setGiorno(String giorno) {this.giorno = giorno;}
+
+    public Time getOra() {return ora;}
+
+    public void setOra(Time ora) {this.ora = ora;}
+
+    public String getStato() {return stato;}
+
+    public void setStato(String stato) {this.stato = stato;}
 }
