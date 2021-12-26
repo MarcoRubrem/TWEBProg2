@@ -53,7 +53,7 @@ public class DAO {
         }
     }
 
-    public static void Aggiungi_corso() {
+  /*  public static void Aggiungi_corso() {
 
         Scanner sc = new Scanner(System.in);
         try {
@@ -234,7 +234,7 @@ public class DAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    }
+    }*/
 
     public static void prenotazione(){
 

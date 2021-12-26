@@ -67,6 +67,25 @@ public class DAO_Docenti {
 
     }
 
+    public static void Aggiungi_docente(String cognome, String nome) {
+
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            if (!(Registered_teacher(cognome, nome))) {
+                int rs2 = st.executeUpdate("Insert into docente values('" + nome + "', '" + cognome + "'");
+            }else{
+                System.out.println("docente già presente nel database");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public static void Rimuovi_Docente(String nome, String cognome) {
 
         ResultSet rs;

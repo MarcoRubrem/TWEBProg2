@@ -34,7 +34,7 @@ public class DAO_Ripetizioni {
         return out;
     }
 
-    public static boolean Registered_repetition (String Cognome, String Nome, String corso, String giorno, Time ora){
+    public static boolean Registered_repetition (String Nome, String Cognome, String corso, String giorno, Time ora){
 
         String stato = "disponibile";
         ArrayList<Ripetizione> c = Elenca_Ripetizioni();
@@ -62,6 +62,24 @@ public class DAO_Ripetizioni {
 
         DAO.Disconnected();
         return true;
+
+    }
+
+    public static void Crea_Ripetizione(String nome, String cognome, String corso, String giorno, Time ora, String stato) {
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            if (!(Registered_repetition(nome, cognome, corso, giorno, ora))) {
+                int rs2 = st.executeUpdate("Insert into corso values('" + nome + "', '" + cognome + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + stato + "')");
+            }else{
+                System.out.println("prenotazione già presente nel database");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 

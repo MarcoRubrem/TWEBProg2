@@ -69,6 +69,25 @@ public class DAO_Corsi {
 
     }
 
+    public static void Aggiungi_corso(String titolo, int CFU) {
+
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            if (!(Registered_Courses(titolo, CFU))) {
+                int rs2 = st.executeUpdate("Insert into corso values('" + titolo + "', '" + CFU + "')");
+            }else{
+                System.out.println("corso già presente nel database");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public static void Rimuovi_Corso(String titolo) {
 
         ResultSet rs;

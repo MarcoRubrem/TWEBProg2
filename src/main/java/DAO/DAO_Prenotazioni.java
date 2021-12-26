@@ -41,7 +41,53 @@ public class DAO_Prenotazioni{
         return out;
     }
 
-    public static void Crea_Prenotazione( ) {}
+    public static boolean Registered_prenotazioni (String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD, String stato){
+
+        ArrayList<Prenotazione> c = Elenca_Prenotazioni_utente(utente);
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+
+            for(Prenotazione cs: c){
+
+                if(cs.getUtente().equals(utente) && cs.getCorso().equals(corso) && cs.getGiorno().equals(giorno) && cs.getOra().equals(ora) && cs.getNome_docente().equals(nomeD) && cs.getCognome_docente().equals(cognomeD) && cs.getStato().equals(stato)){
+
+                    DAO.Disconnected();
+                    return false;
+                }
+            }
+
+            st.executeUpdate("Insert into docente values('" + utente + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + nomeD + "', '" + cognomeD + "', '" + stato + "') " );
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+        }
+
+        DAO.Disconnected();
+        return true;
+
+    }
+
+    public static void Crea_Prenotazione(String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD, String stato) {
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            if (!(Registered_prenotazioni(utente, corso, giorno, ora, nomeD, cognomeD, stato))) {
+                int rs2 = st.executeUpdate("Insert into corso values('" + utente + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + nomeD + "', '" + cognomeD + "', '" + stato + "')");
+            }else{
+                System.out.println("prenotazione già presente nel database");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
     public static void Cancella_Prenotazione(String utente, String giorno, Time ora) {
 

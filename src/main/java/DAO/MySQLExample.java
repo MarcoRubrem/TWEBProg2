@@ -33,10 +33,10 @@ public class MySQLExample {
             switch (scelta = sc.nextInt()) {
 
                 case 1:
-                    DAO.Aggiungi_corso();
+                    DAO_Corsi.Aggiungi_corso("matematica", '6');
                     break;
                 case 2:
-                    DAO.Rimuovi_Corso();
+                    DAO_Corsi.Rimuovi_Corso("matematica");
                     break;
                 case 3:
                     DAO.Aggiungi_Docente();
