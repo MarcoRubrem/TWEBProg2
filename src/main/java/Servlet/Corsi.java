@@ -1,4 +1,4 @@
-package com.example.twebprog2;
+package Servlet;
 
 import DAO.DAO;
 import DAO.DAO_Corsi;

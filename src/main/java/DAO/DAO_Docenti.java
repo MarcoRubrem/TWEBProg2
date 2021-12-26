@@ -37,25 +37,23 @@ public class DAO_Docenti {
         return out;
     }
 
-    public static boolean Registered_teacher (String Cognome, String Nome){
+    public static boolean Registered_teacher(String Nome, String Cognome){
 
-        ArrayList<Docente> c = Elenca_Docenti();
+        ArrayList<Docente> d = Elenca_Docenti();
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-            for(Docente cs: c){
 
-                if(cs.getCognome().equals(Cognome) && cs.getNome().equals(Nome)){
+                if(d.contains(new Docente(Nome, Cognome))){
 
                     DAO.Disconnected();
                     return false;
                 }
-            }
 
-            st.executeUpdate("Insert into docente values('" + Cognome + "', '" + Nome + "')");
+            st.executeUpdate("Insert into docente values('" + Nome + "', '" + Cognome + "')");
 
         } catch (Exception e) {
 
@@ -67,45 +65,31 @@ public class DAO_Docenti {
 
     }
 
-    public static void Aggiungi_docente(String cognome, String nome) {
+    public static boolean Remove_Teachers(String nome, String cognome) {
 
-
-        try {
-
-            DAO.registerDriver();
-            Statement st = getConn1().createStatement();
-            if (!(Registered_teacher(cognome, nome))) {
-                int rs2 = st.executeUpdate("Insert into docente values('" + nome + "', '" + cognome + "'");
-            }else{
-                System.out.println("docente già presente nel database");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    public static void Rimuovi_Docente(String nome, String cognome) {
-
-        ResultSet rs;
-        ArrayList<Docente> out = new ArrayList<>();
+        ArrayList<Docente> d = Elenca_Docenti();
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM docente");
 
-           // while (rs.next()) {
-           //     System.out.println(rs.getString("Cognome") + " " + rs.getInt("Nome"));
-           // }
 
-            int rs2 = st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like ''" + nome +"''");
+                if(d.contains(new Docente(nome, cognome))){
+
+                    st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like ''" + nome +"''");
+                    DAO.Disconnected();
+                    return true;
+                }
+
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        DAO.Disconnected();
+        return false;
 
     }
 

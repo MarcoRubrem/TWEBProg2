@@ -39,6 +39,8 @@ public class DAO_Corsi {
         return out;
     }
 
+
+
     public static boolean Registered_Courses(String titolo, int CFU){
 
         ArrayList<Corso> c = Elenca_corsi();
@@ -48,13 +50,10 @@ public class DAO_Corsi {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-            for(Corso cs: c){
+            if(c.contains(new Corso(titolo, CFU))){
 
-                if(cs.getTitolo().equals(titolo)){
-
-                    DAO.Disconnected();
-                    return false;
-                }
+                DAO.Disconnected();
+                return false;
             }
 
             st.executeUpdate("Insert into corso values('" + titolo + "', '" + CFU + "')");
@@ -69,45 +68,31 @@ public class DAO_Corsi {
 
     }
 
-    public static void Aggiungi_corso(String titolo, int CFU) {
+    public static boolean Remove_Courses(String titolo, int CFU) {
 
-
-        try {
-
-            DAO.registerDriver();
-            Statement st = getConn1().createStatement();
-            if (!(Registered_Courses(titolo, CFU))) {
-                int rs2 = st.executeUpdate("Insert into corso values('" + titolo + "', '" + CFU + "')");
-            }else{
-                System.out.println("corso già presente nel database");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    public static void Rimuovi_Corso(String titolo) {
-
-        ResultSet rs;
-        ArrayList<Corso> out = new ArrayList<>();
+        ArrayList<Corso> c = Elenca_corsi();
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM corso");
 
-           // while (rs.next()) {
-           //     System.out.println(rs.getString("Titolo") + " " + rs.getInt("CFU"));
-           // }
 
-            int rs2 = st.executeUpdate("delete from corso where titolo like'" + titolo + "'");
+                if(c.contains(new Corso(titolo, CFU))){
+
+                    st.executeUpdate("delete from corso where titolo like'" + titolo + "' and CFU="+ CFU);
+                    DAO.Disconnected();
+                    return true;
+
+                }
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        DAO.Disconnected();
+        return false;
 
     }
 

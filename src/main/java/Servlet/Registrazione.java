@@ -1,4 +1,4 @@
-package com.example.twebprog2;
+package Servlet;
 import DAO.*;
 
 import java.io.*;

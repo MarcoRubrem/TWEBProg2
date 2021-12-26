@@ -23,8 +23,7 @@ public class DAO_Prenotazioni{
         try {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM prenotazione where " +
-                    "prenotazione.utente = "+utente);
+            rs = st.executeQuery("SELECT * FROM prenotazione where utente like '"+ utente +"'");
 
             while (rs.next()) {
 
@@ -41,25 +40,64 @@ public class DAO_Prenotazioni{
         return out;
     }
 
-    public static boolean Registered_prenotazioni (String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD, String stato){
+    public static ArrayList<Prenotazione> Elenca_Prenotazioni(){
 
-        ArrayList<Prenotazione> c = Elenca_Prenotazioni_utente(utente);
+
+        ResultSet rs;
+        ArrayList<Prenotazione> out = new ArrayList<>();
+
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            rs = st.executeQuery("SELECT * FROM prenotazione");
+
+            while (rs.next()) {
+
+                Prenotazione p = new Prenotazione(rs.getString("utente"), rs.getString("corso"), rs.getString("giorno"), rs.getTime("ora"), rs.getString("nome_docente"), rs.getString("cognome_docente"), rs.getString("stato"));
+                out.add(p);
+            }
+
+        }catch(SQLException e){
+
+            System.out.print(e.getMessage());
+        }
+
+        DAO.Disconnected();
+        return out;
+    }
+
+    public static boolean Registered_Booking(String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD){
+
+        ArrayList<Prenotazione> p = Elenca_Prenotazioni_utente(utente);
+        String t = ora.toString();
+
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-            for(Prenotazione cs: c){
+                for(Prenotazione pz: p){
 
-                if(cs.getUtente().equals(utente) && cs.getCorso().equals(corso) && cs.getGiorno().equals(giorno) && cs.getOra().equals(ora) && cs.getNome_docente().equals(nomeD) && cs.getCognome_docente().equals(cognomeD) && cs.getStato().equals(stato)){
+                    if(pz.getOra().toString().equals(ora.toString()) && pz.getCorso().equals(corso) && pz.getGiorno().equals(giorno) && pz.getNome_docente().equals(nomeD) && pz.getCognome_docente().equals(cognomeD) && pz.getStato().equals("attiva")) {
 
-                    DAO.Disconnected();
-                    return false;
+                        DAO.Disconnected();
+                        return false;
+                    }
+
+                    if(pz.getOra().toString().equals(ora.toString()) && pz.getCorso().equals(corso) && pz.getGiorno().equals(giorno) && pz.getNome_docente().equals(nomeD) && pz.getCognome_docente().equals(cognomeD) && pz.getStato().equals("effettuata")){
+
+                        st.executeUpdate("update prenotazione set stato = 'attiva' where corso like '"+ corso +"' AND giorno like '"+ giorno +"' and ora like '"+ getHours(t) +"%' and nome_docente like '"+ nomeD +"' and cognome_docente like '"
+                                + cognomeD +"' and stato like 'effettuata' and utente like '"+ utente +"'");
+                        DAO.Disconnected();
+                        return true;
+
+                    }
                 }
-            }
 
-            st.executeUpdate("Insert into docente values('" + utente + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + nomeD + "', '" + cognomeD + "', '" + stato + "') " );
+            st.executeUpdate("Insert into prenotazione values('" + utente + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + nomeD + "', '" + cognomeD + "', 'attiva') " );
 
         } catch (Exception e) {
 
@@ -71,41 +109,73 @@ public class DAO_Prenotazioni{
 
     }
 
-    public static void Crea_Prenotazione(String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD, String stato) {
+    public static boolean Cancel_booking(String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD) {
+
+        ArrayList<Prenotazione> p = Elenca_Prenotazioni_utente(utente);
+        String t = ora.toString();
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            if (!(Registered_prenotazioni(utente, corso, giorno, ora, nomeD, cognomeD, stato))) {
-                int rs2 = st.executeUpdate("Insert into corso values('" + utente + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + nomeD + "', '" + cognomeD + "', '" + stato + "')");
-            }else{
-                System.out.println("prenotazione già presente nel database");
+
+            for(Prenotazione pz: p){
+
+                if(pz.getOra().toString().equals(ora.toString()) && pz.getCorso().equals(corso) && pz.getGiorno().equals(giorno) && pz.getNome_docente().equals(nomeD) && pz.getCognome_docente().equals(cognomeD) && pz.getStato().equals("attiva")) {
+
+                    st.executeUpdate("update prenotazione set stato = 'disdetta' where corso like '"+ corso +"' AND giorno like '"+ giorno +"' and ora like '"+ getHours(t) +"%' and nome_docente like '"+ nomeD +"' and cognome_docente like '"
+                            + cognomeD +"' and stato like 'attiva' and utente like '"+ utente +"'");
+                    DAO.Disconnected();
+                    return true;
+                }
             }
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
+        DAO.Disconnected();
+        return false;
 
     }
 
-    public static void Cancella_Prenotazione(String utente, String giorno, Time ora) {
+    public static boolean Success_booking(String utente, String corso, String giorno, Time ora, String nomeD, String cognomeD) {
 
-        ResultSet rs;
-        ArrayList<Prenotazione> out = new ArrayList<>();
+        ArrayList<Prenotazione> p = Elenca_Prenotazioni_utente(utente);
+        String t = ora.toString();
 
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-            // prendo la tupla che ha i dati in input e cambio lo stato da prenotata a cancellata
-            //rs = st.executeQuery("SELECT * FROM prenotazione");
-            //int rs2 = st.executeUpdate("update from prenotazione where utente like'" + utente + "' and giorno like '" + giorno +"' and ora like '" + ora + "' ");
+            for(Prenotazione pz: p){
+
+                if(pz.getOra().toString().equals(ora.toString()) && pz.getCorso().equals(corso) && pz.getGiorno().equals(giorno) && pz.getNome_docente().equals(nomeD) && pz.getCognome_docente().equals(cognomeD) && pz.getStato().equals("attiva")) {
+
+                    st.executeUpdate("update prenotazione set stato = 'effettuata' where corso like '"+ corso +"' AND giorno like '"+ giorno +"' and ora like '"+ getHours(t) +"%' and nome_docente like '"+ nomeD +"' and cognome_docente like '"
+                            + cognomeD +"' and stato like 'attiva' and utente like '"+ utente +"'");
+                    DAO.Disconnected();
+                    return true;
+                }
+            }
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
 
+        DAO.Disconnected();
+        return false;
+
+    }
+    
+
+
+    public static String getHours(String t){
+
+        String [] parts = t.split(":");
+        return parts[0];
     }
 }
