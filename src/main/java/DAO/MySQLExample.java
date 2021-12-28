@@ -21,7 +21,7 @@ public class MySQLExample {
         t1 = Time.valueOf("15:00:00");
 
 
-        DAO_Prenotazioni.Registered_Booking("aaaaa", "Fisica", "lunedì", Time.valueOf("15:00:00"), "Liliana", "Ardissono");
+        DAO_Corsi.Registered_Courses("Fisica", 6);
         //DAO_Prenotazioni.Success_booking("aaaaa", "Fisica", "lunedì", Time.valueOf("15:00:00"), "Liliana", "Ardissono");
 
         System.out.println("FINE");
