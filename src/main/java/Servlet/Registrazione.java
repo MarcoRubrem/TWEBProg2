@@ -43,7 +43,6 @@ public class Registrazione extends HttpServlet {
         String radio = request.getParameter("Ruolo");
 
         HttpSession s = request.getSession();
-        boolean copia = false;
         PrintWriter out = response.getWriter();
 
 
