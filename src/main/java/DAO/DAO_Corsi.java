@@ -61,6 +61,8 @@ public class DAO_Corsi {
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
 
         DAO.Disconnected();
@@ -89,6 +91,8 @@ public class DAO_Corsi {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
 
         DAO.Disconnected();

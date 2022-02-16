@@ -311,29 +311,12 @@
     var Ripetizioni_admin = {
 
         template:
-            '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Aggiungi una ripetizione</h1>\n' +
-            '    <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '        <label for="Titolo"></label>\n' +
-            '        <input type="text" class="form-control" id="Titolo" placeholder="Titolo">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="CFU"></label>\n' +
-            '        <input type="number" min="3" max="18" class="form-control" id="CFU" placeholder="CFU">\n' +
-            '    </div>\n' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="add" v-on:click="Add_Courses" class="btn btn-primary">Aggiungi</button>\n' +
+            '<div id="home">' +
+            '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
+            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
+            '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
+            '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
             '</div>' +
-            ' </form>' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>' +
-            '<div id="rm_button"><button type="button" id="rm" v-on:click="Rm_Courses" class="btn btn-outline-danger">Rimuovi corsi</button></div> ' +
             '<div id="result"></div>' +
             '</div>'
     }
@@ -341,61 +324,98 @@
     var Docenti_admin = {
 
         template:
-            '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Aggiungi un docente</h1>\n' +
-            '    <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '        <label for="Titolo"></label>\n' +
-            '        <input type="text" class="form-control" id="Titolo" placeholder="Titolo">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="CFU"></label>\n' +
-            '        <input type="number" min="3" max="18" class="form-control" id="CFU" placeholder="CFU">\n' +
-            '    </div>\n' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="add" v-on:click="Add_Courses" class="btn btn-primary">Aggiungi</button>\n' +
+            '<div id="home">' +
+            '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
+            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
+            '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
+            '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
             '</div>' +
-            ' </form>' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>' +
-            '<div id="rm_button"><button type="button" id="rm" v-on:click="Rm_Courses" class="btn btn-outline-danger">Rimuovi corsi</button></div> ' +
             '<div id="result"></div>' +
             '</div>'
     }
 
     var Corsi_admin = {
 
+        data() {
+            return {
+
+                seen: false
+
+            }
+        },
+
         template:
+            '<div id="home">' +
+            '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
+            '  <button v-on:click="Aggiungi_Corsi" type="button" class="btn btn-secondary">Aggiungi corsi</button>\n' +
+            '  <button v-on:click="Rimuovi_Corsi" type="button" class="btn btn-secondary">Rimuovi corsi</button>\n' +
+            '</div>' +
+            '<div v-if="seen">' +
             '<div class="container-fluid bg">\n' +
             '    <div class="row">\n' +
             '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
             '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
             '    <form class="form-container">\n' +
-            '        <h1>Aggiungi un corso</h1>\n' +
-            '    <div class="form-group">\n' +
+            '        <h1>Aggiungi un corso!</h1>\n' +
+            '        <div class="form-group">\n' +
             '        <div id="accerr"></div>\n' +
-            '        <label for="Titolo"></label>\n' +
-            '        <input type="text" class="form-control" id="Titolo" placeholder="Titolo">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="CFU"></label>\n' +
-            '        <input type="number" min="3" max="18" class="form-control" id="CFU" placeholder="CFU">\n' +
-            '    </div>\n' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="add" v-on:click="Add_Courses" class="btn btn-primary">Aggiungi</button>\n' +
-            '</div>' +
-            ' </form>' +
+            '            <label for="account"></label>\n' +
+            '            <input type="text" class="form-control" id="corso" placeholder="Corso">\n' +
+            '        </div>\n' +
+            '        <div class="form-group">\n' +
+            '            <label for="pw"></label>\n' +
+            '            <input type="number" class="form-control" id="cfu" placeholder="CFU" value="3" min="1">\n' +
+            '        </div>\n' +
+            '        <div class="sub-button">\n' +
+            '            <button type="button" id="Add_courses" v-on:click="Add_courses" class="btn btn-primary">Aggiungi</button>\n' +
+            '        </div>\n' +
+            '    </form>\n' +
             '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '</div>\n' +
             '</div>' +
-            '<div id="rm_button"><button type="button" id="rm" v-on:click="Rm_Courses" class="btn btn-outline-danger">Rimuovi corsi</button></div> ' +
+            '</div>'+
             '<div id="result"></div>' +
-            '</div>'
+            '</div>',
+
+        methods: {
+
+            Aggiungi_Corsi: function () {
+
+                this.seen = true;
+            },
+
+            Rimuovi_Corsi: function () {
+
+                this.seen = false;
+
+            },
+
+            Add_courses: function(){
+
+                var corso = document.getElementById("corso").value;
+                var cfu = document.getElementById("cfu").value;
+
+                const url = "Impostazioni_admin?tipo=Corsi&corso=" + corso + "&cfu=" + cfu;
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Corsi_admin.methods.updatePage;
+                xhrObj.send(null);
+
+            },
+
+            updatePage:function(){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("accerr");
+                        accerr.innerHTML = xhrObj.responseText;
+                    }
+                }
+            }
+        }
+
+
     }
 
     const routes = [
@@ -423,8 +443,9 @@
                 account: '',
                 Login_view: true,
                 Logout: false,
-                Impostazioni_admin: false,
-                prenotazioni: false
+                Impostazioni_admin: true,
+                prenotazioni: false,
+                seen: true
             }
         },
         methods: {

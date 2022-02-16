@@ -1,6 +1,7 @@
 package Servlet;
 
 import DAO.*;
+import Model.Corso;
 
 import java.io.*;
 import java.sql.*;
@@ -15,8 +16,8 @@ import javax.servlet.annotation.*;
 
 import static DAO.DAO.*;
 
-@WebServlet ("/login")
-public class Login extends HttpServlet {
+@WebServlet ("/Impostazioni_admin")
+public class Impostazioni_admin extends HttpServlet {
 
 
     public void init() {
@@ -24,7 +25,7 @@ public class Login extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        try{
+        try {
             processRequest(request, response);
         } catch (SQLException | ServletException e) {
             e.printStackTrace();
@@ -48,40 +49,41 @@ public class Login extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String account = request.getParameter("account");
-        String pw = request.getParameter("pw");
-        HttpSession s = request.getSession();
+        String tipo = request.getParameter("tipo");
 
-        if(account.equals("")){
+        if(tipo.equals("Corsi")) {
 
-            out.println("<div class=\"alert alert-danger\" role=\"alert\">Account obbligatorio</div>");
-            out.close();
+            String corso = request.getParameter("corso");
+            String s_cfu = request.getParameter("cfu");
+
+            if (corso.equals("")) {
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome del corso obbligatorio</div>");
+                out.close();
+            }
+            if (s_cfu.equals("")) {
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU obbligatorio</div>");
+                out.close();
+            }
+
+            int cfu = Integer.parseInt(s_cfu);
+
+            if (DAO_Corsi.Registered_Courses(corso, cfu)) {
+
+                out.println("<div class=\"alert alert-success\" role=\"alert\">Corso inserito correttamente!</div>");
+                out.close();
+
+            } else {
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Corso già inserito precedentemente</div>");
+                out.close();
+
+            }
         }
-        if(pw.equals("")){
-
-            out.println("<div class=\"alert alert-danger\" role=\"alert\">Password obbligatoria</div>");
-            out.close();
-        }
-
-        s.setAttribute("account", account);
-        s.setAttribute("pw", pw);
-
-        if (DAO_utente.Logged_user(account, pw).equals("user_not_found")) {
-
-            out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account o password non corretti!</div>");
-            out.close();
-
-        }
-        else{
-
-            out.print(DAO_utente.Logged_user(account, pw)+"|"+s.getAttribute("account"));
-            out.flush();
-            out.close();
-        }
-
-    }
 
 
-    public void destroy() {
+
+
     }
 }
