@@ -25,69 +25,6 @@
 
 
 
-<div id="app">
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <router-link class="navbar-brand" to="/">Navbar</router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <router-link class="nav-link" to="/">Home</router-link>
-                </li>
-                <span v-if="prenotazioni">
-                    <li class="nav-item">
-                    <router-link class="nav-link" to="/Prenotazioni">Prenotazioni</router-link>
-                    </li>
-                </span>
-            </ul>
-        </div>
-        <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
-                <span v-if="Login">
-                 <li class="nav-item">
-                     <router-link id="log" class="nav-link" to="/Login">Login</router-link>
-                 </li>
-                </span>
-                <span v-if="Logout">
-                    <li class="nav-item">
-                     <button id="logout" class="btn btn-outline-danger" v-on:click="logout">Esci</button>
-                    </li>
-                </span>
-                <span v-if="Login">
-            <li class="nav-item">
-                <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
-            </li>
-             </span>
-                <span v-if="Impostazioni_admin">
-                 <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Impostazioni Admin
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <router-link id="Impostazioni_Ripetizioni" class="dropdown-item" to="/Impostazioni_Ripetizioni">Ripetizioni</router-link>
-                <router-link id="Impostazioni_Docenti" class="dropdown-item" to="/Impostazioni_Docenti">Docenti</router-link>
-                <router-link id="Impostazioni_Corsi" class="dropdown-item" to="/Impostazioni_Corsi">Corsi</router-link>
-        </div>
-      </li>
-             </span>
-            </ul>
-        </div>
-    </nav>
-
-
-    <div class="intro">
-        <span v-if="intro_view"><h1 class="intro">Bentornato {{account}}! E' bello riaverti qui.</h1></span><br>
-        <h1 class="intro">{{intro}}</h1>
-    </div>
-
-    <router-view></router-view>
-
-</div>
-
 <script>
 
     function setXMLHttpRequest() {

@@ -16,8 +16,8 @@ import javax.servlet.annotation.*;
 
 import static DAO.DAO.*;
 
-@WebServlet ("/Impostazioni_admin")
-public class Impostazioni_admin extends HttpServlet {
+@WebServlet ("/Impostazioni_admin_corsi")
+public class Impostazioni_admin_corsi extends HttpServlet {
 
 
     public void init() {
@@ -49,12 +49,43 @@ public class Impostazioni_admin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
-        String tipo = request.getParameter("tipo");
+        String corso = request.getParameter("corso");
+        String s_cfu = request.getParameter("cfu");
 
-        if(tipo.equals("Corsi")) {
+        if(corso.equals("remove") && s_cfu.equals("0")){
 
-            String corso = request.getParameter("corso");
-            String s_cfu = request.getParameter("cfu");
+            ResultSet rs;
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+
+            rs = st.executeQuery("select * from corso");
+
+            out.print("<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">CFU</th>\n" +
+                    "      <th scope=\"col\">Elimina</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
+
+            while(rs.next()) {
+
+                String elem = rs.getString("titolo")+"|"+rs.getInt("CFU");
+                out.print("<tr>\n" +
+                        "      <td>"+rs.getString("titolo")+"</td>\n" +
+                        "      <td>"+rs.getInt("CFU")+"</td>\n" +
+                        "      <td><input type=\"checkbox\" value="+elem+" name=\"corso_rem\"></td>\n" +
+                        "    </tr>\n");
+            }
+
+            out.print("</tbody>\n" +
+                    "</table> ");
+            DAO.Disconnected();
+        }
+        else {
 
             if (corso.equals("")) {
 
@@ -81,6 +112,7 @@ public class Impostazioni_admin extends HttpServlet {
 
             }
         }
+
 
 
 

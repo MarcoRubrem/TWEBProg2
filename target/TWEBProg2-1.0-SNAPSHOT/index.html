@@ -339,7 +339,9 @@
         data() {
             return {
 
-                seen: false
+                add: false,
+                rem: false,
+                btn_rem: false
 
             }
         },
@@ -350,7 +352,7 @@
             '  <button v-on:click="Aggiungi_Corsi" type="button" class="btn btn-secondary">Aggiungi corsi</button>\n' +
             '  <button v-on:click="Rimuovi_Corsi" type="button" class="btn btn-secondary">Rimuovi corsi</button>\n' +
             '</div>' +
-            '<div v-if="seen">' +
+            '<div v-if="add">' +
             '<div class="container-fluid bg">\n' +
             '    <div class="row">\n' +
             '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
@@ -374,19 +376,29 @@
             '</div>\n' +
             '</div>' +
             '</div>'+
-            '<div id="result"></div>' +
+            '<div v-if="rem">' +
+            '<div id="result">' +
+            '</div>' +
+            '<button type="button" v-on:click="Remove_courses()" class="btn btn-danger">Danger</button>' +
+            '</div>' +
             '</div>',
 
         methods: {
 
             Aggiungi_Corsi: function () {
 
-                this.seen = true;
+                this.add = true;
+                this.rem = false;
             },
 
             Rimuovi_Corsi: function () {
 
-                this.seen = false;
+                this.add = false;
+                this.rem = true;
+                const url = "Impostazioni_admin_corsi?corso=remove&cfu=0";
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Corsi_admin.methods.updatePage_rem;
+                xhrObj.send(null);
 
             },
 
@@ -395,11 +407,27 @@
                 var corso = document.getElementById("corso").value;
                 var cfu = document.getElementById("cfu").value;
 
-                const url = "Impostazioni_admin?tipo=Corsi&corso=" + corso + "&cfu=" + cfu;
+                const url = "Impostazioni_admin_corsi?corso=" + corso + "&cfu=" + cfu;
 
                 xhrObj.open("post", url, true);
                 xhrObj.onreadystatechange =  Corsi_admin.methods.updatePage;
                 xhrObj.send(null);
+
+            },
+
+            Remove_courses: function (){
+
+                var rem = document.querySelectorAll('input[name="corso_rem"]:checked');
+                var arr = [];
+
+                for(var x = 0, l = rem.length; x < l;  x++)
+                {
+                    arr.push(rem[x].value);
+                }
+
+                var str = arr.join(', ');
+
+                console.log(str);
 
             },
 
@@ -410,6 +438,18 @@
 
                         const accerr = document.getElementById("accerr");
                         accerr.innerHTML = xhrObj.responseText;
+                    }
+                }
+            },
+
+            updatePage_rem:function(){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("result");
+                        accerr.innerHTML = xhrObj.responseText;
+
                     }
                 }
             }
