@@ -366,7 +366,7 @@
             '        </div>\n' +
             '        <div class="form-group">\n' +
             '            <label for="pw"></label>\n' +
-            '            <input type="number" class="form-control" id="cfu" placeholder="CFU" value="3" min="1">\n' +
+            '            <input type="number" class="form-control" id="cfu" placeholder="CFU" value="3" min="1" max="30">\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
             '            <button type="button" id="Add_courses" v-on:click="Add_courses" class="btn btn-primary">Aggiungi</button>\n' +
@@ -425,9 +425,13 @@
                     arr.push(rem[x].value);
                 }
 
-                var str = arr.join(', ');
+                var str = arr.join(',');
 
-                console.log(str);
+                const url = "Impostazioni_admin_corsi?corso="+str+"&cfu=1000";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Corsi_admin.methods.updatePage_rem;
+                xhrObj.send(null);
 
             },
 
@@ -452,7 +456,8 @@
 
                     }
                 }
-            }
+            },
+
         }
 
 

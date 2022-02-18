@@ -51,6 +51,7 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
         String corso = request.getParameter("corso");
         String s_cfu = request.getParameter("cfu");
+        ArrayList<Corso> cs = DAO_Corsi.Elenca_corsi();
 
         if(corso.equals("remove") && s_cfu.equals("0")){
 
@@ -71,13 +72,12 @@ public class Impostazioni_admin_corsi extends HttpServlet {
                     "  </thead>\n" +
                     "  <tbody>\n");
 
-            while(rs.next()) {
+            for(Corso c: cs){
 
-                String elem = rs.getString("titolo")+"|"+rs.getInt("CFU");
                 out.print("<tr>\n" +
-                        "      <td>"+rs.getString("titolo")+"</td>\n" +
-                        "      <td>"+rs.getInt("CFU")+"</td>\n" +
-                        "      <td><input type=\"checkbox\" value="+elem+" name=\"corso_rem\"></td>\n" +
+                        "      <td>"+c.getTitolo()+"</td>\n" +
+                        "      <td>"+c.getCFU()+"</td>\n" +
+                        "      <td><input type=\"checkbox\" value=\""+c.getTitolo()+"/"+c.getCFU()+"\" name=\"corso_rem\"></td>\n" +
                         "    </tr>\n");
             }
 
@@ -85,7 +85,25 @@ public class Impostazioni_admin_corsi extends HttpServlet {
                     "</table> ");
             DAO.Disconnected();
         }
-        else {
+        else if(s_cfu.equals("1000")){
+
+            String[] Cs_rem = corso.split(",");
+            for(int i=0; i< Cs_rem.length; i++){
+
+                /*
+                Cs_rem è un array in cui ogni elemento è formato da Titolo/CFU
+                Bisogna estrapolare semplicemente questi due valori per ogni
+                elemento e poi richiamare il metodo DAO_Corsi.Remove_coourses(titolo, CFU)
+                Così abbiamo finito il metodo per la rimozione e basta applicarlo anche a
+                Ripetizioni e docenti ;)
+                */
+
+            }
+
+
+
+        }
+        else{
 
             if (corso.equals("")) {
 
@@ -99,6 +117,12 @@ public class Impostazioni_admin_corsi extends HttpServlet {
             }
 
             int cfu = Integer.parseInt(s_cfu);
+
+            if (cfu<=0) {
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU non corretto!</div>");
+                out.close();
+            }
 
             if (DAO_Corsi.Registered_Courses(corso, cfu)) {
 
