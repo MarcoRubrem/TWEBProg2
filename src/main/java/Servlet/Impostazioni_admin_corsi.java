@@ -90,17 +90,41 @@ public class Impostazioni_admin_corsi extends HttpServlet {
             String[] Cs_rem = corso.split(",");
             for(int i=0; i< Cs_rem.length; i++){
 
-                /*
-                Cs_rem è un array in cui ogni elemento è formato da Titolo/CFU
-                Bisogna estrapolare semplicemente questi due valori per ogni
-                elemento e poi richiamare il metodo DAO_Corsi.Remove_coourses(titolo, CFU)
-                Così abbiamo finito il metodo per la rimozione e basta applicarlo anche a
-                Ripetizioni e docenti ;)
-                */
+                String[] Cs_split = Cs_rem[i].split("/");
+                String titolo_rem = Cs_split[0];
+                int cfu_rem = Integer.parseInt(Cs_split[1]);
+
+                DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
 
             }
 
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
 
+            ResultSet rs = st.executeQuery("select * from corso");
+
+            out.print("<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">CFU</th>\n" +
+                    "      <th scope=\"col\">Elimina</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
+
+            for(Corso c: cs){
+
+                out.print("<tr>\n" +
+                        "      <td>"+c.getTitolo()+"</td>\n" +
+                        "      <td>"+c.getCFU()+"</td>\n" +
+                        "      <td><input type=\"checkbox\" value=\""+c.getTitolo()+"/"+c.getCFU()+"\" name=\"corso_rem\"></td>\n" +
+                        "    </tr>\n");
+            }
+
+            out.print("</tbody>\n" +
+                    "</table> ");
+            DAO.Disconnected();
 
         }
         else{
@@ -118,7 +142,7 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
             int cfu = Integer.parseInt(s_cfu);
 
-            if (cfu<=0) {
+            if (cfu<=0 || cfu>30) {
 
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU non corretto!</div>");
                 out.close();

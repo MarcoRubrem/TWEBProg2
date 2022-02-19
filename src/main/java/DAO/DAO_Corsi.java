@@ -70,7 +70,7 @@ public class DAO_Corsi {
 
     }
 
-    public static boolean Remove_Courses(String titolo, int CFU) {
+    public static void Remove_Courses(String titolo, int CFU) {
 
         ArrayList<Corso> c = Elenca_corsi();
 
@@ -79,24 +79,15 @@ public class DAO_Corsi {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-
-                if(c.contains(new Corso(titolo, CFU))){
-
-                    st.executeUpdate("delete from corso where titolo like'" + titolo + "' and CFU="+ CFU);
-                    DAO.Disconnected();
-                    return true;
-
-                }
-
+            st.executeUpdate("delete from corso where titolo like'" + titolo + "' and CFU="+ CFU);
+            DAO.Disconnected();
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             DAO.Disconnected();
-            return false;
         }
 
         DAO.Disconnected();
-        return false;
 
     }
 
