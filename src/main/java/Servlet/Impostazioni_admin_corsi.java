@@ -57,75 +57,49 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
             ResultSet rs;
 
-            DAO.registerDriver();
+            registerDriver();
             Statement st = getConn1().createStatement();
 
             rs = st.executeQuery("select * from corso");
 
-            out.print("<table class=\"table table-striped\">\n" +
-                    "  <thead>\n" +
-                    "    <tr>\n" +
-                    "      <th scope=\"col\">Corso</th>\n" +
-                    "      <th scope=\"col\">CFU</th>\n" +
-                    "      <th scope=\"col\">Elimina</th>\n" +
-                    "    </tr>\n" +
-                    "  </thead>\n" +
-                    "  <tbody>\n");
-
-            for(Corso c: cs){
-
-                out.print("<tr>\n" +
-                        "      <td>"+c.getTitolo()+"</td>\n" +
-                        "      <td>"+c.getCFU()+"</td>\n" +
-                        "      <td><input type=\"checkbox\" value=\""+c.getTitolo()+"/"+c.getCFU()+"\" name=\"corso_rem\"></td>\n" +
-                        "    </tr>\n");
-            }
-
-            out.print("</tbody>\n" +
-                    "</table> ");
-            DAO.Disconnected();
+            Rem_tab(out, cs);
         }
         else if(s_cfu.equals("1000")){
 
-            String[] Cs_rem = corso.split(",");
-            for(int i=0; i< Cs_rem.length; i++){
+            if(corso.length()==0){
 
-                String[] Cs_split = Cs_rem[i].split("/");
-                String titolo_rem = Cs_split[0];
-                int cfu_rem = Integer.parseInt(Cs_split[1]);
+                ResultSet rs;
 
-                DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
+                registerDriver();
+                Statement st = getConn1().createStatement();
+
+                rs = st.executeQuery("select * from corso");
+
+                Rem_tab(out, cs);
 
             }
+            else {
 
-            DAO.registerDriver();
-            Statement st = getConn1().createStatement();
+                String[] Cs_rem = corso.split(",");
+                for (int i = 0; i < Cs_rem.length; i++) {
 
-            ResultSet rs = st.executeQuery("select * from corso");
+                    String[] Cs_split = Cs_rem[i].split("/");
+                    String titolo_rem = Cs_split[0];
+                    int cfu_rem = Integer.parseInt(Cs_split[1]);
 
-            out.print("<table class=\"table table-striped\">\n" +
-                    "  <thead>\n" +
-                    "    <tr>\n" +
-                    "      <th scope=\"col\">Corso</th>\n" +
-                    "      <th scope=\"col\">CFU</th>\n" +
-                    "      <th scope=\"col\">Elimina</th>\n" +
-                    "    </tr>\n" +
-                    "  </thead>\n" +
-                    "  <tbody>\n");
+                    DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
 
-            for(Corso c: cs){
+                }
 
-                out.print("<tr>\n" +
-                        "      <td>"+c.getTitolo()+"</td>\n" +
-                        "      <td>"+c.getCFU()+"</td>\n" +
-                        "      <td><input type=\"checkbox\" value=\""+c.getTitolo()+"/"+c.getCFU()+"\" name=\"corso_rem\"></td>\n" +
-                        "    </tr>\n");
+                ResultSet rs;
+
+                registerDriver();
+                Statement st = getConn1().createStatement();
+
+                rs = st.executeQuery("select * from corso");
+
+                Rem_tab(out, cs);
             }
-
-            out.print("</tbody>\n" +
-                    "</table> ");
-            DAO.Disconnected();
-
         }
         else{
 
@@ -165,5 +139,31 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
 
 
+    }
+
+    private void Rem_tab(PrintWriter out, ArrayList<Corso> cs) {
+        out.print("<table class=\"table table-striped\">\n" +
+                "  <thead>\n" +
+                "    <tr>\n" +
+                "      <th scope=\"col\">Corso</th>\n" +
+                "      <th scope=\"col\">CFU</th>\n" +
+                "      <th scope=\"col\">Elimina</th>\n" +
+                "    </tr>\n" +
+                "  </thead>\n" +
+                "  <tbody>\n");
+
+        for(Corso c: cs){
+
+            out.print("<tr>\n" +
+                    "      <td>"+c.getTitolo()+"</td>\n" +
+                    "      <td>"+c.getCFU()+"</td>\n" +
+                    "      <td><input type=\"checkbox\" value=\""+c.getTitolo()+"/"+c.getCFU()+"\" name=\"corso_rem\"></td>\n" +
+                    "    </tr>\n");
+        }
+
+        out.print("</tbody>\n" +
+                "</table> ");
+        out.close();
+        DAO.Disconnected();
     }
 }
