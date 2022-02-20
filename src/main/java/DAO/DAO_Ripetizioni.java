@@ -23,7 +23,7 @@ public class DAO_Ripetizioni {
             rs = st.executeQuery("SELECT * FROM ripetizione");
 
             while (rs.next()) {
-                Ripetizione r=new Ripetizione(rs.getString("nome"), rs.getString("cognome"), rs.getString("corso"), rs.getString("giorno"), rs.getTime("ora"), rs.getString("stato"));
+                Ripetizione r = new Ripetizione(rs.getString("nome"), rs.getString("cognome"), rs.getString("corso"), rs.getString("giorno"), rs.getTime("ora"), rs.getString("stato"));
                 out.add(r);
             }
         }catch(SQLException e){
@@ -34,9 +34,9 @@ public class DAO_Ripetizioni {
         return out;
     }
 
-    public static boolean Registered_repetition (String Nome, String Cognome, String corso, String giorno, Time ora){
+    public static boolean Registered_repetition (String Nome, String Cognome, String corso, String giorno, String ora){
 
-        String stato = "disponibile";
+        String stato = "libero";
         ArrayList<Ripetizione> c = Elenca_Ripetizioni();
 
         try {
@@ -65,25 +65,7 @@ public class DAO_Ripetizioni {
 
     }
 
-    public static void Crea_Ripetizione(String nome, String cognome, String corso, String giorno, Time ora, String stato) {
-
-        try {
-
-            DAO.registerDriver();
-            Statement st = getConn1().createStatement();
-            if (!(Registered_repetition(nome, cognome, corso, giorno, ora))) {
-                int rs2 = st.executeUpdate("Insert into corso values('" + nome + "', '" + cognome + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + stato + "')");
-            }else{
-                System.out.println("prenotazione già presente nel database");
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    public static void Rimuovi_Ripetizione(String utente, String giorno, Time ora) {
+    public static void Remove_Repetitions(String Nome, String Cognome, String corso, String giorno, String ora) {
 
         ResultSet rs;
         ArrayList<Ripetizione> out = new ArrayList<>();

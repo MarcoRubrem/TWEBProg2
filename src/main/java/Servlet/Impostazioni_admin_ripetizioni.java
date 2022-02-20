@@ -3,6 +3,7 @@ package Servlet;
 import DAO.*;
 import Model.Corso;
 import Model.Docente;
+import Model.Ripetizione;
 
 import java.io.*;
 import java.sql.*;
@@ -52,7 +53,12 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
 
         String nome = request.getParameter("Nome");
         String cognome = request.getParameter("Cognome");
-        ArrayList<Docente> dc = DAO_Docenti.Elenca_Docenti();
+        String corso = request.getParameter("corso");
+        String giorno = request.getParameter("giorno");
+        String ora = request.getParameter("ora");
+
+
+        ArrayList<Ripetizione> rt = DAO_Ripetizioni.Elenca_Ripetizioni();
 
         if(nome.equals("remove") && cognome.equals("0")){
 
@@ -61,9 +67,9 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
             registerDriver();
             Statement st = getConn1().createStatement();
 
-            rs = st.executeQuery("select * from docente");
+            rs = st.executeQuery("select * from ripetizione");
 
-            Rem_tab(out, dc);
+            Rem_tab(out, rt);
         }
         else if(cognome.equals("1000")){
 
@@ -74,23 +80,25 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                 registerDriver();
                 Statement st = getConn1().createStatement();
 
-                rs = st.executeQuery("select * from docente");
+                rs = st.executeQuery("select * from ripetizione");
 
-                Rem_tab(out, dc);
+                Rem_tab(out, rt);
 
             }
             else {
 
-                String[] Dc_rem = nome.split(",");
+                String[] rt_rem = nome.split(",");
 
-                for (int i = 0; i < Dc_rem.length; i++) {
+                for (int i = 0; i < rt_rem.length; i++) {
 
-                    String[] Dc_split = Dc_rem[i].split("/");
-                    String nome_rem = Dc_split[0];
-                    String cognome_rem = Dc_split[1];
+                    String[] rt_split = rt_rem[i].split("/");
+                    String nome_rem = rt_split[0];
+                    String cognome_rem = rt_split[1];
+                    String corso_rem = rt_split[2];
+                    String giorno_rem = rt_split[3];
+                    String ora_rem = rt_split[4];
 
-
-                    DAO_Docenti.Remove_Teachers(nome_rem, cognome_rem);
+                    //DAO_Ripetizioni.Remove_Repetitions(nome_rem, cognome_rem, corso_rem, giorno_rem, ora_rem);
 
                 }
 
@@ -99,9 +107,9 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                 registerDriver();
                 Statement st = getConn1().createStatement();
 
-                rs = st.executeQuery("select * from docente");
+                rs = st.executeQuery("select * from ripetizione");
 
-                Rem_tab(out, dc);
+                Rem_tab(out, rt);
             }
         }
         else{
@@ -116,15 +124,20 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
                 out.close();
             }
+            if(corso.equals("")){
 
-            if (DAO_Docenti.Registered_teacher(nome, cognome)) {
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">Corso obbligatorio</div>");
+                out.close();
+            }
 
-                out.println("<div class=\"alert alert-success\" role=\"alert\">Docente inserito correttamente!</div>");
+            if (DAO_Ripetizioni.Registered_repetition(nome, cognome, corso, giorno, ora)) {
+
+                out.println("<div class=\"alert alert-success\" role=\"alert\">Ripetizione inserita correttamente!</div>");
                 out.close();
 
             } else {
 
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Docente già inserito precedentemente</div>");
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Ripetizione già registrata</div>");
                 out.close();
 
             }
@@ -136,23 +149,29 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
 
     }
 
-    private void Rem_tab(PrintWriter out, ArrayList<Docente> dc) {
+    private void Rem_tab(PrintWriter out, ArrayList<Ripetizione> rt) {
         out.print("<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Nome</th>\n" +
                 "      <th scope=\"col\">Cognome</th>\n" +
+                "      <th scope=\"col\">Corso</th>\n" +
+                "      <th scope=\"col\">Giorno</th>\n" +
+                "      <th scope=\"col\">Ora</th>\n" +
                 "      <th scope=\"col\">Elimina</th>\n" +
                 "    </tr>\n" +
                 "  </thead>\n" +
                 "  <tbody>\n");
 
-        for(Docente d: dc){
+        for(Ripetizione r: rt){
 
             out.print("<tr>\n" +
-                    "      <td>"+d.getNome()+"</td>\n" +
-                    "      <td>"+d.getCognome()+"</td>\n" +
-                    "      <td><input type=\"checkbox\" value=\""+d.getNome()+"/"+d.getCognome()+"\" name=\"docente_rem\"></td>\n" +
+                    "      <td>"+r.getNome()+"</td>\n" +
+                    "      <td>"+r.getCognome()+"</td>\n" +
+                    "      <td>"+r.getCorso()+"</td>\n" +
+                    "      <td>"+r.getGiorno()+"</td>\n" +
+                    "      <td>"+r.getOra()+"</td>\n" +
+                    "      <td><input type=\"checkbox\" value=\""+r.getNome()+"/"+r.getCognome()+"/"+r.getCorso()+"/"+r.getGiorno()+"/"+r.getOra()+"\" name=\"rip_rem\"></td>\n" +
                     "    </tr>\n");
         }
 

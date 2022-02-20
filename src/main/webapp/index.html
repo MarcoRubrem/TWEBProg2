@@ -323,8 +323,8 @@
         template:
             '<div id="home">' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Aggiungi_Ripetizioni" type="button" class="btn btn-secondary">Aggiungi Docenti</button>\n' +
-            '  <button v-on:click="Rimuovi_Docenti" type="button" class="btn btn-secondary">Rimuovi Docenti</button>\n' +
+            '  <button v-on:click="Aggiungi_Ripetizioni" type="button" class="btn btn-secondary">Aggiungi Ripetizioni</button>\n' +
+            '  <button v-on:click="Rimuovi_Ripetizioni" type="button" class="btn btn-secondary">Rimuovi Ripetizioni</button>\n' +
             '</div>' +
             '<div v-if="add">' +
             '<div class="container-fluid bg">\n' +
@@ -333,17 +333,43 @@
             '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
             '    <form class="form-container">\n' +
             '        <h1>Aggiungi una ripetizione!</h1>\n' +
-            '        <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '            <label for="Nome_docente"></label>\n' +
-            '            <input type="text" class="form-control" id="Nome_docente" placeholder="Nome docente">\n' +
-            '        </div>\n' +
-            '        <div class="form-group">\n' +
-            '            <label for="Cognome_docente"></label>\n' +
-            '            <input type="text" class="form-control" id="Cognome_docente" placeholder="Cognome_docente">\n' +
-            '        </div>\n' +
+            '<div class="form-row">\n' +
+            '    <div class="form-group col-md-6">\n' +
+            '      <label for="Nome_Docente"></label>\n' +
+            '      <input type="text" class="form-control" id="Nome_Docente" placeholder="Nome Docente">\n' +
+            '    </div>\n' +
+            '    <div class="form-group col-md-6">\n' +
+            '      <label for="Cognome_docente"></label>\n' +
+            '      <input type="text" class="form-control" id="Cognome_docente" placeholder="Cognome docente">\n' +
+            '    </div>\n' +
+            '  </div>\n' +
+            '  <div class="form-group">\n' +
+            '    <label for="Corso"></label>\n' +
+            '    <input type="text" class="form-control" id="Corso" placeholder="Corso">\n' +
+            '  </div>' +
+            '<div class="form-row">\n' +
+            '    <div class="form-group col-md-6">\n' +
+            '      <label for="Giorno"></label>\n' +
+            '       <select class="custom-select mr-sm-2" id="Giorno">\n' +
+            '        <option value="Lunedì" selected>Lunedì</option>\n' +
+            '        <option value="Martedì">Martedì</option>\n' +
+            '        <option value="Mercoledì">Mercoledì</option>\n' +
+            '        <option value="Giovedì">Giovedì</option>\n' +
+            '        <option value="Venerdì">Venerdì</option>\n' +
+            '      </select>\n' +
+            '    </div>\n' +
+            '    <div class="form-group col-md-6">\n' +
+            '      <label for="Ora"></label>\n' +
+            '       <select class="custom-select mr-sm-2" id="Ora">\n' +
+            '        <option value="15" selected>15:00</option>\n' +
+            '        <option value="16">16:00</option>\n' +
+            '        <option value="17">17:00</option>\n' +
+            '        <option value="18">18:00</option>\n' +
+            '      </select>\n' +
+            '    </div>\n' +
+            '  </div>\n' +
             '        <div class="sub-button">\n' +
-            '            <button type="button" id="Add_teachers" v-on:click="Add_teachers" class="btn btn-primary">Aggiungi</button>\n' +
+            '            <button type="button" id="Add_Repetitions" v-on:click="Add_Repetitions" class="btn btn-primary">Aggiungi</button>\n' +
             '        </div>\n' +
             '    </form>\n' +
             '</div>\n' +
@@ -353,45 +379,48 @@
             '<div v-if="rem">' +
             '<div id="result">' +
             '</div>' +
-            '<button type="button" v-on:click="Remove_teachers()" class="btn btn-danger">Elimina/Aggiorna</button>' +
+            '<button type="button" v-on:click="Remove_Repetitions()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
             '</div>',
 
         methods: {
 
-            Aggiungi_Docenti: function () {
+            Aggiungi_Ripetizioni: function () {
 
                 this.add = true;
                 this.rem = false;
             },
 
-            Rimuovi_Docenti: function () {
+            Rimuovi_Ripetizioni: function () {
 
                 this.add = false;
                 this.rem = true;
-                const url = "Impostazioni_admin_docenti?Nome=remove&Cognome=0";
+                const url = "Impostazioni_admin_ripetizioni?Nome=remove&Cognome=0";
                 xhrObj.open("post", url, true);
-                xhrObj.onreadystatechange =  Docenti_admin.methods.updatePage_rem;
+                xhrObj.onreadystatechange =  Ripetizioni_admin.methods.updatePage_rem;
                 xhrObj.send(null);
 
             },
 
-            Add_teachers: function(){
+            Add_Repetitions: function(){
 
-                var Nome = document.getElementById("Nome").value;
-                var Cognome = document.getElementById("Cognome").value;
+                var Nome = document.getElementById("Nome_Docente").value;
+                var Cognome = document.getElementById("Cognome_docente").value;
+                var corso = document.getElementById("Corso").value;
+                var giorno = document.getElementById("Giorno").value;
+                var ora = document.getElementById("Ora").value;
 
-                const url = "Impostazioni_admin_docenti?Nome=" + Nome + "&Cognome=" + Cognome;
+                const url = "Impostazioni_admin_ripetizioni?Nome="+Nome+"&Cognome="+Cognome+"&corso="+corso+"&giorno="+giorno+"&ora="+ora;
 
                 xhrObj.open("post", url, true);
-                xhrObj.onreadystatechange =  Docenti_admin.methods.updatePage;
+                xhrObj.onreadystatechange =  Ripetizioni_admin.methods.updatePage;
                 xhrObj.send(null);
 
             },
 
-            Remove_teachers: function (){
+            Remove_Repetitions: function (){
 
-                var rem = document.querySelectorAll('input[name="docente_rem"]:checked');
+                var rem = document.querySelectorAll('input[name="rip_rem"]:checked');
                 var arr = [];
 
                 for(var x = 0, l = rem.length; x < l;  x++)
@@ -401,10 +430,10 @@
 
                 var str = arr.join(',');
 
-                const url = "Impostazioni_admin_docenti?Nome="+str+"&Cognome=1000";
+                const url = "Impostazioni_admin_ripetizioni?Nome="+str+"&Cognome=1000";
 
                 xhrObj.open("post", url, true);
-                xhrObj.onreadystatechange =  Docenti_admin.methods.updatePage_rem;
+                xhrObj.onreadystatechange =  Ripetizioni_admin.methods.updatePage_rem;
                 xhrObj.send(null);
 
             },
