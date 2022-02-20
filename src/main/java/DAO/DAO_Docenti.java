@@ -25,7 +25,7 @@ public class DAO_Docenti {
 
             while (rs.next()) {
 
-                Docente d = new Docente(rs.getString("Cognome"), rs.getString("Nome"));
+                Docente d = new Docente(rs.getString("Nome"), rs.getString("Cognome"));
                 out.add(d);
             }
 
@@ -46,22 +46,15 @@ public class DAO_Docenti {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-
-                if(d.contains(new Docente(Nome, Cognome))){
-
-                    DAO.Disconnected();
-                    return false;
-                }
-
-            st.executeUpdate("Insert into docente values('" + Nome + "', '" + Cognome + "')");
+            st.executeUpdate("INSERT INTO `docente`(`Nome`, `Cognome`) VALUES ('"+Nome+"','"+Cognome+"')");
+            return true;
 
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
-
-        DAO.Disconnected();
-        return true;
 
     }
 
@@ -74,22 +67,15 @@ public class DAO_Docenti {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-
-                if(d.contains(new Docente(nome, cognome))){
-
-                    st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like ''" + nome +"''");
-                    DAO.Disconnected();
-                    return true;
-                }
-
-
+            st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like '" + nome +"'");
+            DAO.Disconnected();
+            return true;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
-
-        DAO.Disconnected();
-        return false;
 
     }
 

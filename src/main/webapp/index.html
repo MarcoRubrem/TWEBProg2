@@ -310,15 +310,129 @@
 
     var Ripetizioni_admin = {
 
+        data() {
+            return {
+
+                add: false,
+                rem: false,
+                btn_rem: false
+
+            }
+        },
+
         template:
             '<div id="home">' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
-            '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
-            '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
+            '  <button v-on:click="Aggiungi_Ripetizioni" type="button" class="btn btn-secondary">Aggiungi Docenti</button>\n' +
+            '  <button v-on:click="Rimuovi_Docenti" type="button" class="btn btn-secondary">Rimuovi Docenti</button>\n' +
             '</div>' +
-            '<div id="result"></div>' +
-            '</div>'
+            '<div v-if="add">' +
+            '<div class="container-fluid bg">\n' +
+            '    <div class="row">\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
+            '    <form class="form-container">\n' +
+            '        <h1>Aggiungi una ripetizione!</h1>\n' +
+            '        <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '            <label for="Nome_docente"></label>\n' +
+            '            <input type="text" class="form-control" id="Nome_docente" placeholder="Nome docente">\n' +
+            '        </div>\n' +
+            '        <div class="form-group">\n' +
+            '            <label for="Cognome_docente"></label>\n' +
+            '            <input type="text" class="form-control" id="Cognome_docente" placeholder="Cognome_docente">\n' +
+            '        </div>\n' +
+            '        <div class="sub-button">\n' +
+            '            <button type="button" id="Add_teachers" v-on:click="Add_teachers" class="btn btn-primary">Aggiungi</button>\n' +
+            '        </div>\n' +
+            '    </form>\n' +
+            '</div>\n' +
+            '</div>\n' +
+            '</div>' +
+            '</div>'+
+            '<div v-if="rem">' +
+            '<div id="result">' +
+            '</div>' +
+            '<button type="button" v-on:click="Remove_teachers()" class="btn btn-danger">Elimina/Aggiorna</button>' +
+            '</div>' +
+            '</div>',
+
+        methods: {
+
+            Aggiungi_Docenti: function () {
+
+                this.add = true;
+                this.rem = false;
+            },
+
+            Rimuovi_Docenti: function () {
+
+                this.add = false;
+                this.rem = true;
+                const url = "Impostazioni_admin_docenti?Nome=remove&Cognome=0";
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Docenti_admin.methods.updatePage_rem;
+                xhrObj.send(null);
+
+            },
+
+            Add_teachers: function(){
+
+                var Nome = document.getElementById("Nome").value;
+                var Cognome = document.getElementById("Cognome").value;
+
+                const url = "Impostazioni_admin_docenti?Nome=" + Nome + "&Cognome=" + Cognome;
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Docenti_admin.methods.updatePage;
+                xhrObj.send(null);
+
+            },
+
+            Remove_teachers: function (){
+
+                var rem = document.querySelectorAll('input[name="docente_rem"]:checked');
+                var arr = [];
+
+                for(var x = 0, l = rem.length; x < l;  x++)
+                {
+                    arr.push(rem[x].value);
+                }
+
+                var str = arr.join(',');
+
+                const url = "Impostazioni_admin_docenti?Nome="+str+"&Cognome=1000";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Docenti_admin.methods.updatePage_rem;
+                xhrObj.send(null);
+
+            },
+
+            updatePage:function(){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("accerr");
+                        accerr.innerHTML = xhrObj.responseText;
+                    }
+                }
+            },
+
+            updatePage_rem:function(){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("result");
+                        accerr.innerHTML = xhrObj.responseText;
+
+                    }
+                }
+            }
+
+        }
     }
 
     var Docenti_admin = {
