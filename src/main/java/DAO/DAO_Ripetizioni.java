@@ -58,6 +58,8 @@ public class DAO_Ripetizioni {
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
 
         DAO.Disconnected();
@@ -65,7 +67,7 @@ public class DAO_Ripetizioni {
 
     }
 
-    public static void Remove_Repetitions(String Nome, String Cognome, String corso, String giorno, String ora) {
+    public static boolean Remove_Repetitions(String Nome, String Cognome, String corso, String giorno, String ora) {
 
         ResultSet rs;
         ArrayList<Ripetizione> out = new ArrayList<>();
@@ -74,13 +76,14 @@ public class DAO_Ripetizioni {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-
-            // cambio lo stato da disponibile a prenotato
-           // rs = st.executeQuery("SELECT * FROM docente");
-           // int rs2 = st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like ''" + nome +"''");
+            st.executeUpdate("delete from ripetizione where nome like'" + Nome + "' and cognome like '" + Cognome +"' and corso like '" + corso +"' and giorno like '" + giorno +"'and ora like '" + ora +"'");
+            DAO.Disconnected();
+            return true;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
 
     }

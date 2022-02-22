@@ -98,7 +98,7 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                     String giorno_rem = rt_split[3];
                     String ora_rem = rt_split[4];
 
-                    //DAO_Ripetizioni.Remove_Repetitions(nome_rem, cognome_rem, corso_rem, giorno_rem, ora_rem);
+                    DAO_Ripetizioni.Remove_Repetitions(nome_rem, cognome_rem, corso_rem, giorno_rem, ora_rem);
 
                 }
 
