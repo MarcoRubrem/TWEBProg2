@@ -61,6 +61,7 @@ public class Prenotazioni extends HttpServlet {
 
         String tipo = request.getParameter("tipo");
         ArrayList<Prenotazione> pr = DAO_Prenotazioni.Elenca_Prenotazioni();
+        ArrayList<Prenotazione> pr_all = DAO_Prenotazioni.Elenca_Prenotazioni_utente((String)s.getAttribute("account"));
         ArrayList<Ripetizione> rt = DAO_Ripetizioni.Elenca_Ripetizioni();
 
         if (tipo.equals("libere")) {
@@ -73,26 +74,60 @@ public class Prenotazioni extends HttpServlet {
         }
         else if (tipo.equals("tutte")) {
 
-            Rem_tab_pr_all(out, pr, s);
+            Rem_tab_pr_all(out, pr_all, s);
         }
         else{
 
-
             String[] Cs_rem = tipo.split(",");
+            String[] Cs_split = new String[Cs_rem.length];
             for (int i = 0; i < Cs_rem.length; i++) {
 
-                String[] Cs_split = Cs_rem[i].split("/");
-                String titolo_rem = Cs_split[0];
-                int cfu_rem = Integer.parseInt(Cs_split[1]);
+                Cs_split = Cs_rem[i].split("/");
+            }
+            System.out.println(Cs_split[Cs_split.length-1]);
 
-                DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
+            if(Cs_split[Cs_split.length-1].equals("prenota")) {
 
+                String Nome_pr = Cs_split[0];
+                String Cognome_pr = Cs_split[1];
+                String Corso_pr = Cs_split[2];
+                String Giorno_pr = Cs_split[3];
+                String Ora_pr = Cs_split[4];
+
+                DAO_Ripetizioni.Set_Repetitions_lock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
+                DAO_Prenotazioni.Registered_Booking((String)s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+
+
+            }
+            else if(Cs_split[Cs_split.length-1].equals("cancella")){
+
+                String Nome_pr = Cs_split[0];
+                String Cognome_pr = Cs_split[1];
+                String Corso_pr = Cs_split[2];
+                String Giorno_pr = Cs_split[3];
+                String Ora_pr = Cs_split[4];
+
+                DAO_Prenotazioni.Cancel_booking((String)s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                //DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
+            }
+            else{
+
+                String Nome_pr = Cs_split[0];
+                String Cognome_pr = Cs_split[1];
+                String Corso_pr = Cs_split[2];
+                String Giorno_pr = Cs_split[3];
+                String Ora_pr = Cs_split[4];
+
+                DAO_Prenotazioni.Success_booking((String)s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                //DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
             }
         }
 
     }
 
     private void Rem_tab_rt_free(PrintWriter out, ArrayList<Ripetizione> rt) {
+
+
         out.print("<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
@@ -179,8 +214,6 @@ public class Prenotazioni extends HttpServlet {
 
         for(Prenotazione p: pr){
 
-            if(p.getUtente().equals(s.getAttribute("account"))) {
-
                 out.print("<tr>\n" +
                         "      <td>" + p.getNome_docente() + "</td>\n" +
                         "      <td>" + p.getCognome_docente() + "</td>\n" +
@@ -195,7 +228,6 @@ public class Prenotazioni extends HttpServlet {
                     out.print("<td>" + p.getStato() + "</td>\n");
                 }
                 out.print("</tr>\n");
-            }
         }
 
         out.print("</tbody>\n" +

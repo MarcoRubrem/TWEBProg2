@@ -7,12 +7,12 @@ public class Prenotazione {
     private String Utente;
     private String Corso;
     private String Giorno;
-    private Time ora;
+    private String ora;
     private String nome_docente;
     private String cognome_docente;
     private String Stato;
 
-    public Prenotazione(String utente, String corso, String giorno, Time ora, String nome_docente, String cognome_docente, String stato) {
+    public Prenotazione(String utente, String corso, String giorno, String ora, String nome_docente, String cognome_docente, String stato) {
         Utente = utente;
         Corso = corso;
         Giorno = giorno;
@@ -46,9 +46,9 @@ public class Prenotazione {
         Giorno = giorno;
     }
 
-    public Time getOra() {return ora;}
+    public String getOra() {return ora;}
 
-    public void setOra(Time ora) {this.ora = ora;}
+    public void setOra(String ora) {this.ora = ora;}
 
     public String getNome_docente() {
         return nome_docente;

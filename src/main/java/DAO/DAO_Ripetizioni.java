@@ -69,14 +69,29 @@ public class DAO_Ripetizioni {
 
     public static boolean Remove_Repetitions(String Nome, String Cognome, String corso, String giorno, String ora) {
 
-        ResultSet rs;
-        ArrayList<Ripetizione> out = new ArrayList<>();
-
         try {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
             st.executeUpdate("delete from ripetizione where nome like'" + Nome + "' and cognome like '" + Cognome +"' and corso like '" + corso +"' and giorno like '" + giorno +"'and ora like '" + ora +"'");
+            DAO.Disconnected();
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
+        }
+
+    }
+
+    public static boolean Set_Repetitions_lock(String Nome, String Cognome, String corso, String giorno, String ora){
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+            st.executeUpdate("UPDATE `ripetizione` SET `stato`='occupato' WHERE nome like'" + Nome + "' and cognome like '" + Cognome +"' and corso like '" + corso +"' and giorno like '" + giorno +"'and ora like '" + ora +"'");
             DAO.Disconnected();
             return true;
 
