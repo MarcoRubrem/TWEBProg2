@@ -107,16 +107,43 @@
     const xhrObj = setXMLHttpRequest();
 
 
-    const Home = { template:
+    const Home = {
+
+        template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
+            '  <button v-on:click="Calendar" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
             '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
             '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
             '</div>' +
             '<div id="result"></div>' +
-            '</article>'
+            '</article>',
 
+        methods: {
+
+            Calendar: function () {
+
+                const url = "Home?param=Ripetizioni";
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange = Home.methods.updatePage;
+                xhrObj.send(null);
+
+            },
+
+            updatePage: function () {
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const risp = xhrObj.responseText;
+                        const result = document.getElementById("result");
+                        result.innerHTML = risp;
+
+                    }
+                }
+            }
+
+        }
     }
 
     const Login = {
@@ -314,6 +341,7 @@
             '  <button v-on:click="Add_reservation" type="button" class="btn btn-secondary">Effettua una prenotazione</button>\n' +
             '  <button v-on:click="Remove_reservation" type="button" class="btn btn-secondary">Cancella una prenotazione</button>\n' +
             '  <button v-on:click="Your_reservation" type="button" class="btn btn-secondary">Le tue prenotazioni</button>\n' +
+            '<span v-if="Impostazioni_admin"><button v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></span>\n' +
             '</div>' +
             '<div id="result"></div>' +
             '        <div class="sub-button">\n' +
@@ -322,6 +350,17 @@
             '</article>',
 
         methods: {
+
+            All_reservations: function(){
+
+                const url = "Prenotazioni?tipo=Tutti_utenti";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
+                xhrObj.send(null);
+
+
+            },
 
             Add_reservation: function (){
 
@@ -365,7 +404,7 @@
                 const url = "Prenotazioni?tipo="+str;
 
                 xhrObj.open("post", url, true);
-                xhrObj.onreadystatechange =  Ripetizioni_admin.methods.updatePage_rem;
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
                 xhrObj.send(null);
 
 
@@ -382,10 +421,7 @@
                     }
                 }
             }
-
-
         }
-
 
     }
 

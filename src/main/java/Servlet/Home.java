@@ -1,6 +1,8 @@
 package Servlet;
 
 import DAO.DAO;
+import Model.Ripetizione;
+import DAO.DAO_Ripetizioni;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -15,6 +17,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import static DAO.DAO.getConn1;
@@ -31,125 +34,71 @@ public class Home extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String param = request.getParameter("param");
-        ResultSet rs;
 
 
         if(param.equals("Ripetizioni")){
 
-            try {
-
-                DAO.registerDriver();
-
-                Statement st = getConn1().createStatement();
-                rs = st.executeQuery("SELECT * FROM ripetizione");
-
                 out.println("<table class=\"table table-striped\">\n" +
                         "  <thead>\n" +
                         "    <tr>\n" +
-                        "      <th scope=\"col\">Nome Docente</th>\n" +
-                        "      <th scope=\"col\">Cognome Docente</th>\n" +
-                        "      <th scope=\"col\">Corso</th>\n" +
+                        "      <th scope=\"col\">Ora</th>\n" +
+                        "      <th scope=\"col\">Lunedì</th>\n" +
+                        "      <th scope=\"col\">Martedì</th>\n" +
+                        "      <th scope=\"col\">Mercoledì</th>\n" +
+                        "      <th scope=\"col\">Giovedì</th>\n" +
+                        "      <th scope=\"col\">Venerdì</th>\n" +
                         "    </tr>\n" +
                         "  </thead>\n" +
                         "  <tbody>");
-                while(rs.next()) {
+            out.println(" <tr>\n" +
+                    "      <td>15:00</td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "    </tr>");
+            out.println(" <tr>\n" +
+                    "      <td>16:00</td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "    </tr>");
+            out.println(" <tr>\n" +
+                    "      <td>17:00</td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "    </tr>");
+            out.println(" <tr>\n" +
+                    "      <td>18:00</td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "      <td></td>\n" +
+                    "    </tr>");
+            out.println("  </tbody>\n" +
+                    "</table>");
 
-                    out.println("    <tr>\n" +
-                            "      <td>"+rs.getString("nome")+"</td>\n" +
-                            "      <td>"+rs.getString("cognome")+"</td>\n" +
-                            "      <td>"+rs.getString("corso")+"</td>\n" +
-                            "    </tr>");
-                }
-
-                out.println("  </tbody>\n" +
-                        "</table>");
-
-            }catch (SQLException e){
-
-                System.out.println(e.getMessage());
-            }
-            out.close();
-            DAO.Disconnected();
         }
 
         if(param.equals("Corsi")){
 
-            try {
 
-                DAO.registerDriver();
-
-                Statement st = getConn1().createStatement();
-                rs = st.executeQuery("SELECT * FROM corso");
-
-                out.println("<table class=\"table table-striped\">\n" +
-                        "  <thead>\n" +
-                        "    <tr>\n" +
-                        "      <th scope=\"col\">Titolo</th>\n" +
-                        "      <th scope=\"col\">CFU</th>\n" +
-                        "    </tr>\n" +
-                        "  </thead>\n" +
-                        "  <tbody>");
-                while(rs.next()) {
-
-                    out.println("    <tr>\n" +
-                            "      <td>"+rs.getString("titolo")+"</td>\n" +
-                            "      <td>"+rs.getInt("CFU")+"</td>\n" +
-                            "    </tr>");
-                }
-
-                out.println("  </tbody>\n" +
-                        "</table>");
-
-            }catch (SQLException e){
-
-                System.out.println(e.getMessage());
-            }
-
-
-            out.close();
-            DAO.Disconnected();
 
         }
 
         if(param.equals("Docenti")){
 
-            try {
-
-                DAO.registerDriver();
-
-                Statement st = getConn1().createStatement();
-                rs = st.executeQuery("SELECT * FROM docente");
-
-                out.println("<table class=\"table table-striped\">\n" +
-                        "  <thead>\n" +
-                        "    <tr>\n" +
-                        "      <th scope=\"col\">Nome</th>\n" +
-                        "      <th scope=\"col\">Cognome</th>\n" +
-                        "    </tr>\n" +
-                        "  </thead>\n" +
-                        "  <tbody>");
-                while(rs.next()) {
-
-                    out.println("    <tr>\n" +
-                            "      <td>"+rs.getString("nome")+"</td>\n" +
-                            "      <td>"+rs.getString("cognome")+"</td>\n" +
-                            "    </tr>");
-                }
-
-                out.println("  </tbody>\n" +
-                        "</table>");
-
-            }catch (SQLException e){
-
-                System.out.println(e.getMessage());
-            }
-
-
-            out.close();
-            DAO.Disconnected();
 
         }
 

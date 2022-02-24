@@ -14,247 +14,32 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.30/vue.global.min.js"></script>
-    <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://unpkg.com/vue-router@4"></script>
 
     <link rel="stylesheet" href="style.css">
-
 
 </head>
 <body>
 
-
-
-<script>
-
-    function setXMLHttpRequest() {
-
-        var xhr = null;
-        if (window.XMLHttpRequest) {
-            xhr = new XMLHttpRequest();
-        } else if (window.ActiveXObject) {
-            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        return xhr;
-    }
-
-    const xhrObj = setXMLHttpRequest();
-
-    const Home = { template: '<div id="home">' +
-            '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
-            '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
-            '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
-            '</div>' +
-            '<div id="result"></div>' +
-            '</div>',
-
-    }
-
-    const Login = {
-
-        template:
-            '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Accedi</h1>\n' +
-            '        <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '            <label for="account"></label>\n' +
-            '            <input type="text" class="form-control" id="account" placeholder="Account">\n' +
-            '        </div>\n' +
-            '        <div class="form-group">\n' +
-            '            <label for="pw"></label>\n' +
-            '            <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
-            '        </div>\n' +
-            '        <div class="sub-button">\n' +
-            '            <button type="button" id="Login" v-on:click="log" class="btn btn-primary">Accedi</button>\n' +
-            '        </div>\n' +
-            '        <div class="reg_link">\n' +
-            '            Non hai un account? <router-link id="reg" class="nav-link" to="/Registrazione">Registrati ora!</router-link>\n' +
-            '        </div>\n' +
-            '    </form>\n' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>\n' +
-            '</div>'
-    }
-
-    const Registrazione = {
-
-        template: '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Registrati</h1>\n' +
-            '    <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '        <label for="account"></label>\n' +
-            '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="pw"></label>\n' +
-            '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
-            '    </div>\n' +
-            '<div class="Role">' +
-            '    <div class="form-check-inline">' +
-            '        <input class="form-check-input" type="radio" name="ruolo" id="Cliente" value="Cliente" checked>\n' +
-            '        <label class="form-check-label" for="Cliente">\n' +
-            '            Cliente\n' +
-            '        </label>\n' +
-            '    </div>\n' +
-            '    <div class="form-check-inline">\n' +
-            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">\n' +
-            '        <label class="form-check-label" for="Amministratore Sito">\n' +
-            '            Amministratore\n' +
-            '        </label>\n' +
-            '    </div>\n' +
-            '</div>' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-primary">Registrati</button>\n' +
-            '</div>' +
-            '<div class="reg_link">' +
-            'Sei già registrato? <router-link id="log" class="nav-link" to="/Login">Accedi qui!</router-link>' +
-            '</div>' +
-            '</form>' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>\n' +
-            '</div>'
-    }
-
-    const Prenotazioni = {
-
-        template: '<h1>Queste sono le tue prenotazioni</h1>'
-    }
-
-    var Ripetizioni_admin = {
-
-        template:
-            '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Aggiungi una ripetizione</h1>\n' +
-            '    <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '        <label for="Titolo"></label>\n' +
-            '        <input type="text" class="form-control" id="Titolo" placeholder="Titolo">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="CFU"></label>\n' +
-            '        <input type="number" min="3" max="18" class="form-control" id="CFU" placeholder="CFU">\n' +
-            '    </div>\n' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="add" v-on:click="Add_Courses" class="btn btn-primary">Aggiungi</button>\n' +
-            '</div>' +
-            ' </form>' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>' +
-            '<div id="rm_button"><button type="button" id="rm" v-on:click="Rm_Courses" class="btn btn-outline-danger">Rimuovi corsi</button></div> ' +
-            '<div id="result"></div>' +
-            '</div>'
-    }
-
-    var Docenti_admin = {
-
-        template:
-            '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Aggiungi un docente</h1>\n' +
-            '    <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '        <label for="Titolo"></label>\n' +
-            '        <input type="text" class="form-control" id="Titolo" placeholder="Titolo">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="CFU"></label>\n' +
-            '        <input type="number" min="3" max="18" class="form-control" id="CFU" placeholder="CFU">\n' +
-            '    </div>\n' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="add" v-on:click="Add_Courses" class="btn btn-primary">Aggiungi</button>\n' +
-            '</div>' +
-            ' </form>' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>' +
-            '<div id="rm_button"><button type="button" id="rm" v-on:click="Rm_Courses" class="btn btn-outline-danger">Rimuovi corsi</button></div> ' +
-            '<div id="result"></div>' +
-            '</div>'
-    }
-
-    var Corsi_admin = {
-
-        template:
-            '<div class="container-fluid bg">\n' +
-            '    <div class="row">\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
-            '    <form class="form-container">\n' +
-            '        <h1>Aggiungi un corso</h1>\n' +
-            '    <div class="form-group">\n' +
-            '        <div id="accerr"></div>\n' +
-            '        <label for="Titolo"></label>\n' +
-            '        <input type="text" class="form-control" id="Titolo" placeholder="Titolo">\n' +
-            '    </div>\n' +
-            '    <div class="form-group">\n' +
-            '        <label for="CFU"></label>\n' +
-            '        <input type="number" min="3" max="18" class="form-control" id="CFU" placeholder="CFU">\n' +
-            '    </div>\n' +
-            '<div class="sub-button">\n' +
-            '    <button type="button" id="add" v-on:click="Add_Courses" class="btn btn-primary">Aggiungi</button>\n' +
-            '</div>' +
-            ' </form>' +
-            '</div>\n' +
-            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
-            '</div>' +
-            '<div id="rm_button"><button type="button" id="rm" v-on:click="Rm_Courses" class="btn btn-outline-danger">Rimuovi corsi</button></div> ' +
-            '<div id="result"></div>' +
-            '</div>'
-    }
-
-    const routes = [
-        { path: '/', component: Home },
-        { path: '/Login', component: Login },
-        { path: '/Prenotazioni', component: Prenotazioni },
-        { path: '/Registrazione', component: Registrazione },
-        { path: '/Impostazioni_Docenti', component: Docenti_admin },
-        { path: '/Impostazioni_Ripetizioni', component: Ripetizioni_admin },
-        { path: '/Impostazioni_Corsi', component: Corsi_admin }
-
-
-    ]
-
-    const router = VueRouter.createRouter({
-        history: VueRouter.createWebHashHistory(),
-        routes, // short for `routes: routes`
-    })
-
-    const { createApp} = Vue;
-    const app = createApp({
-        setup() {
-            return {
-                intro: 'Benvenuto! Registrati o accedi ora per iniziare a prenotare!',
-                prenotazioni: false,
-                Logout: false,
-                Login: true,
-                Impostazioni_admin: true,
-                account: '',
-                intro_view: false
-            }
-        }
-    }).use(router)
-
-    app.mount('#app')
-</script>
+<table class="table table-striped">
+  <thead>
+    <tr>
+        <th scope="col">Lunedì</th>
+        <th scope="col">Martedì</th>
+        <th scope="col">Mercoledì</th>
+        <th scope="col">Giovedì</th>
+        <th scope="col">Venerdì</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>Lunedi1</td>
+        <td>Mertedì1</td>
+        <td>Mercoledì1</td>
+        <td>Giovedì1</td>
+        <td>Venerdì1</td>
+    </tr>
+  </tbody>
+</table>
 
 </body>
 </html>

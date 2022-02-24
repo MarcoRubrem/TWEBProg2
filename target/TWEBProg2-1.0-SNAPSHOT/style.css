@@ -34,7 +34,7 @@ body{
     margin-top: 5%;
 }
 
-.intro{
+header{
 
     text-align: center;
 }
@@ -57,7 +57,7 @@ body{
 
 }
 
-#home button{
+article button{
 
     padding: 10% 20% 10%;
 }

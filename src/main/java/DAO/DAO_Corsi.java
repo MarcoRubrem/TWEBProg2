@@ -87,8 +87,6 @@ public class DAO_Corsi {
             DAO.Disconnected();
         }
 
-        DAO.Disconnected();
-
     }
 
 

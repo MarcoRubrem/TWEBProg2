@@ -85,7 +85,7 @@ public class DAO_Ripetizioni {
 
     }
 
-    public static boolean Set_Repetitions_lock(String Nome, String Cognome, String corso, String giorno, String ora){
+    public static void Set_Repetitions_lock(String Nome, String Cognome, String corso, String giorno, String ora){
 
         try {
 
@@ -93,12 +93,28 @@ public class DAO_Ripetizioni {
             Statement st = getConn1().createStatement();
             st.executeUpdate("UPDATE `ripetizione` SET `stato`='occupato' WHERE nome like'" + Nome + "' and cognome like '" + Cognome +"' and corso like '" + corso +"' and giorno like '" + giorno +"'and ora like '" + ora +"'");
             DAO.Disconnected();
-            return true;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             DAO.Disconnected();
-            return false;
+        }
+
+    }
+
+    public static void Set_Repetitions_Unlock(String Nome, String Cognome, String corso, String giorno, String ora) {
+
+        try {
+
+            DAO.registerDriver();
+            Statement st = getConn1().createStatement();
+
+            st.executeUpdate("UPDATE `ripetizione` SET `stato`='libero' WHERE nome like'" + Nome + "' and cognome like '" + Cognome +"' and corso like '" + corso +"' and giorno like '" + giorno +"'and ora like '" + ora +"'");
+            DAO.Disconnected();
+
+        }catch(SQLException e){
+
+            System.out.println(e.getMessage());
+            DAO.Disconnected();
         }
 
     }

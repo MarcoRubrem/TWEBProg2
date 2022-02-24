@@ -55,25 +55,11 @@ public class Impostazioni_admin_docenti extends HttpServlet {
 
         if(nome.equals("remove") && cognome.equals("0")){
 
-            ResultSet rs;
-
-            registerDriver();
-            Statement st = getConn1().createStatement();
-
-            rs = st.executeQuery("select * from docente");
-
             Rem_tab(out, dc);
         }
         else if(cognome.equals("1000")){
 
             if(nome.length()==0){
-
-                ResultSet rs;
-
-                registerDriver();
-                Statement st = getConn1().createStatement();
-
-                rs = st.executeQuery("select * from docente");
 
                 Rem_tab(out, dc);
 
@@ -92,13 +78,6 @@ public class Impostazioni_admin_docenti extends HttpServlet {
                     DAO_Docenti.Remove_Teachers(nome_rem, cognome_rem);
 
                 }
-
-                ResultSet rs;
-
-                registerDriver();
-                Statement st = getConn1().createStatement();
-
-                rs = st.executeQuery("select * from docente");
 
                 Rem_tab(out, dc);
             }
@@ -158,6 +137,5 @@ public class Impostazioni_admin_docenti extends HttpServlet {
         out.print("</tbody>\n" +
                 "</table> ");
         out.close();
-        DAO.Disconnected();
     }
 }

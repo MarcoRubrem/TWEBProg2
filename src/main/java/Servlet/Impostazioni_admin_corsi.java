@@ -55,25 +55,11 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
         if(corso.equals("remove") && s_cfu.equals("0")){
 
-            ResultSet rs;
-
-            registerDriver();
-            Statement st = getConn1().createStatement();
-
-            rs = st.executeQuery("select * from corso");
-
             Rem_tab(out, cs);
         }
         else if(s_cfu.equals("1000")){
 
             if(corso.length()==0){
-
-                ResultSet rs;
-
-                registerDriver();
-                Statement st = getConn1().createStatement();
-
-                rs = st.executeQuery("select * from corso");
 
                 Rem_tab(out, cs);
 
@@ -90,13 +76,6 @@ public class Impostazioni_admin_corsi extends HttpServlet {
                     DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
 
                 }
-
-                ResultSet rs;
-
-                registerDriver();
-                Statement st = getConn1().createStatement();
-
-                rs = st.executeQuery("select * from corso");
 
                 Rem_tab(out, cs);
             }
@@ -164,6 +143,5 @@ public class Impostazioni_admin_corsi extends HttpServlet {
         out.print("</tbody>\n" +
                 "</table> ");
         out.close();
-        DAO.Disconnected();
     }
 }

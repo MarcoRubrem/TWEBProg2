@@ -35,6 +35,8 @@ public class DAO_Prenotazioni{
         }catch(SQLException e){
 
             System.out.print(e.getMessage());
+            DAO.Disconnected();
+
         }
 
         DAO.Disconnected();
@@ -63,6 +65,7 @@ public class DAO_Prenotazioni{
         }catch(SQLException e){
 
             System.out.print(e.getMessage());
+            DAO.Disconnected();
         }
 
         DAO.Disconnected();
@@ -112,6 +115,8 @@ public class DAO_Prenotazioni{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return false;
         }
 
         DAO.Disconnected();
@@ -119,11 +124,9 @@ public class DAO_Prenotazioni{
 
     }
 
-    public static boolean Success_booking(String utente, String corso, String giorno, String ora, String nomeD, String cognomeD) {
+    public static void Success_booking(String utente, String corso, String giorno, String ora, String nomeD, String cognomeD) {
 
         ArrayList<Prenotazione> p = Elenca_Prenotazioni_utente(utente);
-
-
         try {
 
             DAO.registerDriver();
@@ -131,30 +134,22 @@ public class DAO_Prenotazioni{
 
             for(Prenotazione pz: p){
 
-                if(pz.getOra().toString().equals(ora) && pz.getCorso().equals(corso) && pz.getGiorno().equals(giorno) && pz.getNome_docente().equals(nomeD) && pz.getCognome_docente().equals(cognomeD) && pz.getStato().equals("attiva")) {
+                if(pz.getOra().equals(ora) && pz.getCorso().equals(corso) && pz.getGiorno().equals(giorno) && pz.getNome_docente().equals(nomeD) && pz.getCognome_docente().equals(cognomeD) && pz.getStato().equals("attiva")) {
 
                     st.executeUpdate("update prenotazione set stato = 'effettuata' where corso like '"+ corso +"' AND giorno like '"+ giorno +"' and ora like '"+ ora +"%' and nome_docente like '"+ nomeD +"' and cognome_docente like '"
                             + cognomeD +"' and stato like 'attiva' and utente like '"+ utente +"'");
                     DAO.Disconnected();
-                    return true;
                 }
             }
 
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            DAO.Disconnected();
         }
 
         DAO.Disconnected();
-        return false;
-
     }
-    
 
 
-    public static String getHours(String t){
-
-        String [] parts = t.split(":");
-        return parts[0];
-    }
 }

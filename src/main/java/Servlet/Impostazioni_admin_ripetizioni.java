@@ -62,25 +62,11 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
 
         if(nome.equals("remove") && cognome.equals("0")){
 
-            ResultSet rs;
-
-            registerDriver();
-            Statement st = getConn1().createStatement();
-
-            rs = st.executeQuery("select * from ripetizione");
-
             Rem_tab(out, rt);
         }
         else if(cognome.equals("1000")){
 
             if(nome.length()==0){
-
-                ResultSet rs;
-
-                registerDriver();
-                Statement st = getConn1().createStatement();
-
-                rs = st.executeQuery("select * from ripetizione");
 
                 Rem_tab(out, rt);
 
@@ -101,13 +87,6 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                     DAO_Ripetizioni.Remove_Repetitions(nome_rem, cognome_rem, corso_rem, giorno_rem, ora_rem);
 
                 }
-
-                ResultSet rs;
-
-                registerDriver();
-                Statement st = getConn1().createStatement();
-
-                rs = st.executeQuery("select * from ripetizione");
 
                 Rem_tab(out, rt);
             }
@@ -178,6 +157,5 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
         out.print("</tbody>\n" +
                 "</table> ");
         out.close();
-        DAO.Disconnected();
     }
 }

@@ -79,12 +79,15 @@
     </nav>
 
 
-    <div class="intro">
+    <header>
         <span v-if="intro_view"><h1 class="intro">Bentornato {{account}}! E' bello riaverti qui.</h1></span><br>
         <h1 class="intro">{{message}}</h1>
-    </div>
+    </header>
 
-    <router-view></router-view>
+    <article>
+        <router-view></router-view>
+    </article>
+
 
 </div>
 
@@ -104,16 +107,43 @@
     const xhrObj = setXMLHttpRequest();
 
 
-    const Home = { template:
-            '<div id="home">' +
+    const Home = {
+
+        template:
+            '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Ripetizioni" type="button" class="btn btn-secondary">Ripetizioni</button>\n' +
+            '  <button v-on:click="Calendar" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
             '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
             '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
             '</div>' +
             '<div id="result"></div>' +
-            '</div>',
+            '</article>',
 
+        methods: {
+
+            Calendar: function () {
+
+                const url = "Home?param=Ripetizioni";
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange = Home.methods.updatePage;
+                xhrObj.send(null);
+
+            },
+
+            updatePage: function () {
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const risp = xhrObj.responseText;
+                        const result = document.getElementById("result");
+                        result.innerHTML = risp;
+
+                    }
+                }
+            }
+
+        }
     }
 
     const Login = {
@@ -305,7 +335,94 @@
 
     const Prenotazioni = {
 
-        template: '<h1>Queste sono le tue prenotazioni</h1>'
+        template:
+            '<article>' +
+            '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
+            '  <button v-on:click="Add_reservation" type="button" class="btn btn-secondary">Effettua una prenotazione</button>\n' +
+            '  <button v-on:click="Remove_reservation" type="button" class="btn btn-secondary">Cancella una prenotazione</button>\n' +
+            '  <button v-on:click="Your_reservation" type="button" class="btn btn-secondary">Le tue prenotazioni</button>\n' +
+            '<span v-if="Impostazioni_admin"><button v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></span>\n' +
+            '</div>' +
+            '<div id="result"></div>' +
+            '        <div class="sub-button">\n' +
+            '            <button type="button" id="Exec_reserv" v-on:click="Exec_reserv" class="btn btn-primary">Esegui/aggiorna</button>\n' +
+            '        </div>\n' +
+            '</article>',
+
+        methods: {
+
+            All_reservations: function(){
+
+                const url = "Prenotazioni?tipo=Tutti_utenti";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
+                xhrObj.send(null);
+
+
+            },
+
+            Add_reservation: function (){
+
+                const url = "Prenotazioni?tipo=libere";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
+                xhrObj.send(null);
+            },
+
+            Remove_reservation: function (){
+
+                const url = "Prenotazioni?tipo=prenotate";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
+                xhrObj.send(null);
+            },
+
+            Your_reservation: function (){
+
+                const url = "Prenotazioni?tipo=tutte";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
+                xhrObj.send(null);
+            },
+
+            Exec_reserv: function (){
+
+                var rem = document.querySelectorAll('input[name="Reserv_rem"]:checked');
+                var arr = [];
+
+                for(var x = 0, l = rem.length; x < l;  x++)
+                {
+                    arr.push(rem[x].value);
+                }
+
+                var str = arr.join(',');
+
+                const url = "Prenotazioni?tipo="+str;
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
+                xhrObj.send(null);
+
+
+            },
+
+            updatePage: function (){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("result");
+                        accerr.innerHTML = xhrObj.responseText;
+
+                    }
+                }
+            }
+        }
+
     }
 
     var Ripetizioni_admin = {
@@ -321,7 +438,7 @@
         },
 
         template:
-            '<div id="home">' +
+            '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
             '  <button v-on:click="Aggiungi_Ripetizioni" type="button" class="btn btn-secondary">Aggiungi Ripetizioni</button>\n' +
             '  <button v-on:click="Rimuovi_Ripetizioni" type="button" class="btn btn-secondary">Rimuovi Ripetizioni</button>\n' +
@@ -335,6 +452,7 @@
             '        <h1>Aggiungi una ripetizione!</h1>\n' +
             '<div class="form-row">\n' +
             '    <div class="form-group col-md-6">\n' +
+            '        <div id="accerr"></div>\n' +
             '      <label for="Nome_Docente"></label>\n' +
             '      <input type="text" class="form-control" id="Nome_Docente" placeholder="Nome Docente">\n' +
             '    </div>\n' +
@@ -381,7 +499,7 @@
             '</div>' +
             '<button type="button" v-on:click="Remove_Repetitions()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
-            '</div>',
+            '</article>',
 
         methods: {
 
@@ -477,7 +595,7 @@
         },
 
         template:
-            '<div id="home">' +
+            '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
             '  <button v-on:click="Aggiungi_Docenti" type="button" class="btn btn-secondary">Aggiungi Docenti</button>\n' +
             '  <button v-on:click="Rimuovi_Docenti" type="button" class="btn btn-secondary">Rimuovi Docenti</button>\n' +
@@ -511,7 +629,7 @@
             '</div>' +
             '<button type="button" v-on:click="Remove_teachers()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
-            '</div>',
+            '</article>',
 
         methods: {
 
@@ -604,7 +722,7 @@
         },
 
         template:
-            '<div id="home">' +
+            '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
             '  <button v-on:click="Aggiungi_Corsi" type="button" class="btn btn-secondary">Aggiungi corsi</button>\n' +
             '  <button v-on:click="Rimuovi_Corsi" type="button" class="btn btn-secondary">Rimuovi corsi</button>\n' +
@@ -638,7 +756,7 @@
             '</div>' +
             '<button type="button" v-on:click="Remove_courses()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
-            '</div>',
+            '</article>',
 
         methods: {
 
