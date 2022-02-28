@@ -84,7 +84,7 @@ public class Prenotazioni extends HttpServlet {
             default:
 
                 String[] Cs_rem = tipo.split(",");
-                String[] Cs_split = new String[Cs_rem.length];
+                String[] Cs_split = new String[Cs_rem.length*5];
                 for (int i = 0; i < Cs_rem.length; i++) {
 
                     Cs_split = Cs_rem[i].split("/");
@@ -92,38 +92,75 @@ public class Prenotazioni extends HttpServlet {
 
                 if (Cs_split[Cs_split.length - 1].equals("prenota")) {
 
-                    String Nome_pr = Cs_split[0];
-                    String Cognome_pr = Cs_split[1];
-                    String Corso_pr = Cs_split[2];
-                    String Giorno_pr = Cs_split[3];
-                    String Ora_pr = Cs_split[4];
+                    if(tipo.length()==0){
 
-                    DAO_Ripetizioni.Set_Repetitions_lock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
-                    DAO_Prenotazioni.Registered_Booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
-                    Rem_tab_rt_free(out, rt);
+                        Rem_tab_pr_all(out, pr_all, s);
+                    }
+                    else {
 
+                        for (int i = 0; i < Cs_rem.length; i++) {
+
+                            String Nome_pr = Cs_split[0];
+                            String Cognome_pr = Cs_split[1];
+                            String Corso_pr = Cs_split[2];
+                            String Giorno_pr = Cs_split[3];
+                            String Ora_pr = Cs_split[4];
+
+                            DAO_Ripetizioni.Set_Repetitions_lock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
+                            DAO_Prenotazioni.Registered_Booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+
+                        }
+                        Rem_tab_pr_all(out, pr_all, s);
+
+                    }
                 } else if (Cs_split[Cs_split.length - 1].equals("cancella")) {
 
-                    String Nome_pr = Cs_split[0];
-                    String Cognome_pr = Cs_split[1];
-                    String Corso_pr = Cs_split[2];
-                    String Giorno_pr = Cs_split[3];
-                    String Ora_pr = Cs_split[4];
+                    if(tipo.length()==0){
 
-                    DAO_Prenotazioni.Cancel_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
-                    DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
-                    Rem_tab_pr(out, pr_all, s);
+                        Rem_tab_pr(out, pr_all, s);
+                    }
+                    else {
+
+                        for (int i = 0; i < Cs_rem.length; i++) {
+
+                            String Nome_pr = Cs_split[0];
+                            String Cognome_pr = Cs_split[1];
+                            String Corso_pr = Cs_split[2];
+                            String Giorno_pr = Cs_split[3];
+                            String Ora_pr = Cs_split[4];
+
+                            DAO_Prenotazioni.Cancel_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                            DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
+                        }
+                        Rem_tab_pr(out, pr_all, s);
+
+
+                    }
+
+
                 } else {
 
-                    String Nome_pr = Cs_split[0];
-                    String Cognome_pr = Cs_split[1];
-                    String Corso_pr = Cs_split[2];
-                    String Giorno_pr = Cs_split[3];
-                    String Ora_pr = Cs_split[4];
+                    if(tipo.length()==0){
 
-                    DAO_Prenotazioni.Success_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
-                    DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
-                    Rem_tab_pr_all(out, pr_all, s);
+                        Rem_tab_pr_all(out, pr_all, s);
+                    }
+                    else {
+
+
+                        for (int i = 0; i < Cs_rem.length; i++) {
+
+                            String Nome_pr = Cs_split[0];
+                            String Cognome_pr = Cs_split[1];
+                            String Corso_pr = Cs_split[2];
+                            String Giorno_pr = Cs_split[3];
+                            String Ora_pr = Cs_split[4];
+
+                            DAO_Prenotazioni.Success_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                            DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
+                        }
+                        Rem_tab_pr_all(out, pr_all, s);
+                    }
+
                 }
                 break;
         }
@@ -133,7 +170,10 @@ public class Prenotazioni extends HttpServlet {
     private void Rem_tab_rt_free(PrintWriter out, ArrayList<Ripetizione> rt) {
 
 
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "  overflow:auto;  \n" +
+                "  margin-top:20px;\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Nome Docente</th>\n" +
@@ -162,12 +202,15 @@ public class Prenotazioni extends HttpServlet {
         }
 
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table></div> ");
         out.close();
     }
 
     private void Rem_tab_pr(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s) {
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "  overflow:auto;  \n" +
+                "  margin-top:20px;\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Nome Docente</th>\n" +
@@ -196,13 +239,16 @@ public class Prenotazioni extends HttpServlet {
         }
 
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table></div> ");
         out.close();
     }
 
     private void Rem_tab_pr_all (PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
 
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "  overflow:auto;  \n" +
+                "  margin-top:20px;\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Nome Docente</th>\n" +
@@ -223,7 +269,7 @@ public class Prenotazioni extends HttpServlet {
                         "      <td>" + p.getCorso() + "</td>\n" +
                         "      <td>" + p.getGiorno() + "</td>\n" +
                         "      <td>" + p.getOra() + "</td>\n");
-                if(p.getStato().equals("attiva")){
+                if(p.getStato().equals("attiva") && s.getAttribute("Ruolo").equals("Cliente")){
 
                     out.print("<td><input type=\"checkbox\" value=\"" + p.getNome_docente() + "/" + p.getCognome_docente() + "/" + p.getCorso() + "/" + p.getGiorno() + "/" + p.getOra() + "/effettuata\" name=\"Reserv_rem\"></td>\n");
                 }
@@ -234,14 +280,17 @@ public class Prenotazioni extends HttpServlet {
         }
 
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table></div> ");
         out.close();
 
     }
 
     private void Rem_tab_pr_all_Users(PrintWriter out, ArrayList<Prenotazione> pr){
 
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "  overflow:auto;  \n" +
+                "  margin-top:20px;\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Utente</th>\n" +
@@ -269,7 +318,7 @@ public class Prenotazioni extends HttpServlet {
 
         }
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table></div> ");
         out.close();
 
     }

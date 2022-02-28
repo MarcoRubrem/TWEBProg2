@@ -89,22 +89,24 @@ public class Impostazioni_admin_docenti extends HttpServlet {
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome obbligatorio</div>");
                 out.close();
             }
-            if (cognome.equals("")) {
+            else if (cognome.equals("")) {
 
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
                 out.close();
             }
+            else {
 
-            if (DAO_Docenti.Registered_teacher(nome, cognome)) {
+                if (DAO_Docenti.Registered_teacher(nome, cognome)) {
 
-                out.println("<div class=\"alert alert-success\" role=\"alert\">Docente inserito correttamente!</div>");
-                out.close();
+                    out.println("<div class=\"alert alert-success\" role=\"alert\">Docente inserito correttamente!</div>");
+                    out.close();
 
-            } else {
+                } else {
 
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Docente già inserito precedentemente</div>");
-                out.close();
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Docente già inserito precedentemente</div>");
+                    out.close();
 
+                }
             }
         }
 
@@ -115,7 +117,10 @@ public class Impostazioni_admin_docenti extends HttpServlet {
     }
 
     private void Rem_tab(PrintWriter out, ArrayList<Docente> dc) {
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "  overflow:auto;  \n" +
+                "  margin-top:20px;\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Nome</th>\n" +
@@ -135,7 +140,7 @@ public class Impostazioni_admin_docenti extends HttpServlet {
         }
 
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table></div> ");
         out.close();
     }
 }

@@ -87,7 +87,7 @@ public class Impostazioni_admin_corsi extends HttpServlet {
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome del corso obbligatorio</div>");
                 out.close();
             }
-            if (s_cfu.equals("")) {
+            else if (s_cfu.equals("")) {
 
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU obbligatorio</div>");
                 out.close();
@@ -100,17 +100,19 @@ public class Impostazioni_admin_corsi extends HttpServlet {
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU non corretto!</div>");
                 out.close();
             }
+            else {
 
-            if (DAO_Corsi.Registered_Courses(corso, cfu)) {
+                if (DAO_Corsi.Registered_Courses(corso, cfu)) {
 
-                out.println("<div class=\"alert alert-success\" role=\"alert\">Corso inserito correttamente!</div>");
-                out.close();
+                    out.println("<div class=\"alert alert-success\" role=\"alert\">Corso inserito correttamente!</div>");
+                    out.close();
 
-            } else {
+                } else {
 
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Corso già inserito precedentemente</div>");
-                out.close();
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Corso già inserito precedentemente</div>");
+                    out.close();
 
+                }
             }
         }
 
@@ -121,7 +123,10 @@ public class Impostazioni_admin_corsi extends HttpServlet {
     }
 
     private void Rem_tab(PrintWriter out, ArrayList<Corso> cs) {
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "  overflow:auto;  \n" +
+                "  margin-top:20px;\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Corso</th>\n" +
@@ -141,7 +146,8 @@ public class Impostazioni_admin_corsi extends HttpServlet {
         }
 
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table></div> ");
         out.close();
     }
 }
+

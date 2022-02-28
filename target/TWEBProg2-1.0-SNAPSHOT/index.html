@@ -61,9 +61,9 @@
             <li class="nav-item">
                 <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
             </li>
-             </span>
-                <span v-if="Impostazioni_admin">
-                 <li class="nav-item dropdown">
+                </span>
+                <div v-if="Impostazioni_admin">
+                    <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Impostazioni Admin
         </a>
@@ -73,7 +73,8 @@
                 <router-link id="Impostazioni_Corsi" class="dropdown-item" to="/Impostazioni_Corsi">Corsi</router-link>
         </div>
       </li>
-             </span>
+                </div>
+
             </ul>
         </div>
     </nav>
@@ -206,6 +207,7 @@
                             app.Login_view = false;
                             app.intro_view = true;
                             app.prenotazioni = true;
+                            app.Impostazioni_admin = false;
 
                         }
                         else if(text[0] === "Amministratore Sito"){
@@ -216,6 +218,7 @@
                             app.Logout = true;
                             app.Login_view = false;
                             app.intro_view = true;
+                            Prenotazioni.All_rev = true;
                             app.Impostazioni_admin = true;
                             app.prenotazioni = true;
 
@@ -307,6 +310,7 @@
                             app.login = false;
                             app.intro_view = true;
                             app.prenotazioni = true;
+                            app.Impostazioni_admin = false;
 
                         }
                         else if(text[0] === "Amministratore Sito"){
@@ -318,6 +322,7 @@
                             app.login = false;
                             app.intro_view = true;
                             app.Impostazioni_admin = true;
+                            Prenotazioni.All_rev = true;
                             app.prenotazioni = true;
 
                         }
@@ -335,13 +340,21 @@
 
     const Prenotazioni = {
 
+        data() {
+            return {
+
+                All_rev: app.Impostazioni_admin
+
+            }
+        },
+
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
             '  <button v-on:click="Add_reservation" type="button" class="btn btn-secondary">Effettua una prenotazione</button>\n' +
             '  <button v-on:click="Remove_reservation" type="button" class="btn btn-secondary">Cancella una prenotazione</button>\n' +
             '  <button v-on:click="Your_reservation" type="button" class="btn btn-secondary">Le tue prenotazioni</button>\n' +
-            '<span v-if="Impostazioni_admin"><button v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></span>\n' +
+            '<div v-if="All_rev"><button v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></div>' +
             '</div>' +
             '<div id="result"></div>' +
             '        <div class="sub-button">\n' +
@@ -350,6 +363,7 @@
             '</article>',
 
         methods: {
+
 
             All_reservations: function(){
 
@@ -450,9 +464,11 @@
             '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
             '    <form class="form-container">\n' +
             '        <h1>Aggiungi una ripetizione!</h1>\n' +
+            '    <div class="form-group">\n' +
+            '        <div id="accerr"></div>\n' +
+            '</div>' +
             '<div class="form-row">\n' +
             '    <div class="form-group col-md-6">\n' +
-            '        <div id="accerr"></div>\n' +
             '      <label for="Nome_Docente"></label>\n' +
             '      <input type="text" class="form-control" id="Nome_Docente" placeholder="Nome Docente">\n' +
             '    </div>\n' +
@@ -584,6 +600,7 @@
 
     var Docenti_admin = {
 
+
         data() {
             return {
 
@@ -597,8 +614,8 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Aggiungi_Docenti" type="button" class="btn btn-secondary">Aggiungi Docenti</button>\n' +
-            '  <button v-on:click="Rimuovi_Docenti" type="button" class="btn btn-secondary">Rimuovi Docenti</button>\n' +
+            '  <button v-on:click="Aggiungi_Docenti" type="button" class="btn btn-secondary">Aggiungi docenti</button>\n' +
+            '  <button v-on:click="Rimuovi_Docenti" type="button" class="btn btn-secondary">Rimuovi docenti</button>\n' +
             '</div>' +
             '<div v-if="add">' +
             '<div class="container-fluid bg">\n' +
@@ -614,7 +631,7 @@
             '        </div>\n' +
             '        <div class="form-group">\n' +
             '            <label for="Cognome"></label>\n' +
-            '            <input type="text" class="form-control" id="Cognome" placeholder="Cognome">\n' +
+            '            <input type="text" class="form-control" id="Cognome" placeholder="Cognome" >\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
             '            <button type="button" id="Add_teachers" v-on:click="Add_teachers" class="btn btn-primary">Aggiungi</button>\n' +
@@ -707,6 +724,7 @@
             }
 
         }
+
     }
 
     var Corsi_admin = {
@@ -863,7 +881,7 @@
                 account: '',
                 Login_view: true,
                 Logout: false,
-                Impostazioni_admin: true,
+                Impostazioni_admin: false,
                 prenotazioni: false,
                 seen: true
             }

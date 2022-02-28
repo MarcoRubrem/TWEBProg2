@@ -73,6 +73,7 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
             }
             else {
 
+
                 String[] rt_rem = nome.split(",");
 
                 for (int i = 0; i < rt_rem.length; i++) {
@@ -98,28 +99,31 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome obbligatorio</div>");
                 out.close();
             }
-            if (cognome.equals("")) {
+            else if (cognome.equals("")) {
 
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
                 out.close();
             }
-            if(corso.equals("")){
+            else if(corso.equals("")){
 
                 out.println("<div class=\"alert alert-danger\" role=\"alert\">Corso obbligatorio</div>");
                 out.close();
             }
+            else {
 
-            if (DAO_Ripetizioni.Registered_repetition(nome, cognome, corso, giorno, ora)) {
+                if (DAO_Ripetizioni.Registered_repetition(nome, cognome, corso, giorno, ora)) {
 
-                out.println("<div class=\"alert alert-success\" role=\"alert\">Ripetizione inserita correttamente!</div>");
-                out.close();
+                    out.println("<div class=\"alert alert-success\" role=\"alert\">Ripetizione inserita correttamente!</div>");
+                    out.close();
 
-            } else {
+                } else {
 
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Ripetizione già registrata</div>");
-                out.close();
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Ripetizione già registrata</div>");
+                    out.close();
 
+                }
             }
+
         }
 
 
@@ -129,7 +133,10 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
     }
 
     private void Rem_tab(PrintWriter out, ArrayList<Ripetizione> rt) {
-        out.print("<table class=\"table table-striped\">\n" +
+        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
+                "    overflow:auto;\n" +
+                "    margin-top:20px\">" +
+                "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Nome</th>\n" +
@@ -155,7 +162,8 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
         }
 
         out.print("</tbody>\n" +
-                "</table> ");
+                "</table> " +
+                "</div>");
         out.close();
     }
 }

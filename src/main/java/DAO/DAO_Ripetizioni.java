@@ -46,14 +46,14 @@ public class DAO_Ripetizioni {
 
             for(Ripetizione cs: c){
 
-                if(cs.getCognome().equals(Cognome) && cs.getNome().equals(Nome) && cs.getCorso().equals(corso) && cs.getGiorno().equals(giorno) && cs.getOra().equals(ora) && cs.getStato().equals(stato)){
+                if(cs.getGiorno().equals(giorno) && cs.getOra().equals(ora)){
 
                     DAO.Disconnected();
                     return false;
                 }
             }
 
-            st.executeUpdate("Insert into ripetizione values('" + Nome + "', '" + Cognome + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + stato + "')");
+            st.executeUpdate("Insert into ripetizione values('" + Nome + "', '" + Cognome + "', '" + corso + "', '" + giorno + "', '" + ora + ":00:00', '" + stato + "')");
 
         } catch (Exception e) {
 

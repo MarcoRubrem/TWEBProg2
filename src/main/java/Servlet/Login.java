@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
         }
 
         s.setAttribute("account", account);
-        s.setAttribute("pw", pw);
+
 
         if (DAO_utente.Logged_user(account, pw).equals("user_not_found")) {
 
@@ -75,6 +75,7 @@ public class Login extends HttpServlet {
         else{
 
             out.print(DAO_utente.Logged_user(account, pw)+"|"+s.getAttribute("account"));
+            s.setAttribute("Ruolo", DAO_utente.Logged_user(account, pw));
             out.flush();
             out.close();
         }

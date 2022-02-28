@@ -58,7 +58,7 @@ public class Registrazione extends HttpServlet {
         }
 
         s.setAttribute("account", account);
-        s.setAttribute("pw", pw);
+        s.setAttribute("Ruolo", radio);
 
         if (DAO_utente.Registered_User(account, pw, radio).equals("Cliente")) {
 
