@@ -20,7 +20,7 @@ public class DAO_Ripetizioni {
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM ripetizione");
+            rs = st.executeQuery("SELECT * FROM ripetizione order by ora");
 
             while (rs.next()) {
                 Ripetizione r = new Ripetizione(rs.getString("nome"), rs.getString("cognome"), rs.getString("corso"), rs.getString("giorno"), rs.getTime("ora"), rs.getString("stato"));
@@ -46,7 +46,7 @@ public class DAO_Ripetizioni {
 
             for(Ripetizione cs: c){
 
-                if(cs.getGiorno().equals(giorno) && cs.getOra().equals(ora)){
+                if(cs.getNome().equals(Nome) && cs.getCognome().equals(Cognome) && cs.getCorso().equals(corso) && cs.getGiorno().equals(giorno) && cs.getOra().equals(ora)){
 
                     DAO.Disconnected();
                     return false;
@@ -54,6 +54,7 @@ public class DAO_Ripetizioni {
             }
 
             st.executeUpdate("Insert into ripetizione values('" + Nome + "', '" + Cognome + "', '" + corso + "', '" + giorno + "', '" + ora + ":00:00', '" + stato + "')");
+            DAO_Insegnamento.Registered_Lessons(Nome, Cognome, corso);
 
         } catch (Exception e) {
 

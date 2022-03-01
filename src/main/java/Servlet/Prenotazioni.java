@@ -84,83 +84,38 @@ public class Prenotazioni extends HttpServlet {
             default:
 
                 String[] Cs_rem = tipo.split(",");
-                String[] Cs_split = new String[Cs_rem.length*5];
+
                 for (int i = 0; i < Cs_rem.length; i++) {
 
-                    Cs_split = Cs_rem[i].split("/");
-                }
+                    String[] Cs_split = Cs_rem[i].split("/");
+                    String Nome_pr = Cs_split[0];
+                    String Cognome_pr = Cs_split[1];
+                    String Corso_pr = Cs_split[2];
+                    String Giorno_pr = Cs_split[3];
+                    String Ora_pr = Cs_split[4];
+                    String azione = Cs_split[5];
 
-                if (Cs_split[Cs_split.length - 1].equals("prenota")) {
+                    if (azione.equals("prenota")) {
 
-                    if(tipo.length()==0){
-
-                        Rem_tab_pr_all(out, pr_all, s);
-                    }
-                    else {
-
-                        for (int i = 0; i < Cs_rem.length; i++) {
-
-                            String Nome_pr = Cs_split[0];
-                            String Cognome_pr = Cs_split[1];
-                            String Corso_pr = Cs_split[2];
-                            String Giorno_pr = Cs_split[3];
-                            String Ora_pr = Cs_split[4];
-
-                            DAO_Ripetizioni.Set_Repetitions_lock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
-                            DAO_Prenotazioni.Registered_Booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
-
-                        }
-                        Rem_tab_pr_all(out, pr_all, s);
+                        DAO_Ripetizioni.Set_Repetitions_lock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
+                        DAO_Prenotazioni.Registered_Booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                        Rem_tab_rt_free(out, rt);
 
                     }
-                } else if (Cs_split[Cs_split.length - 1].equals("cancella")) {
+                    else if (azione.equals("cancella")) {
 
-                    if(tipo.length()==0){
-
-                        Rem_tab_pr(out, pr_all, s);
-                    }
-                    else {
-
-                        for (int i = 0; i < Cs_rem.length; i++) {
-
-                            String Nome_pr = Cs_split[0];
-                            String Cognome_pr = Cs_split[1];
-                            String Corso_pr = Cs_split[2];
-                            String Giorno_pr = Cs_split[3];
-                            String Ora_pr = Cs_split[4];
-
-                            DAO_Prenotazioni.Cancel_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
-                            DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
-                        }
+                        DAO_Prenotazioni.Cancel_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                        DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
                         Rem_tab_pr(out, pr_all, s);
 
-
-                    }
-
-
-                } else {
-
-                    if(tipo.length()==0){
-
-                        Rem_tab_pr_all(out, pr_all, s);
                     }
                     else {
 
-
-                        for (int i = 0; i < Cs_rem.length; i++) {
-
-                            String Nome_pr = Cs_split[0];
-                            String Cognome_pr = Cs_split[1];
-                            String Corso_pr = Cs_split[2];
-                            String Giorno_pr = Cs_split[3];
-                            String Ora_pr = Cs_split[4];
-
-                            DAO_Prenotazioni.Success_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
-                            DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
-                        }
+                        DAO_Prenotazioni.Success_booking((String) s.getAttribute("account"), Corso_pr, Giorno_pr, Ora_pr, Nome_pr, Cognome_pr);
+                        DAO_Ripetizioni.Set_Repetitions_Unlock(Nome_pr, Cognome_pr, Corso_pr, Giorno_pr, Ora_pr);
                         Rem_tab_pr_all(out, pr_all, s);
-                    }
 
+                    }
                 }
                 break;
         }

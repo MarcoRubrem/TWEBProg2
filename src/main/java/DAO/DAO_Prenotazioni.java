@@ -24,7 +24,7 @@ public class DAO_Prenotazioni{
         try {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM prenotazione where utente like '"+ utente +"'");
+            rs = st.executeQuery("SELECT * FROM prenotazione where utente like '"+ utente +"' order by stato");
 
             while (rs.next()) {
 
@@ -54,7 +54,7 @@ public class DAO_Prenotazioni{
 
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
-            rs = st.executeQuery("SELECT * FROM prenotazione");
+            rs = st.executeQuery("SELECT * FROM prenotazione order by stato");
 
             while (rs.next()) {
 

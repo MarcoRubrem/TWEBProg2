@@ -114,8 +114,7 @@
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
             '  <button v-on:click="Calendar" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
-            '  <button v-on:click="Corsi" type="button" class="btn btn-secondary">Corsi</button>\n' +
-            '  <button v-on:click="Docenti" type="button" class="btn btn-secondary">Docenti</button>\n' +
+            '  <button v-on:click="Insegnamenti" type="button" class="btn btn-secondary">Tutti gli Insegnamenti</button>\n' +
             '</div>' +
             '<div id="result"></div>' +
             '</article>',
@@ -129,6 +128,14 @@
                 xhrObj.onreadystatechange = Home.methods.updatePage;
                 xhrObj.send(null);
 
+            },
+
+            Insegnamenti: function(){
+
+                const url = "Home?param=Insegnamenti";
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange = Home.methods.updatePage;
+                xhrObj.send(null);
             },
 
             updatePage: function () {
@@ -158,11 +165,11 @@
             '        <h1>Accedi</h1>\n' +
             '        <div class="form-group">\n' +
             '        <div id="accerr"></div>\n' +
-            '            <label for="account"></label>\n' +
+            '            <label for="account">Account</label>\n' +
             '            <input type="text" class="form-control" id="account" placeholder="Account">\n' +
             '        </div>\n' +
             '        <div class="form-group">\n' +
-            '            <label for="pw"></label>\n' +
+            '            <label for="pw">Password</label>\n' +
             '            <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
@@ -246,11 +253,11 @@
             '        <h1>Registrati</h1>\n' +
             '    <div class="form-group">\n' +
             '        <div id="accerr"></div>\n' +
-            '        <label for="account"></label>\n' +
+            '        <label for="account">Account</label>\n' +
             '        <input type="text" class="form-control" id="account" placeholder="Account">\n' +
             '    </div>\n' +
             '    <div class="form-group">\n' +
-            '        <label for="pw"></label>\n' +
+            '        <label for="pw">Password</label>\n' +
             '        <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
             '    </div>\n' +
             '<div class="Role">' +
@@ -469,11 +476,11 @@
             '</div>' +
             '<div class="form-row">\n' +
             '    <div class="form-group col-md-6">\n' +
-            '      <label for="Nome_Docente"></label>\n' +
+            '      <label for="Nome_Docente">Nome Docente</label>\n' +
             '      <input type="text" class="form-control" id="Nome_Docente" placeholder="Nome Docente">\n' +
             '    </div>\n' +
             '    <div class="form-group col-md-6">\n' +
-            '      <label for="Cognome_docente"></label>\n' +
+            '      <label for="Cognome_docente">Cognome docente</label>\n' +
             '      <input type="text" class="form-control" id="Cognome_docente" placeholder="Cognome docente">\n' +
             '    </div>\n' +
             '  </div>\n' +
@@ -483,7 +490,7 @@
             '  </div>' +
             '<div class="form-row">\n' +
             '    <div class="form-group col-md-6">\n' +
-            '      <label for="Giorno"></label>\n' +
+            '      <label for="Giorno">Giorno</label>\n' +
             '       <select class="custom-select mr-sm-2" id="Giorno">\n' +
             '        <option value="Lunedì" selected>Lunedì</option>\n' +
             '        <option value="Martedì">Martedì</option>\n' +
@@ -493,7 +500,7 @@
             '      </select>\n' +
             '    </div>\n' +
             '    <div class="form-group col-md-6">\n' +
-            '      <label for="Ora"></label>\n' +
+            '      <label for="Ora">Ora</label>\n' +
             '       <select class="custom-select mr-sm-2" id="Ora">\n' +
             '        <option value="15" selected>15:00</option>\n' +
             '        <option value="16">16:00</option>\n' +
@@ -626,11 +633,11 @@
             '        <h1>Aggiungi un docente!</h1>\n' +
             '        <div class="form-group">\n' +
             '        <div id="accerr"></div>\n' +
-            '            <label for="Nome"></label>\n' +
+            '            <label for="Nome">Nome</label>\n' +
             '            <input type="text" class="form-control" id="Nome" placeholder="Nome">\n' +
             '        </div>\n' +
             '        <div class="form-group">\n' +
-            '            <label for="Cognome"></label>\n' +
+            '            <label for="Cognome">Cognome</label>\n' +
             '            <input type="text" class="form-control" id="Cognome" placeholder="Cognome" >\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
@@ -754,11 +761,11 @@
             '        <h1>Aggiungi un corso!</h1>\n' +
             '        <div class="form-group">\n' +
             '        <div id="accerr"></div>\n' +
-            '            <label for="corso"></label>\n' +
+            '            <label for="corso">Corso</label>\n' +
             '            <input type="text" class="form-control" id="corso" placeholder="Corso">\n' +
             '        </div>\n' +
             '        <div class="form-group">\n' +
-            '            <label for="cfu"></label>\n' +
+            '            <label for="cfu">CFU</label>\n' +
             '            <input type="number" class="form-control" id="cfu" placeholder="CFU" value="3" min="1" max="30">\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
