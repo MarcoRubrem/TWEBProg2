@@ -131,8 +131,7 @@ public class Prenotazioni extends HttpServlet {
                 "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
-                "      <th scope=\"col\">Nome Docente</th>\n" +
-                "      <th scope=\"col\">Cognome Docente</th>\n" +
+                "      <th scope=\"col\">Docente</th>\n" +
                 "      <th scope=\"col\">Corso</th>\n" +
                 "      <th scope=\"col\">Giorno</th>\n" +
                 "      <th scope=\"col\">Ora</th>\n" +
@@ -146,8 +145,7 @@ public class Prenotazioni extends HttpServlet {
             if(r.getStato().equals("libero")) {
 
                 out.print("<tr>\n" +
-                        "      <td>" + r.getNome() + "</td>\n" +
-                        "      <td>" + r.getCognome() + "</td>\n" +
+                        "      <td>" + r.getNome() + " " + r.getCognome() + "</td>\n" +
                         "      <td>" + r.getCorso() + "</td>\n" +
                         "      <td>" + r.getGiorno() + "</td>\n" +
                         "      <td>" + r.getOra() + "</td>\n" +
@@ -168,8 +166,7 @@ public class Prenotazioni extends HttpServlet {
                 "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
-                "      <th scope=\"col\">Nome Docente</th>\n" +
-                "      <th scope=\"col\">Cognome Docente</th>\n" +
+                "      <th scope=\"col\">Docente</th>\n" +
                 "      <th scope=\"col\">Corso</th>\n" +
                 "      <th scope=\"col\">Giorno</th>\n" +
                 "      <th scope=\"col\">Ora</th>\n" +
@@ -183,8 +180,7 @@ public class Prenotazioni extends HttpServlet {
             if(p.getUtente().equals(s.getAttribute("account")) && p.getStato().equals("attiva")) {
 
                 out.print("<tr>\n" +
-                        "      <td>" + p.getNome_docente() + "</td>\n" +
-                        "      <td>" + p.getCognome_docente() + "</td>\n" +
+                        "      <td>" + p.getNome_docente() + " " + p.getCognome_docente() + "</td>\n" +
                         "      <td>" + p.getCorso() + "</td>\n" +
                         "      <td>" + p.getGiorno() + "</td>\n" +
                         "      <td>" + p.getOra() + "</td>\n" +
@@ -206,8 +202,7 @@ public class Prenotazioni extends HttpServlet {
                 "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
-                "      <th scope=\"col\">Nome Docente</th>\n" +
-                "      <th scope=\"col\">Cognome Docente</th>\n" +
+                "      <th scope=\"col\">Docente</th>\n" +
                 "      <th scope=\"col\">Corso</th>\n" +
                 "      <th scope=\"col\">Giorno</th>\n" +
                 "      <th scope=\"col\">Ora</th>\n" +
@@ -219,8 +214,7 @@ public class Prenotazioni extends HttpServlet {
         for(Prenotazione p: pr){
 
                 out.print("<tr>\n" +
-                        "      <td>" + p.getNome_docente() + "</td>\n" +
-                        "      <td>" + p.getCognome_docente() + "</td>\n" +
+                        "      <td>" + p.getNome_docente() + " " + p.getCognome_docente() + "</td>\n" +
                         "      <td>" + p.getCorso() + "</td>\n" +
                         "      <td>" + p.getGiorno() + "</td>\n" +
                         "      <td>" + p.getOra() + "</td>\n");
@@ -249,8 +243,7 @@ public class Prenotazioni extends HttpServlet {
                 "  <thead>\n" +
                 "    <tr>\n" +
                 "      <th scope=\"col\">Utente</th>\n" +
-                "      <th scope=\"col\">Nome Docente</th>\n" +
-                "      <th scope=\"col\">Cognome Docente</th>\n" +
+                "      <th scope=\"col\">Docente</th>\n" +
                 "      <th scope=\"col\">Corso</th>\n" +
                 "      <th scope=\"col\">Giorno</th>\n" +
                 "      <th scope=\"col\">Ora</th>\n" +
@@ -262,8 +255,7 @@ public class Prenotazioni extends HttpServlet {
         for(Prenotazione p: pr){
 
             out.print("<tr>\n" +
-                    "      <td>" + p.getUtente() + "</td>\n" +
-                    "      <td>" + p.getNome_docente() + "</td>\n" +
+                    "      <td>" + p.getUtente() + " " + p.getNome_docente() + "</td>\n" +
                     "      <td>" + p.getCognome_docente() + "</td>\n" +
                     "      <td>" + p.getCorso() + "</td>\n" +
                     "      <td>" + p.getGiorno() + "</td>\n" +

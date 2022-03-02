@@ -139,8 +139,7 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                 "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +
-                "      <th scope=\"col\">Nome</th>\n" +
-                "      <th scope=\"col\">Cognome</th>\n" +
+                "      <th scope=\"col\">Docente</th>\n" +
                 "      <th scope=\"col\">Corso</th>\n" +
                 "      <th scope=\"col\">Giorno</th>\n" +
                 "      <th scope=\"col\">Ora</th>\n" +
@@ -152,8 +151,7 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
         for(Ripetizione r: rt){
 
             out.print("<tr>\n" +
-                    "      <td>"+r.getNome()+"</td>\n" +
-                    "      <td>"+r.getCognome()+"</td>\n" +
+                    "      <td>"+r.getNome()+" "+r.getCognome()+"</td>\n" +
                     "      <td>"+r.getCorso()+"</td>\n" +
                     "      <td>"+r.getGiorno()+"</td>\n" +
                     "      <td>"+r.getOra()+"</td>\n" +

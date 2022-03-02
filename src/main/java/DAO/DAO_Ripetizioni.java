@@ -55,6 +55,7 @@ public class DAO_Ripetizioni {
 
             st.executeUpdate("Insert into ripetizione values('" + Nome + "', '" + Cognome + "', '" + corso + "', '" + giorno + "', '" + ora + ":00:00', '" + stato + "')");
             DAO_Insegnamento.Registered_Lessons(Nome, Cognome, corso);
+            DAO_Docenti.Registered_teacher(Nome, Cognome);
 
         } catch (Exception e) {
 

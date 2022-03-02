@@ -98,8 +98,7 @@ public class Home extends HttpServlet {
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +
-                    "      <th scope=\"col\">Nome Docente</th>\n" +
-                    "      <th scope=\"col\">Cognome Docente</th>\n" +
+                    "      <th scope=\"col\">Docente</th>\n" +
                     "      <th scope=\"col\">Corso</th>\n" +
                     "    </tr>\n" +
                     "  </thead>\n" +
@@ -108,8 +107,7 @@ public class Home extends HttpServlet {
             for(Insegnamento is: i){
 
                 out.print("<tr>\n" +
-                            "      <td>" + is.getNome_docente() + "</td>\n" +
-                            "      <td>" + is.getCognome_docente() + "</td>\n" +
+                            "      <td>" + is.getNome_docente() + " " + is.getCognome_docente() + "</td>\n" +
                             "      <td>" + is.getCorso() + "</td>\n" +
                             "    </tr>\n");
             }
