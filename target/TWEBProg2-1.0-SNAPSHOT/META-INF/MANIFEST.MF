@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
-Built-By: rumon
-Build-Jdk: version 13
+Built-By: Utente
+Build-Jdk: 13.0.2
 
