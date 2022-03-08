@@ -13,7 +13,7 @@ public class DAO {
     private String message;
     private static final String url1 = "jdbc:mysql://localhost:3306/dbprog";
     private static final String user = "root";
-    private static final String password = "tweb";
+    private static final String password = "";
     private static Connection conn1 = null;
 
     public static Connection getConn1() {
