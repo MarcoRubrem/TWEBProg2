@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class DAO {
 
     private String message;
-    private static final String url1 = "jdbc:mysql://localhost:3306/miodb";
+    private static final String url1 = "jdbc:mysql://localhost:3306/dbprog";
     private static final String user = "root";
     private static final String password = "tweb";
     private static Connection conn1 = null;

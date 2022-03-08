@@ -46,6 +46,15 @@ public class DAO_Docenti {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
+            for(Docente dc: d){
+
+                if(dc.getNome().equals(Nome) && dc.getCognome().equals(Cognome)) {
+
+                    DAO.Disconnected();
+                    return false;
+                }
+            }
+
             st.executeUpdate("INSERT INTO `docente`(`Nome`, `Cognome`) VALUES ('"+Nome+"','"+Cognome+"')");
             return true;
 

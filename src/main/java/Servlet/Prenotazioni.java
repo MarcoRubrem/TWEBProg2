@@ -255,8 +255,8 @@ public class Prenotazioni extends HttpServlet {
         for(Prenotazione p: pr){
 
             out.print("<tr>\n" +
-                    "      <td>" + p.getUtente() + " " + p.getNome_docente() + "</td>\n" +
-                    "      <td>" + p.getCognome_docente() + "</td>\n" +
+                    "      <td>" + p.getUtente() +  "</td>\n" +
+                    "      <td>" + p.getNome_docente()  + " " + p.getCognome_docente() +"</td>\n" +
                     "      <td>" + p.getCorso() + "</td>\n" +
                     "      <td>" + p.getGiorno() + "</td>\n" +
                     "      <td>" + p.getOra() + "</td>\n" +
