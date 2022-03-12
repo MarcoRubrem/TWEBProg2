@@ -46,20 +46,22 @@ public class DAO_utente {
             DAO.registerDriver();
             Statement st = getConn1().createStatement();
 
-            for(Utente us: u){
+            for(Utente ut: u) {
 
-                if(us.getAccount().equals(account)){
+                if(ut.getAccount().equals(account) && ut.getPassword().equals(pw)){
 
                     DAO.Disconnected();
                     return "User already registered";
                 }
-            }
 
+            }
             st.executeUpdate("Insert into utente values('" + account + "', '" + pw + "', '" + role + "')");
 
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
+            DAO.Disconnected();
+            return "User already registered";
         }
 
         DAO.Disconnected();

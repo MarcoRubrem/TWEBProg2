@@ -37,6 +37,8 @@ public class Registrazione extends HttpServlet {
     }
 
     public void ProcessRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+
+
         response.setContentType("text/html");
         String account=request.getParameter("account");
         String pw=request.getParameter("pw");
@@ -60,16 +62,18 @@ public class Registrazione extends HttpServlet {
         s.setAttribute("account", account);
         s.setAttribute("Ruolo", radio);
 
-        if (DAO_utente.Registered_User(account, pw, radio).equals("Cliente")) {
+        String ris = DAO_utente.Registered_User(account, pw, radio);
+
+        if (ris.equals("Cliente")) {
 
             out.print("Cliente|"+s.getAttribute("account"));
             out.flush();
             out.close();
 
         }
-        else if(DAO_utente.Registered_User(account, pw, radio).equals("Amministratore Sito")){
+        else if(ris.equals("Amministratore")){
 
-            out.print("Amministratore Sito|"+s.getAttribute("account"));
+            out.print("Amministratore|"+s.getAttribute("account"));
             out.flush();
             out.close();
         }

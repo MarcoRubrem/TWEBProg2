@@ -64,9 +64,10 @@ public class Login extends HttpServlet {
         }
 
         s.setAttribute("account", account);
+        String ris = DAO_utente.Logged_user(account, pw);
 
 
-        if (DAO_utente.Logged_user(account, pw).equals("user_not_found")) {
+        if (ris.equals("user_not_found")) {
 
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Attenzione: Nome account o password non corretti!</div>");
             out.close();
@@ -74,8 +75,8 @@ public class Login extends HttpServlet {
         }
         else{
 
-            out.print(DAO_utente.Logged_user(account, pw)+"|"+s.getAttribute("account"));
-            s.setAttribute("Ruolo", DAO_utente.Logged_user(account, pw));
+            out.print(ris+"|"+s.getAttribute("account"));
+            s.setAttribute("Ruolo", ris);
             out.flush();
             out.close();
         }

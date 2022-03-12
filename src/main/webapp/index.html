@@ -76,7 +76,9 @@
 
 
     <header>
+        <span v-if="Reg_view"><h1 class="intro">Benvenuto {{account}}! Ora puoi iniziare a prenotare</h1></span>
         <span v-if="intro_view"><h1 class="intro">Bentornato {{account}}! E' bello riaverti qui.</h1></span><br>
+
         <h1 class="intro">{{message}}</h1>
     </header>
 
@@ -210,9 +212,9 @@
                             app.intro_view = true;
                             app.prenotazioni = true;
                             app.Impostazioni_admin = false;
-
+                            app.Reg_view = false;
                         }
-                        else if(text[0] === "Amministratore Sito"){
+                        else if(text[0] === "Amministratore"){
 
                             router.push('/');
                             app.account = text[1];
@@ -223,6 +225,8 @@
                             Prenotazioni.All_rev = true;
                             app.Impostazioni_admin = true;
                             app.prenotazioni = true;
+                            app.Reg_view = false;
+
 
                         }
                         else {
@@ -263,8 +267,8 @@
             '        </label>\n' +
             '    </div>\n' +
             '    <div class="form-check-inline">\n' +
-            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore Sito" value="Amministratore Sito">\n' +
-            '        <label class="form-check-label" for="Amministratore Sito">\n' +
+            '        <input class="form-check-input" type="radio" name="ruolo" id="Amministratore" value="Amministratore">\n' +
+            '        <label class="form-check-label" for="Amministratore">\n' +
             '            Amministratore\n' +
             '        </label>\n' +
             '    </div>\n' +
@@ -310,22 +314,24 @@
                             app.message = '';
                             app.Logout = true;
                             app.Login_view = false;
-                            app.intro_view = true;
+                            app.intro_view = false;
                             app.prenotazioni = true;
                             app.Impostazioni_admin = false;
+                            app.Reg_view = true;
 
                         }
-                        else if(text[0] === "Amministratore Sito"){
+                        else if(text[0] === "Amministratore"){
 
                             router.push('/');
                             app.account = text[1];
                             app.message = '';
                             app.Logout = true;
                             app.Login_view = false;
-                            app.intro_view = true;
+                            app.intro_view = false;
                             Prenotazioni.All_rev = true;
                             app.Impostazioni_admin = true;
                             app.prenotazioni = true;
+                            app.Reg_view = true;
 
                         }
                         else {
@@ -346,7 +352,6 @@
             return {
 
                 All_rev: app.Impostazioni_admin,
-                tipo: ''
 
             }
         },
@@ -354,14 +359,14 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Add_reservation" type="button" class="btn btn-secondary">Effettua una prenotazione</button>\n' +
+            '  <button v-on:click="Add_reservation" type="button" class="btn btn-secondary">Prenota una ripetizione</button>\n' +
             '  <button v-on:click="Remove_reservation" type="button" class="btn btn-secondary">Cancella una prenotazione</button>\n' +
-            '  <button v-on:click="Your_reservation" type="button" class="btn btn-secondary">Le tue prenotazioni</button>\n' +
+            '  <button v-on:click="Your_reservation" type="button" class="btn btn-secondary">Effettua colloquio</button>\n' +
             '<div v-if="All_rev"><button v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></div>' +
             '</div>' +
             '<div id="result"></div>' +
             '        <div class="sub-button">\n' +
-            '            <button type="button" id="Exec_reserv" v-on:click="Exec_reserv" class="btn btn-primary">Esegui/aggiorna</button>\n' +
+            '            <button type="button" id="Exec_reserv" v-on:click="Exec_reserv" class="btn btn-primary">Esegui/Lista Prenotazioni</button>\n' +
             '        </div>\n' +
             '</article>',
 
@@ -369,8 +374,6 @@
 
 
             All_reservations: function(){
-
-                Prenotazioni.data().tipo='Tutti_utenti';
 
                 const url = "Prenotazioni?tipo=Tutti_utenti";
 
@@ -383,7 +386,6 @@
 
             Add_reservation: function (){
 
-                Prenotazioni.data().tipo='libere';
                 const url = "Prenotazioni?tipo=libere";
 
                 xhrObj.open("post", url, true);
@@ -403,7 +405,6 @@
 
             Your_reservation: function (){
 
-                Prenotazioni.data().tipo='tutte';
                 const url = "Prenotazioni?tipo=tutte";
 
                 xhrObj.open("post", url, true);
@@ -413,25 +414,18 @@
 
             Exec_reserv: function (){
 
-                let url;
+                var url;
 
                 var rem = document.querySelectorAll('input[name="Reserv_rem"]:checked');
                 var arr = [];
 
-                if(rem.length === 0){
-
-                    url = "Prenotazioni?tipo="+Prenotazioni.data().tipo;
+                for (var x = 0, l = rem.length; x < l; x++) {
+                    arr.push(rem[x].value);
                 }
-                else {
 
-                    for (var x = 0, l = rem.length; x < l; x++) {
-                        arr.push(rem[x].value);
-                    }
+                var str = arr.join(',');
 
-                    var str = arr.join(',');
-
-                    url = "Prenotazioni?tipo=" + str;
-                }
+                url = "Prenotazioni?tipo=" + str;
 
                 xhrObj.open("post", url, true);
                 xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
@@ -899,7 +893,8 @@
                 Logout: false,
                 Impostazioni_admin: false,
                 prenotazioni: false,
-                seen: true
+                seen: true,
+                Reg_view: false
             }
         },
         methods: {
@@ -913,7 +908,7 @@
 
             },
 
-           updatePage() {
+            updatePage() {
 
                 if (xhrObj.readyState === 4) {
                     if (xhrObj.status === 200) {
@@ -928,10 +923,11 @@
                             app.Logout = false;
                             app.Impostazioni_admin = false;
                             app.prenotazioni = false;
+                            app.Reg_view = false;
                         }
                     }
                 }
-           }
+            }
         }
     }).use(router).mount('#app')
 </script>
