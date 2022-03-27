@@ -129,147 +129,174 @@ public class Prenotazioni extends HttpServlet {
 
     private void Rem_tab_rt_free(PrintWriter out, ArrayList<Ripetizione> rt) {
 
+        if(rt.size()==0){
 
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Docente</th>\n" +
-                "      <th scope=\"col\">Corso</th>\n" +
-                "      <th scope=\"col\">Giorno</th>\n" +
-                "      <th scope=\"col\">Ora</th>\n" +
-                "      <th scope=\"col\">Prenota</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
+            out.print("<h1>Ci dispiace, non ci sono ripetizioni disponibili al momento</h1>");
 
-        for(Ripetizione r: rt){
-
-            if(r.getStato().equals("libero")) {
-
-                out.print("<tr>\n" +
-                        "      <td>" + r.getNome() + " " + r.getCognome() + "</td>\n" +
-                        "      <td>" + r.getCorso() + "</td>\n" +
-                        "      <td>" + r.getGiorno() + "</td>\n" +
-                        "      <td>" + r.getOra() + "</td>\n" +
-                        "      <td><input type=\"checkbox\" value=\"" + r.getNome() + "/" + r.getCognome() + "/" + r.getCorso() + "/" + r.getGiorno() + "/" + r.getOra() + "/prenota\" name=\"Reserv_rem\"></td>\n" +
-                        "    </tr>\n");
-            }
         }
+        else {
 
-        out.print("</tbody>\n" +
-                "</table></div> ");
+
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Docente</th>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">Giorno</th>\n" +
+                    "      <th scope=\"col\">Ora</th>\n" +
+                    "      <th scope=\"col\">Prenota</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
+
+            for (Ripetizione r : rt) {
+
+                if (r.getStato().equals("libero")) {
+
+                    out.print("<tr>\n" +
+                            "      <td>" + r.getNome() + " " + r.getCognome() + "</td>\n" +
+                            "      <td>" + r.getCorso() + "</td>\n" +
+                            "      <td>" + r.getGiorno() + "</td>\n" +
+                            "      <td>" + r.getOra() + "</td>\n" +
+                            "      <td><input type=\"checkbox\" value=\"" + r.getNome() + "/" + r.getCognome() + "/" + r.getCorso() + "/" + r.getGiorno() + "/" + r.getOra() + "/prenota\" name=\"Reserv_rem\"></td>\n" +
+                            "    </tr>\n");
+                }
+            }
+
+            out.print("</tbody>\n" +
+                    "</table></div> ");
+        }
         out.close();
     }
 
     private void Rem_tab_pr(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s) {
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Docente</th>\n" +
-                "      <th scope=\"col\">Corso</th>\n" +
-                "      <th scope=\"col\">Giorno</th>\n" +
-                "      <th scope=\"col\">Ora</th>\n" +
-                "      <th scope=\"col\">Cancella</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
 
-        for(Prenotazione p: pr){
+        if(pr.size()==0){
 
-            if(p.getStato().equals("attiva")) {
+            out.print("<h1>Non hai ancora effettuato alcuna prenotazione!</h1>");
+
+        }
+        else {
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Docente</th>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">Giorno</th>\n" +
+                    "      <th scope=\"col\">Ora</th>\n" +
+                    "      <th scope=\"col\">Cancella</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
+
+            for (Prenotazione p : pr) {
+
+                if (p.getStato().equals("attiva")) {
+
+                    out.print("<tr>\n" +
+                            "      <td>" + p.getNome_docente() + " " + p.getCognome_docente() + "</td>\n" +
+                            "      <td>" + p.getCorso() + "</td>\n" +
+                            "      <td>" + p.getGiorno() + "</td>\n" +
+                            "      <td>" + p.getOra() + "</td>\n" +
+                            "      <td><input type=\"checkbox\" value=\"" + p.getNome_docente() + "/" + p.getCognome_docente() + "/" + p.getCorso() + "/" + p.getGiorno() + "/" + p.getOra() + "/cancella\" name=\"Reserv_rem\"></td>\n" +
+                            "    </tr>\n");
+                }
+            }
+
+            out.print("</tbody>\n" +
+                    "</table></div> ");
+        }
+        out.close();
+    }
+
+    private void Rem_tab_pr_utente(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
+
+        if(pr.size()==0){
+
+            out.print("<h1>Non hai ancora effettuato alcuna prenotazione!</h1>");
+
+        }
+        else {
+
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Docente</th>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">Giorno</th>\n" +
+                    "      <th scope=\"col\">Ora</th>\n" +
+                    "      <th scope=\"col\">Stato</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
+
+            for (Prenotazione p : pr) {
 
                 out.print("<tr>\n" +
                         "      <td>" + p.getNome_docente() + " " + p.getCognome_docente() + "</td>\n" +
                         "      <td>" + p.getCorso() + "</td>\n" +
                         "      <td>" + p.getGiorno() + "</td>\n" +
                         "      <td>" + p.getOra() + "</td>\n" +
-                        "      <td><input type=\"checkbox\" value=\"" + p.getNome_docente() + "/" + p.getCognome_docente() + "/" + p.getCorso() + "/" + p.getGiorno() + "/" + p.getOra() + "/cancella\" name=\"Reserv_rem\"></td>\n" +
+                        "      <td>" + p.getStato() + "</td>\n" +
                         "    </tr>\n");
+
             }
+
+            out.print("</tbody>\n" +
+                    "</table></div> ");
         }
-
-        out.print("</tbody>\n" +
-                "</table></div> ");
-        out.close();
-    }
-
-    private void Rem_tab_pr_utente(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
-
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Docente</th>\n" +
-                "      <th scope=\"col\">Corso</th>\n" +
-                "      <th scope=\"col\">Giorno</th>\n" +
-                "      <th scope=\"col\">Ora</th>\n" +
-                "      <th scope=\"col\">Stato</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
-
-        for(Prenotazione p: pr){
-
-            out.print("<tr>\n" +
-                    "      <td>" + p.getNome_docente() + " " + p.getCognome_docente() + "</td>\n" +
-                    "      <td>" + p.getCorso() + "</td>\n" +
-                    "      <td>" + p.getGiorno() + "</td>\n" +
-                    "      <td>" + p.getOra() + "</td>\n" +
-                    "      <td>" + p.getStato() + "</td>\n" +
-                    "    </tr>\n");
-
-        }
-
-        out.print("</tbody>\n" +
-                "</table></div> ");
         out.close();
 
     }
 
     private void Rem_tab_pr_all (PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
 
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Docente</th>\n" +
-                "      <th scope=\"col\">Corso</th>\n" +
-                "      <th scope=\"col\">Giorno</th>\n" +
-                "      <th scope=\"col\">Ora</th>\n" +
-                "      <th scope=\"col\">Stato/Effettuata</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
+        if(pr.size()==0){
 
-        for(Prenotazione p: pr){
+            out.print("<h1>Non hai ancora effettuato alcuna prenotazione!</h1>");
+
+        }
+        else {
+
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Docente</th>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">Giorno</th>\n" +
+                    "      <th scope=\"col\">Ora</th>\n" +
+                    "      <th scope=\"col\">Stato/Effettuata</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
+
+            for (Prenotazione p : pr) {
 
                 out.print("<tr>\n" +
                         "      <td>" + p.getNome_docente() + " " + p.getCognome_docente() + "</td>\n" +
                         "      <td>" + p.getCorso() + "</td>\n" +
                         "      <td>" + p.getGiorno() + "</td>\n" +
                         "      <td>" + p.getOra() + "</td>\n");
-                if(p.getStato().equals("attiva") && s.getAttribute("Ruolo").equals("Cliente")){
+                if (p.getStato().equals("attiva") && s.getAttribute("Ruolo").equals("Cliente")) {
 
                     out.print("<td><input type=\"checkbox\" value=\"" + p.getNome_docente() + "/" + p.getCognome_docente() + "/" + p.getCorso() + "/" + p.getGiorno() + "/" + p.getOra() + "/effettuata\" name=\"Reserv_rem\"></td>\n");
-                }
-                else{
+                } else {
                     out.print("<td>" + p.getStato() + "</td>\n");
                 }
                 out.print("</tr>\n");
-        }
+            }
 
-        out.print("</tbody>\n" +
-                "</table></div> ");
+            out.print("</tbody>\n" +
+                    "</table></div> ");
+        }
         out.close();
 
     }

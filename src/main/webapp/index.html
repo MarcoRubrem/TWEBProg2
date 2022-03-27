@@ -23,12 +23,11 @@
 </head>
 <body>
 
-
-
 <div id="app">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <router-link class="navbar-brand" to="/">Navbar</router-link>
+    <header>
+    <nav class="navbar navbar-expand-lg">
+        <router-link class="navbar-brand" to="/">Ripetizioni Unito</router-link>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,11 +47,6 @@
                      <router-link id="log" class="nav-link" to="/Login">Login</router-link>
                  </li>
                 </span>
-                <span v-if="Logout">
-                    <li class="nav-item">
-                     <button id="logout" class="btn btn-outline-danger" @click="logout">Esci</button>
-                    </li>
-                </span>
                 <span v-if="Login_view">
             <li class="nav-item">
                 <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
@@ -70,12 +64,16 @@
                         </div>
                     </li>
                 </div>
+                <span v-if="Logout">
+                    <li class="nav-item">
+                     <button id="logout" class="nav-link" @click="logout">Esci</button>
+                    </li>
+                </span>
             </ul>
         </div>
     </nav>
 
 
-    <header>
         <span v-if="Reg_view"><h1 class="intro">Benvenuto {{account}}! Ora puoi iniziare a prenotare</h1></span>
         <span v-if="intro_view"><h1 class="intro">Bentornato {{account}}! E' bello riaverti qui.</h1></span><br>
 
@@ -110,8 +108,8 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Calendar" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
-            '  <button v-on:click="Insegnamenti" type="button" class="btn btn-secondary">Tutti gli Insegnamenti</button>\n' +
+            '  <button v-on:click="Calendar" class="option" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
+            '  <button v-on:click="Insegnamenti" class="option" type="button" class="btn btn-secondary">Tutti gli Insegnamenti</button>\n' +
             '</div>' +
             '<div id="result"></div>' +
             '</article>',
@@ -170,7 +168,7 @@
             '            <input type="password" class="form-control" id="pw" placeholder="Password">\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
-            '            <button type="button" id="Login" v-on:click="log" class="btn btn-primary">Accedi</button>\n' +
+            '            <button type="button" id="Login" v-on:click="log" class="btn btn-secondary">Accedi</button>\n' +
             '        </div>\n' +
             '        <div class="reg_link">\n' +
             '            Non hai un account? <router-link id="reg" class="nav-link" to="/Registrazione">Registrati ora!</router-link>\n' +
@@ -274,7 +272,7 @@
             '    </div>\n' +
             '</div>' +
             '<div class="sub-button">\n' +
-            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-primary">Registrati</button>\n' +
+            '    <button type="button" id="Reg" v-on:click="reg" class="btn btn-secondary">Registrati</button>\n' +
             '</div>' +
             '<div class="reg_link">' +
             'Sei già registrato? <router-link id="log" class="nav-link" to="/Login">Accedi qui!</router-link>' +
@@ -351,7 +349,7 @@
         data() {
             return {
 
-                All_rev: app.Impostazioni_admin,
+                All_rev: app.Impostazioni_admin
 
             }
         },
@@ -359,15 +357,15 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Add_reservation" type="button" class="btn btn-secondary">Prenota una ripetizione</button>\n' +
-            '  <button v-on:click="Remove_reservation" type="button" class="btn btn-secondary">Cancella una prenotazione</button>\n' +
-            '  <button v-on:click="Your_reservation" type="button" class="btn btn-secondary">Effettua colloquio</button>\n' +
-            '<div v-if="All_rev"><button v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></div>' +
+            '  <button v-on:click="Add_reservation" type="button" class="option_triple" class="btn btn-secondary">Prenota una ripetizione</button>\n' +
+            '  <button v-on:click="Remove_reservation" type="button" class="option_triple" class="btn btn-secondary">Cancella una prenotazione</button>\n' +
+            '  <button v-on:click="Your_reservation" type="button" class="option_triple" class="btn btn-secondary">Effettua colloquio</button>\n' +
+            '<div v-if="All_rev" class="admin_option"><button class="option_triple" v-on:click="All_reservations" type="button" class="btn btn-secondary">Tutte le prenotazioni</button></div>' +
             '</div>' +
             '<div id="result"></div>' +
-            '        <div class="sub-button">\n' +
-            '            <button type="button" id="Exec_reserv" v-on:click="Exec_reserv" class="btn btn-primary">Esegui/Lista Prenotazioni</button>\n' +
-            '        </div>\n' +
+            '<div class="Booking_btn">' +
+            '<button type="button" v-on:click="Exec_reserv" class="btn btn-secondary">Esegui/Lista Prenotazioni</button>\n' +
+            '</div>' +
             '</article>',
 
         methods: {
@@ -449,7 +447,7 @@
 
     }
 
-    var Ripetizioni_admin = {
+    const Ripetizioni_admin = {
 
         data() {
             return {
@@ -464,8 +462,8 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Aggiungi_Ripetizioni" type="button" class="btn btn-secondary">Aggiungi Ripetizioni</button>\n' +
-            '  <button v-on:click="Rimuovi_Ripetizioni" type="button" class="btn btn-secondary">Rimuovi Ripetizioni</button>\n' +
+            '  <button v-on:click="Aggiungi_Ripetizioni" type="button" class="option_double" class="btn btn-secondary">Aggiungi Ripetizioni</button>\n' +
+            '  <button v-on:click="Rimuovi_Ripetizioni" type="button" class="option_double"  class="btn btn-secondary">Rimuovi Ripetizioni</button>\n' +
             '</div>' +
             '<div v-if="add">' +
             '<div class="container-fluid bg">\n' +
@@ -589,6 +587,7 @@
 
                         const accerr = document.getElementById("accerr");
                         accerr.innerHTML = xhrObj.responseText;
+
                     }
                 }
             },
@@ -608,7 +607,7 @@
         }
     }
 
-    var Docenti_admin = {
+    const Docenti_admin = {
 
 
         data() {
@@ -624,8 +623,8 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Aggiungi_Docenti" type="button" class="btn btn-secondary">Aggiungi docenti</button>\n' +
-            '  <button v-on:click="Rimuovi_Docenti" type="button" class="btn btn-secondary">Rimuovi docenti</button>\n' +
+            '  <button v-on:click="Aggiungi_Docenti" type="button" class="option_double" class="btn btn-secondary">Aggiungi docenti</button>\n' +
+            '  <button v-on:click="Rimuovi_Docenti" type="button" class="option_double" class="btn btn-secondary">Rimuovi docenti</button>\n' +
             '</div>' +
             '<div v-if="add">' +
             '<div class="container-fluid bg">\n' +
@@ -737,7 +736,7 @@
 
     }
 
-    var Corsi_admin = {
+    const Corsi_admin = {
 
         data() {
             return {
@@ -752,8 +751,8 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Aggiungi_Corsi" type="button" class="btn btn-secondary">Aggiungi corsi</button>\n' +
-            '  <button v-on:click="Rimuovi_Corsi" type="button" class="btn btn-secondary">Rimuovi corsi</button>\n' +
+            '  <button v-on:click="Aggiungi_Corsi" type="button" class="option_double" class="btn btn-secondary">Aggiungi corsi</button>\n' +
+            '  <button v-on:click="Rimuovi_Corsi" type="button" class="option_double"  class="btn btn-secondary">Rimuovi corsi</button>\n' +
             '</div>' +
             '<div v-if="add">' +
             '<div class="container-fluid bg">\n' +
@@ -867,7 +866,7 @@
     }
 
     const routes = [
-        { path: '/', component: Home },
+        { path: '/', component: Home},
         { path: '/Login', component: Login },
         { path: '/Prenotazioni', component: Prenotazioni },
         { path: '/Registrazione', component: Registrazione },
