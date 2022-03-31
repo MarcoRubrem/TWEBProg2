@@ -1,17 +1,11 @@
 package Servlet;
 
 import DAO.*;
-import Model.Corso;
-import Model.Docente;
 import Model.Ripetizione;
 
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
-import javax.print.Doc;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -133,35 +127,42 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
     }
 
     private void Rem_tab(PrintWriter out, ArrayList<Ripetizione> rt) {
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "    overflow:auto;\n" +
-                "    margin-top:20px\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Docente</th>\n" +
-                "      <th scope=\"col\">Corso</th>\n" +
-                "      <th scope=\"col\">Giorno</th>\n" +
-                "      <th scope=\"col\">Ora</th>\n" +
-                "      <th scope=\"col\">Elimina</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
 
-        for(Ripetizione r: rt){
+        if(rt.size()==0){
 
-            out.print("<tr>\n" +
-                    "      <td>"+r.getNome()+" "+r.getCognome()+"</td>\n" +
-                    "      <td>"+r.getCorso()+"</td>\n" +
-                    "      <td>"+r.getGiorno()+"</td>\n" +
-                    "      <td>"+r.getOra()+"</td>\n" +
-                    "      <td><input type=\"checkbox\" value=\""+r.getNome()+"/"+r.getCognome()+"/"+r.getCorso()+"/"+r.getGiorno()+"/"+r.getOra()+"\" name=\"rip_rem\"></td>\n" +
-                    "    </tr>\n");
+            out.print("<h1>La tabella Ripetizioni è vuota!</h1>");
+
         }
+        else {
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Docente</th>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">Giorno</th>\n" +
+                    "      <th scope=\"col\">Ora</th>\n" +
+                    "      <th scope=\"col\">Elimina</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
 
-        out.print("</tbody>\n" +
-                "</table> " +
-                "</div>");
+            for (Ripetizione r : rt) {
+
+                out.print("<tr>\n" +
+                        "      <td>" + r.getNome() + " " + r.getCognome() + "</td>\n" +
+                        "      <td>" + r.getCorso() + "</td>\n" +
+                        "      <td>" + r.getGiorno() + "</td>\n" +
+                        "      <td>" + r.getOra() + "</td>\n" +
+                        "      <td><input type=\"checkbox\" value=\"" + r.getNome() + "/" + r.getCognome() + "/" + r.getCorso() + "/" + r.getGiorno() + "/" + r.getOra() + "\" name=\"rip_rem\"></td>\n" +
+                        "    </tr>\n");
+            }
+
+            out.print("</tbody>\n" +
+                    "</table> " +
+                    "</div>");
+        }
         out.close();
     }
 }

@@ -1,8 +1,6 @@
 package Servlet;
 
 
-import DAO.DAO;
-import DAO.DAO_Corsi;
 import DAO.DAO_Prenotazioni;
 import DAO.DAO_Ripetizioni;
 import Model.Prenotazione;
@@ -16,13 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import static DAO.DAO.getConn1;
-import static DAO.DAO.registerDriver;
 
 @WebServlet("/Prenotazioni")
 public class Prenotazioni extends HttpServlet {
@@ -58,7 +52,6 @@ public class Prenotazioni extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         HttpSession s = request.getSession();
-        int type=0;
 
         String tipo = request.getParameter("tipo");
         ArrayList<Prenotazione> pr_all = DAO_Prenotazioni.Elenca_Prenotazioni_utente((String)s.getAttribute("account"));
@@ -303,9 +296,8 @@ public class Prenotazioni extends HttpServlet {
 
     private void Rem_tab_pr_all_Users(PrintWriter out, ArrayList<Prenotazione> pr){
 
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
+        out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                "  overflow:auto;\">" +
                 "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +

@@ -3,13 +3,8 @@ import DAO.*;
 
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import javax.print.Doc;
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-
-import static DAO.DAO.*;
 
 @WebServlet ("/reg")
 public class Registrazione extends HttpServlet {

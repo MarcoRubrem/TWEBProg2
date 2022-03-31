@@ -4,16 +4,9 @@ import DAO.*;
 
 import java.io.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Objects;
-import javax.print.Doc;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-
-import static DAO.DAO.*;
 
 @WebServlet ("/login")
 public class Login extends HttpServlet {

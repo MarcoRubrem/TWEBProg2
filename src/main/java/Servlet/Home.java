@@ -1,9 +1,7 @@
 package Servlet;
 
-import DAO.DAO;
 import Model.Insegnamento;
 import DAO.DAO_Insegnamento;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,11 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
  @WebServlet("/Home")
@@ -92,9 +86,8 @@ public class Home extends HttpServlet {
 
             ArrayList<Insegnamento> i = DAO_Insegnamento.Elenca_Insegnamenti();
 
-            out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                    "  overflow:auto;  \n" +
-                    "  margin-top:20px;\">" +
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +

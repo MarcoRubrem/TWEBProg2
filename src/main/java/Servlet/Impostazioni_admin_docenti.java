@@ -1,15 +1,10 @@
 package Servlet;
 import DAO.*;
-import Model.Corso;
 import Model.Docente;
 
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
-import javax.print.Doc;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -117,30 +112,37 @@ public class Impostazioni_admin_docenti extends HttpServlet {
     }
 
     private void Rem_tab(PrintWriter out, ArrayList<Docente> dc) {
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Nome</th>\n" +
-                "      <th scope=\"col\">Cognome</th>\n" +
-                "      <th scope=\"col\">Elimina</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
 
-        for(Docente d: dc){
+        if(dc.size()==0){
 
-            out.print("<tr>\n" +
-                    "      <td>"+d.getNome()+"</td>\n" +
-                    "      <td>"+d.getCognome()+"</td>\n" +
-                    "      <td><input type=\"checkbox\" value=\""+d.getNome()+"/"+d.getCognome()+"\" name=\"docente_rem\"></td>\n" +
-                    "    </tr>\n");
+            out.print("<h1>La tabella Docenti è vuota!</h1>");
+
         }
+        else {
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Nome</th>\n" +
+                    "      <th scope=\"col\">Cognome</th>\n" +
+                    "      <th scope=\"col\">Elimina</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
 
-        out.print("</tbody>\n" +
-                "</table></div> ");
+            for (Docente d : dc) {
+
+                out.print("<tr>\n" +
+                        "      <td>" + d.getNome() + "</td>\n" +
+                        "      <td>" + d.getCognome() + "</td>\n" +
+                        "      <td><input type=\"checkbox\" value=\"" + d.getNome() + "/" + d.getCognome() + "\" name=\"docente_rem\"></td>\n" +
+                        "    </tr>\n");
+            }
+
+            out.print("</tbody>\n" +
+                    "</table></div> ");
+        }
         out.close();
     }
 }

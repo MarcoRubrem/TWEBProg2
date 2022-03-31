@@ -81,8 +81,11 @@
     </header>
 
     <article>
-        <router-view></router-view>
+        <Transition name="fade">
+            <router-view></router-view>
+        </Transition>
     </article>
+
 
 
 </div>
@@ -108,8 +111,8 @@
         template:
             '<article>' +
             '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
-            '  <button v-on:click="Calendar" class="option" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
-            '  <button v-on:click="Insegnamenti" class="option" type="button" class="btn btn-secondary">Tutti gli Insegnamenti</button>\n' +
+            '  <button v-on:click="Calendar" class="option_double" type="button" class="btn btn-secondary">Calendario Ripetizioni</button>\n' +
+            '  <button v-on:click="Insegnamenti" class="option_double" type="button" class="btn btn-secondary">Tutti gli Insegnamenti</button>\n' +
             '</div>' +
             '<div id="result"></div>' +
             '</article>',
@@ -511,7 +514,7 @@
             '    </div>\n' +
             '  </div>\n' +
             '        <div class="sub-button">\n' +
-            '            <button type="button" id="Add_Repetitions" v-on:click="Add_Repetitions" class="btn btn-primary">Aggiungi</button>\n' +
+            '            <button type="button" id="Add_Repetitions" v-on:click="Add_Repetitions" class="btn btn-secondary">Aggiungi</button>\n' +
             '        </div>\n' +
             '    </form>\n' +
             '</div>\n' +
@@ -521,7 +524,7 @@
             '<div v-if="rem">' +
             '<div id="result">' +
             '</div>' +
-            '<button type="button" v-on:click="Remove_Repetitions()" class="btn btn-danger">Elimina/Aggiorna</button>' +
+            '<button type="button" class="rem_btn" v-on:click="Remove_Repetitions()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
             '</article>',
 
@@ -643,7 +646,7 @@
             '            <input type="text" class="form-control" id="Cognome" placeholder="Cognome" >\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
-            '            <button type="button" id="Add_teachers" v-on:click="Add_teachers" class="btn btn-primary">Aggiungi</button>\n' +
+            '            <button type="button" id="Add_teachers" v-on:click="Add_teachers" class="btn btn-secondary">Aggiungi</button>\n' +
             '        </div>\n' +
             '    </form>\n' +
             '</div>\n' +
@@ -653,7 +656,7 @@
             '<div v-if="rem">' +
             '<div id="result">' +
             '</div>' +
-            '<button type="button" v-on:click="Remove_teachers()" class="btn btn-danger">Elimina/Aggiorna</button>' +
+            '<button type="button" class="rem_btn" v-on:click="Remove_teachers()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
             '</article>',
 
@@ -771,7 +774,7 @@
             '            <input type="number" class="form-control" id="cfu" placeholder="CFU" value="3" min="1" max="30">\n' +
             '        </div>\n' +
             '        <div class="sub-button">\n' +
-            '            <button type="button" id="Add_courses" v-on:click="Add_courses" class="btn btn-primary">Aggiungi</button>\n' +
+            '            <button type="button" id="Add_courses" v-on:click="Add_courses" class="btn btn-secondary">Aggiungi</button>\n' +
             '        </div>\n' +
             '    </form>\n' +
             '</div>\n' +
@@ -781,7 +784,7 @@
             '<div v-if="rem">' +
             '<div id="result">' +
             '</div>' +
-            '<button type="button" v-on:click="Remove_courses()" class="btn btn-danger">Elimina/Aggiorna</button>' +
+            '<button type="button" class="rem_btn" v-on:click="Remove_courses()" class="btn btn-danger">Elimina/Aggiorna</button>' +
             '</div>' +
             '</article>',
 
@@ -890,7 +893,7 @@
                 account: '',
                 Login_view: true,
                 Logout: false,
-                Impostazioni_admin: false,
+                Impostazioni_admin: true,
                 prenotazioni: false,
                 seen: true,
                 Reg_view: false

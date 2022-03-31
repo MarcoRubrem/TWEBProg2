@@ -6,10 +6,6 @@ import Model.Corso;
 import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Objects;
-import javax.print.Doc;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -123,30 +119,37 @@ public class Impostazioni_admin_corsi extends HttpServlet {
     }
 
     private void Rem_tab(PrintWriter out, ArrayList<Corso> cs) {
-        out.print("<div id=\"table-scroll\" style=\"height:500px;\n" +
-                "  overflow:auto;  \n" +
-                "  margin-top:20px;\">" +
-                "<table class=\"table table-striped\">\n" +
-                "  <thead>\n" +
-                "    <tr>\n" +
-                "      <th scope=\"col\">Corso</th>\n" +
-                "      <th scope=\"col\">CFU</th>\n" +
-                "      <th scope=\"col\">Elimina</th>\n" +
-                "    </tr>\n" +
-                "  </thead>\n" +
-                "  <tbody>\n");
 
-        for(Corso c: cs){
+        if(cs.size()==0){
 
-            out.print("<tr>\n" +
-                    "      <td>"+c.getTitolo()+"</td>\n" +
-                    "      <td>"+c.getCFU()+"</td>\n" +
-                    "      <td><input type=\"checkbox\" value=\""+c.getTitolo()+"/"+c.getCFU()+"\" name=\"corso_rem\"></td>\n" +
-                    "    </tr>\n");
+            out.print("<h1>La tabella Corsi è vuota!</h1>");
+
         }
+        else {
+            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
+                    "  overflow:auto;\">" +
+                    "<table class=\"table table-striped\">\n" +
+                    "  <thead>\n" +
+                    "    <tr>\n" +
+                    "      <th scope=\"col\">Corso</th>\n" +
+                    "      <th scope=\"col\">CFU</th>\n" +
+                    "      <th scope=\"col\">Elimina</th>\n" +
+                    "    </tr>\n" +
+                    "  </thead>\n" +
+                    "  <tbody>\n");
 
-        out.print("</tbody>\n" +
-                "</table></div> ");
+            for (Corso c : cs) {
+
+                out.print("<tr>\n" +
+                        "      <td>" + c.getTitolo() + "</td>\n" +
+                        "      <td>" + c.getCFU() + "</td>\n" +
+                        "      <td><input type=\"checkbox\" value=\"" + c.getTitolo() + "/" + c.getCFU() + "\" name=\"corso_rem\"></td>\n" +
+                        "    </tr>\n");
+            }
+
+            out.print("</tbody>\n" +
+                    "</table></div> ");
+        }
         out.close();
     }
 }
