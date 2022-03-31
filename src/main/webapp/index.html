@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Prenotazioni Unito</title>
+    <title>Ripetizioni Unito</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,52 +26,52 @@
 <div id="app">
 
     <header>
-    <nav class="navbar navbar-expand-lg">
-        <router-link class="navbar-brand" to="/">Ripetizioni Unito</router-link>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <nav class="navbar navbar-expand-lg">
+            <router-link class="navbar-brand" to="/">Ripetizioni Unito</router-link>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item active">
-                    <router-link class="nav-link" to="/">Home</router-link>
-                </li>
-                <span v-if="prenotazioni">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item active">
+                        <router-link class="nav-link" to="/">Home</router-link>
+                    </li>
+                    <span v-if="prenotazioni">
                     <li class="nav-item">
                     <router-link class="nav-link" to="/Prenotazioni">Prenotazioni</router-link>
                     </li>
                 </span>
-                <span v-if="Login_view">
+                    <span v-if="Login_view">
                  <li class="nav-item">
                      <router-link id="log" class="nav-link" to="/Login">Login</router-link>
                  </li>
                 </span>
-                <span v-if="Login_view">
+                    <span v-if="Login_view">
             <li class="nav-item">
                 <router-link id="reg" class="nav-link" to="/Registrazione">Registrazione</router-link>
             </li>
                 </span>
-                <div v-if="Impostazioni_admin">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Impostazioni Admin
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <router-link id="Impostazioni_Ripetizioni" class="dropdown-item" to="/Impostazioni_Ripetizioni">Ripetizioni</router-link>
-                            <router-link id="Impostazioni_Docenti" class="dropdown-item" to="/Impostazioni_Docenti">Docenti</router-link>
-                            <router-link id="Impostazioni_Corsi" class="dropdown-item" to="/Impostazioni_Corsi">Corsi</router-link>
-                        </div>
-                    </li>
-                </div>
-                <span v-if="Logout">
+                    <div v-if="Impostazioni_admin">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Impostazioni Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <router-link id="Impostazioni_Ripetizioni" class="dropdown-item" to="/Impostazioni_Ripetizioni">Ripetizioni</router-link>
+                                <router-link id="Impostazioni_Docenti" class="dropdown-item" to="/Impostazioni_Docenti">Docenti</router-link>
+                                <router-link id="Impostazioni_Corsi" class="dropdown-item" to="/Impostazioni_Corsi">Corsi</router-link>
+                            </div>
+                        </li>
+                    </div>
+                    <span v-if="Logout">
                     <li class="nav-item">
                      <button id="logout" class="nav-link" @click="logout">Esci</button>
                     </li>
                 </span>
-            </ul>
-        </div>
-    </nav>
+                </ul>
+            </div>
+        </nav>
 
 
         <span v-if="Reg_view"><h1 class="intro">Benvenuto {{account}}! Ora puoi iniziare a prenotare</h1></span>
@@ -893,7 +893,7 @@
                 account: '',
                 Login_view: true,
                 Logout: false,
-                Impostazioni_admin: true,
+                Impostazioni_admin: false,
                 prenotazioni: false,
                 seen: true,
                 Reg_view: false

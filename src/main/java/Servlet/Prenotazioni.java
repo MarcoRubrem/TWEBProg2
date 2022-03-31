@@ -65,7 +65,7 @@ public class Prenotazioni extends HttpServlet {
                 break;
             case "prenotate":
 
-                Rem_tab_pr(out, pr_all, s);
+                Rem_tab_pr(out, pr_all);
                 break;
             case "tutte":
 
@@ -164,14 +164,8 @@ public class Prenotazioni extends HttpServlet {
         out.close();
     }
 
-    private void Rem_tab_pr(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s) {
+    private void Rem_tab_pr(PrintWriter out, ArrayList<Prenotazione> pr) {
 
-        if(pr.size()==0){
-
-            out.print("<h1>Non hai ancora effettuato alcuna prenotazione!</h1>");
-
-        }
-        else {
             out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
                     "  overflow:auto;\">" +
                     "<table class=\"table table-striped\">\n" +
@@ -202,18 +196,10 @@ public class Prenotazioni extends HttpServlet {
 
             out.print("</tbody>\n" +
                     "</table></div> ");
-        }
         out.close();
     }
 
     private void Rem_tab_pr_utente(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
-
-        if(pr.size()==0){
-
-            out.print("<h1>Non hai ancora effettuato alcuna prenotazione!</h1>");
-
-        }
-        else {
 
             out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
                     "  overflow:auto;\">" +
@@ -243,19 +229,11 @@ public class Prenotazioni extends HttpServlet {
 
             out.print("</tbody>\n" +
                     "</table></div> ");
-        }
         out.close();
 
     }
 
     private void Rem_tab_pr_all (PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
-
-        if(pr.size()==0){
-
-            out.print("<h1>Non hai ancora effettuato alcuna prenotazione!</h1>");
-
-        }
-        else {
 
             out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
                     "  overflow:auto;\">" +
@@ -289,7 +267,7 @@ public class Prenotazioni extends HttpServlet {
 
             out.print("</tbody>\n" +
                     "</table></div> ");
-        }
+
         out.close();
 
     }

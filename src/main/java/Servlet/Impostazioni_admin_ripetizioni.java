@@ -128,12 +128,6 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
 
     private void Rem_tab(PrintWriter out, ArrayList<Ripetizione> rt) {
 
-        if(rt.size()==0){
-
-            out.print("<h1>La tabella Ripetizioni è vuota!</h1>");
-
-        }
-        else {
             out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
                     "  overflow:auto;\">" +
                     "<table class=\"table table-striped\">\n" +
@@ -162,7 +156,7 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
             out.print("</tbody>\n" +
                     "</table> " +
                     "</div>");
-        }
+
         out.close();
     }
 }
