@@ -122,16 +122,11 @@ public class Prenotazioni extends HttpServlet {
 
     private void Rem_tab_rt_free(PrintWriter out, ArrayList<Ripetizione> rt) {
 
-        if(rt.size()==0){
-
-            out.print("<h1>Ci dispiace, non ci sono ripetizioni disponibili al momento</h1>");
-
-        }
-        else {
-
-
-            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
-                    "  overflow:auto;\">" +
+            out.print("<div id=\"table-scroll\" " +
+                    "style=\"height:400px;\n" +
+                    "overflow:auto;" +
+                    "width:1200px;" +
+                    "margin-left:10%\">" +
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +
@@ -160,14 +155,17 @@ public class Prenotazioni extends HttpServlet {
 
             out.print("</tbody>\n" +
                     "</table></div> ");
-        }
+
         out.close();
     }
 
     private void Rem_tab_pr(PrintWriter out, ArrayList<Prenotazione> pr) {
 
-            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
-                    "  overflow:auto;\">" +
+        out.print("<div id=\"table-scroll\" " +
+                "style=\"height:400px;\n" +
+                "overflow:auto;" +
+                "width:1200px;" +
+                "margin-left:10%\">" +
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +
@@ -201,8 +199,11 @@ public class Prenotazioni extends HttpServlet {
 
     private void Rem_tab_pr_utente(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
 
-            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
-                    "  overflow:auto;\">" +
+        out.print("<div id=\"table-scroll\" " +
+                "style=\"height:400px;\n" +
+                "overflow:auto;" +
+                "width:1200px;" +
+                "margin-left:10%\">" +
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +
@@ -235,8 +236,11 @@ public class Prenotazioni extends HttpServlet {
 
     private void Rem_tab_pr_all (PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
 
-            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
-                    "  overflow:auto;\">" +
+        out.print("<div id=\"table-scroll\" " +
+                "style=\"height:400px;\n" +
+                "overflow:auto;" +
+                "width:1200px;" +
+                "margin-left:10%\">" +
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +
@@ -274,8 +278,11 @@ public class Prenotazioni extends HttpServlet {
 
     private void Rem_tab_pr_all_Users(PrintWriter out, ArrayList<Prenotazione> pr){
 
-        out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
-                "  overflow:auto;\">" +
+        out.print("<div id=\"table-scroll\" " +
+                "style=\"height:400px;\n" +
+                "overflow:auto;" +
+                "width:1200px;" +
+                "margin-left:10%\">" +
                 "<table class=\"table table-striped\">\n" +
                 "  <thead>\n" +
                 "    <tr>\n" +

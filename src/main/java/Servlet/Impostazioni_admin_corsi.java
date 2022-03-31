@@ -120,8 +120,11 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
     private void Rem_tab(PrintWriter out, ArrayList<Corso> cs) {
 
-            out.print("<div id=\"table-scroll\" style=\"height:400px;\n" +
-                    "  overflow:auto;\">" +
+        out.print("<div id=\"table-scroll\" " +
+                "style=\"height:400px;\n" +
+                "overflow:auto;" +
+                "width:1200px;" +
+                "margin-left:10%\">" +
                     "<table class=\"table table-striped\">\n" +
                     "  <thead>\n" +
                     "    <tr>\n" +
