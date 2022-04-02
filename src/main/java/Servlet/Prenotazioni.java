@@ -22,9 +22,7 @@ import java.util.ArrayList;
 public class Prenotazioni extends HttpServlet {
 
 
-    public void init() {
-        String message = "Hello World!";
-    }
+    public void init() {}
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -34,7 +32,7 @@ public class Prenotazioni extends HttpServlet {
         }
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
 
         try {
             processRequest(request, response);
@@ -109,15 +107,14 @@ public class Prenotazioni extends HttpServlet {
 
                         }
                     }
-                    Rem_tab_pr_utente(out, pr_all, s);
+                    Rem_tab_pr_utente(out, pr_all);
                 }
                 else{
 
-                    Rem_tab_pr_utente(out, pr_all, s);
+                    Rem_tab_pr_utente(out, pr_all);
                 }
                 break;
         }
-
     }
 
     private void Rem_tab_rt_free(PrintWriter out, ArrayList<Ripetizione> rt) {
@@ -197,7 +194,7 @@ public class Prenotazioni extends HttpServlet {
         out.close();
     }
 
-    private void Rem_tab_pr_utente(PrintWriter out, ArrayList<Prenotazione> pr, HttpSession s){
+    private void Rem_tab_pr_utente(PrintWriter out, ArrayList<Prenotazione> pr){
 
         out.print("<div id=\"table-scroll\" " +
                 "style=\"height:400px;\n" +
