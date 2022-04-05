@@ -1,7 +1,10 @@
 package Servlet;
 
+import DAO.DAO_Ripetizioni;
 import Model.Insegnamento;
 import DAO.DAO_Insegnamento;
+import Model.Ripetizione;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -83,34 +86,48 @@ public class Home extends HttpServlet {
 
         else if(param.equals("Insegnamenti")){
 
-            ArrayList<Insegnamento> i = DAO_Insegnamento.Elenca_Insegnamenti();
+            ArrayList<Ripetizione> rt = DAO_Ripetizioni.Elenca_Ripetizioni();
+            Rem_tab_rt_free(out, rt);
 
-            out.print("<div id=\"table-scroll\" " +
-                    "style=\"height:400px;\n" +
-                    "overflow:auto;" +
-                    "width:1200px;" +
-                    "margin-left:10%\">" +
-                    "<table class=\"table table-striped\">\n" +
-                    "  <thead>\n" +
-                    "    <tr>\n" +
-                    "      <th scope=\"col\">Docente</th>\n" +
-                    "      <th scope=\"col\">Corso</th>\n" +
-                    "    </tr>\n" +
-                    "  </thead>\n" +
-                    "  <tbody>\n");
-
-            for(Insegnamento is: i){
-
-                out.print("<tr>\n" +
-                            "      <td>" + is.getNome_docente() + " " + is.getCognome_docente() + "</td>\n" +
-                            "      <td>" + is.getCorso() + "</td>\n" +
-                            "    </tr>\n");
-            }
-            out.print("</tbody>\n" +
-                    "</table></div> ");
-            out.close();
         }
 
 
     }
+
+    private void Rem_tab_rt_free(PrintWriter out, ArrayList<Ripetizione> rt) {
+
+         out.print("<div id=\"table-scroll\" " +
+                 "style=\"height:400px;\n" +
+                 "overflow:auto;" +
+                 "width:1200px;" +
+                 "margin-left:10%\">" +
+                 "<table class=\"table table-striped\">\n" +
+                 "  <thead>\n" +
+                 "    <tr>\n" +
+                 "      <th scope=\"col\">Docente</th>\n" +
+                 "      <th scope=\"col\">Corso</th>\n" +
+                 "      <th scope=\"col\">Giorno</th>\n" +
+                 "      <th scope=\"col\">Ora</th>\n" +
+                 "    </tr>\n" +
+                 "  </thead>\n" +
+                 "  <tbody>\n");
+
+         for (Ripetizione r : rt) {
+
+             if (r.getStato().equals("libero")) {
+
+                 out.print("<tr>\n" +
+                         "      <td>" + r.getNome() + " " + r.getCognome() + "</td>\n" +
+                         "      <td>" + r.getCorso() + "</td>\n" +
+                         "      <td>" + r.getGiorno() + "</td>\n" +
+                         "      <td>" + r.getOra() + "</td>\n" +
+                         "    </tr>\n");
+             }
+         }
+
+         out.print("</tbody>\n" +
+                 "</table></div> ");
+
+         out.close();
+     }
 }
