@@ -309,7 +309,7 @@
                             app.account = text[1];
                             app.message = '';
                             app.Logout = true;
-                            app.login = false;
+                            app.Login_view = false;
                             app.intro_view = true;
                             app.prenotazioni = true;
                             app.Impostazioni_admin = false;
@@ -321,10 +321,10 @@
                             app.account = text[1];
                             app.message = '';
                             app.Logout = true;
-                            app.login = false;
+                            app.Login_view = false;
                             app.intro_view = true;
-                            app.Impostazioni_admin = true;
                             Prenotazioni.All_rev = true;
+                            app.Impostazioni_admin = true;
                             app.prenotazioni = true;
 
                         }
@@ -345,7 +345,8 @@
         data() {
             return {
 
-                All_rev: app.Impostazioni_admin
+                All_rev: app.Impostazioni_admin,
+                tipo: ''
 
             }
         },
@@ -369,6 +370,8 @@
 
             All_reservations: function(){
 
+                Prenotazioni.data().tipo='Tutti_utenti';
+
                 const url = "Prenotazioni?tipo=Tutti_utenti";
 
                 xhrObj.open("post", url, true);
@@ -380,6 +383,7 @@
 
             Add_reservation: function (){
 
+                Prenotazioni.data().tipo='libere';
                 const url = "Prenotazioni?tipo=libere";
 
                 xhrObj.open("post", url, true);
@@ -389,6 +393,7 @@
 
             Remove_reservation: function (){
 
+                Prenotazioni.data().tipo='prenotate';
                 const url = "Prenotazioni?tipo=prenotate";
 
                 xhrObj.open("post", url, true);
@@ -398,6 +403,7 @@
 
             Your_reservation: function (){
 
+                Prenotazioni.data().tipo='tutte';
                 const url = "Prenotazioni?tipo=tutte";
 
                 xhrObj.open("post", url, true);
@@ -407,17 +413,25 @@
 
             Exec_reserv: function (){
 
+                let url;
+
                 var rem = document.querySelectorAll('input[name="Reserv_rem"]:checked');
                 var arr = [];
 
-                for(var x = 0, l = rem.length; x < l;  x++)
-                {
-                    arr.push(rem[x].value);
+                if(rem.length === 0){
+
+                    url = "Prenotazioni?tipo="+Prenotazioni.data().tipo;
                 }
+                else {
 
-                var str = arr.join(',');
+                    for (var x = 0, l = rem.length; x < l; x++) {
+                        arr.push(rem[x].value);
+                    }
 
-                const url = "Prenotazioni?tipo="+str;
+                    var str = arr.join(',');
+
+                    url = "Prenotazioni?tipo=" + str;
+                }
 
                 xhrObj.open("post", url, true);
                 xhrObj.onreadystatechange =  Prenotazioni.methods.updatePage;
