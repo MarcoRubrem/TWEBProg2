@@ -1,5 +1,11 @@
+*{
+
+    box-sizing: border-box;
+    padding: 0;
+}
 body{
 
+    font-family: sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -7,24 +13,72 @@ body{
 
 }
 
-#table-scroll{
-
+.navbar-brand:hover{
+    color: #999999;
 
 }
 
+.navbar-brand{
+    color: #ffffff;
+    font-size: 28px;
+    transition: all 0.5s ease;
+
+}
+
+
+ul li .nav-link{
+
+    color: #ffffff;
+    margin-left: 20px;
+    text-transform: capitalize;
+
+}
+ul li .nav-link:hover{
+
+    color: #999999;
+}
+
+ul li .nav-link{
+
+    display: block;
+    font-size: 150%;
+    text-transform: capitalize;
+    color: #ffffff;
+    padding: 20px 0;
+    transition: all 0.3s ease;
+}
+
+.navbar.navbar-expand-lg{
+
+    background-color: #b30000;
+}
+
+.navbar.navbar-expand-lg ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
 .form-container{
 
     border: 1px solid #ffffff;
     padding: 5% 10%;
-    margin-top: 10%;
-    -webkit-box-shadow: -1px 0px 11px 5px #0C99FF;
-    box-shadow: -1px 0px 11px 5px #0C99FF;
+    margin-top: 5%;
+    -webkit-box-shadow: -1px 0 11px 5px #b30000;
+    box-shadow: -1px 0 11px 5px #b30000;
 
 }
 
 .sub-button{
 
     margin-top: 5%;
+}
+
+.Booking_btn button, .rem_btn{
+
+    float: left;
+    margin-left: 68%;
+    width: 300px;
+    height: 50px;
+    font-size: 20px;
 }
 
 .reg_link{
@@ -44,39 +98,76 @@ header{
     text-align: center;
 }
 
-#home_btn{
+#logout{
 
+    cursor: pointer;
+    background: none;
+    border:none;
+}
+.intro{
 
-    border: 1px solid #ffffff;
+    background-color: #b30000;
+    color: white;
+    margin-top: -2%;
+    font-size: 300%;
+    line-height: 300%;
 
 }
 
-#rm_button{
-
-    padding: 2% 10% 10% 45%;
-
-}
-
-#result{
-
+.option_triple{
+    margin-top: -0.55%;
+    width: 380px;
+    height: 100px;
+    font-size: 30px;
 
 }
 
-article button{
+.admin_option{
+    margin-top: -0.45%;
+    width: 380px;
+    height: 100px;
+    font-size: 30px;
 
-    padding: 10% 20% 10%;
 }
 
-.component-fade-enter-active, .component-fade-leave-active {
-    transition: opacity .3s ease;
+.option_double{
+
+    margin-top: -0.55%;
+    width: 754px;
+    height: 100px;
+    font-size: 30px;
 }
-.component-fade-enter, .component-fade-leave-to
-    /* .component-fade-leave-active below version 2.1.8 */ {
+
+.dropdown-menu{
+
+    margin-left: 37%;
+    margin-top: -5%;
+    background-color: red;
+    border: 1px solid;
+
+}
+
+.dropdown-menu .dropdown-item{
+
+    color: white;
+}
+
+.dropdown-menu .dropdown-item:hover{
+
+    color: white;
+    background-color: #999999;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 1s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
     opacity: 0;
-}
-
-.right{
-
-    float: right;
-    margin-left: 60%;
 }
