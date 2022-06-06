@@ -67,7 +67,7 @@ public class Login extends HttpServlet {
 
         }
         else{
-
+            s.setAttribute("account", account);
             out.print(ris+"|"+s.getAttribute("account"));
             s.setAttribute("Ruolo", ris);
             out.flush();

@@ -69,7 +69,7 @@ ul li .nav-link{
 
 .sub-button{
 
-    margin-top: 5%;
+    margin-bottom: 10%;
 }
 
 .Booking_btn button, .rem_btn{
@@ -132,8 +132,8 @@ header{
 
 .option_double{
 
-    margin-top: -0.55%;
-    width: 754px;
+    margin-top: -1%;
+    width: 50%;
     height: 100px;
     font-size: 30px;
 }
