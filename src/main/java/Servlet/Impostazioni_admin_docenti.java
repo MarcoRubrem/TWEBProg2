@@ -16,7 +16,7 @@ public class Impostazioni_admin_docenti extends HttpServlet {
 
 
     public void init() {
-        String message = "Hello World!";
+        DAO.registerDriver();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,62 +47,69 @@ public class Impostazioni_admin_docenti extends HttpServlet {
         String nome = request.getParameter("Nome");
         String cognome = request.getParameter("Cognome");
         ArrayList<Docente> dc = DAO_Docenti.Elenca_Docenti();
+        HttpSession s = request.getSession();
 
-        if(nome.equals("remove") && cognome.equals("0")){
 
-            Rem_tab(out, dc);
-        }
-        else if(cognome.equals("1000")){
+        if(s.getAttribute("Ruolo").equals("Amministratore")) {
 
-            if(nome.length()==0){
+            if (nome.equals("remove") && cognome.equals("0")) {
 
                 Rem_tab(out, dc);
+            } else if (cognome.equals("1000")) {
 
-            }
-            else {
+                if (nome.length() == 0) {
 
-                String[] Dc_rem = nome.split(",");
-
-                for (int i = 0; i < Dc_rem.length; i++) {
-
-                    String[] Dc_split = Dc_rem[i].split("/");
-                    String nome_rem = Dc_split[0];
-                    String cognome_rem = Dc_split[1];
-
-
-                    DAO_Docenti.Remove_Teachers(nome_rem, cognome_rem);
-
-                }
-
-                Rem_tab(out, dc);
-            }
-        }
-        else{
-
-            if (nome.equals("")) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome obbligatorio</div>");
-                out.close();
-            }
-            else if (cognome.equals("")) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
-                out.close();
-            }
-            else {
-
-                if (DAO_Docenti.Registered_teacher(nome, cognome)) {
-
-                    out.println("<div class=\"alert alert-success\" role=\"alert\">Docente inserito correttamente!</div>");
-                    out.close();
+                    Rem_tab(out, dc);
 
                 } else {
 
-                    out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Docente già inserito precedentemente</div>");
-                    out.close();
+                    String[] Dc_rem = nome.split(",");
 
+                    for (int i = 0; i < Dc_rem.length; i++) {
+
+                        String[] Dc_split = Dc_rem[i].split("/");
+                        String nome_rem = Dc_split[0];
+                        String cognome_rem = Dc_split[1];
+
+
+                        DAO_Docenti.Remove_Teachers(nome_rem, cognome_rem);
+
+                    }
+
+                    Rem_tab(out, dc);
+                }
+            } else {
+
+                if (nome.equals("")) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome obbligatorio</div>");
+                    out.close();
+                } else if (cognome.equals("")) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
+                    out.close();
+                } else {
+
+                    if (DAO_Docenti.Registered_teacher(nome, cognome)) {
+
+                        out.println("<div class=\"alert alert-success\" role=\"alert\">Docente inserito correttamente!</div>");
+                        out.close();
+
+                    } else {
+
+                        out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Docente già inserito precedentemente</div>");
+                        out.close();
+
+                    }
                 }
             }
+
+        }else{
+
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Accesso negato</div>");
+            out.close();
+
+
         }
 
 
@@ -140,5 +147,10 @@ public class Impostazioni_admin_docenti extends HttpServlet {
             out.print("</tbody>\n" +
                     "</table></div> ");
         out.close();
+    }
+
+    public void destroy() {
+
+        DAO.Disconnected();
     }
 }

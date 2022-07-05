@@ -24,7 +24,7 @@ public class DAO_Insegnamento {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM insegnamento");
 
@@ -37,10 +37,10 @@ public class DAO_Insegnamento {
         }catch(SQLException e){
 
             System.out.print(e.getMessage());
-            DAO.Disconnected();
+
         }
 
-        DAO.Disconnected();
+
         return out;
     }
 
@@ -50,7 +50,7 @@ public class DAO_Insegnamento {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             for(Insegnamento is: i){
@@ -67,12 +67,33 @@ public class DAO_Insegnamento {
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return false;
         }
 
-        DAO.Disconnected();
+
         return true;
+
+    }
+
+    public static boolean Remove_Lessons(String nome, String cognome, String corso) {
+
+        ArrayList<Insegnamento> d = Elenca_Insegnamenti();
+
+        try {
+
+
+            Statement st = getConn1().createStatement();
+
+            st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like '" + nome +"' and Corso like '"+ corso+"'");
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+            return false;
+        }
 
     }
 }

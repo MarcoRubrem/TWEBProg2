@@ -10,7 +10,6 @@ import javax.servlet.annotation.*;
 public class Registrazione extends HttpServlet {
 
     public void init() {
-        String message = "Hello World!";
         DAO.registerDriver();
     }
 
@@ -82,5 +81,8 @@ public class Registrazione extends HttpServlet {
 
     }
 
-    public void destroy() {}
+    public void destroy() {
+
+        DAO.Disconnected();
+    }
 }

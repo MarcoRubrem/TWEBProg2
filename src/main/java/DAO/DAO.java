@@ -34,7 +34,7 @@ public class DAO {
             System.out.println("Driver correttamente registrato");
             conn1 = DriverManager.getConnection(url1, user, password);
             if (conn1 != null) {
-                System.out.println("Connected to the database test");
+                System.out.println("Connected to the database");
             }
         } catch (SQLException e) {
             System.out.println("Errore: " + e.getMessage());

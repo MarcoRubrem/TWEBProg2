@@ -1,6 +1,7 @@
 package Servlet;
 
 
+import DAO.DAO;
 import DAO.DAO_Prenotazioni;
 import DAO.DAO_Ripetizioni;
 import Model.Prenotazione;
@@ -22,7 +23,9 @@ import java.util.ArrayList;
 public class Prenotazioni extends HttpServlet {
 
 
-    public void init() {}
+    public void init() {
+        DAO.registerDriver();
+    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
@@ -70,9 +73,9 @@ public class Prenotazioni extends HttpServlet {
                 Rem_tab_pr_all(out, pr_all, s);
                 break;
             case "Tutti_utenti":
-
+                if(s.getAttribute("Ruolo").equals("Amministratore")){
                 ArrayList<Prenotazione> pr = DAO_Prenotazioni.Elenca_Prenotazioni();
-                Rem_tab_pr_all_Users(out, pr);
+                Rem_tab_pr_all_Users(out, pr);}
                 break;
             default:
 
@@ -311,6 +314,10 @@ public class Prenotazioni extends HttpServlet {
 
     }
 
+    public void destroy() {
+
+        DAO.Disconnected();
+    }
 
 }
 

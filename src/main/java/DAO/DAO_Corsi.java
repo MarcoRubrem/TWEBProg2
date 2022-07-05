@@ -21,7 +21,7 @@ public class DAO_Corsi {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM corso");
 
@@ -35,7 +35,7 @@ public class DAO_Corsi {
 
             System.out.print(e.getMessage());
         }
-        DAO.Disconnected();
+
         return out;
     }
 
@@ -47,7 +47,7 @@ public class DAO_Corsi {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             if(c.contains(new Corso(titolo, CFU))){
@@ -61,11 +61,11 @@ public class DAO_Corsi {
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return false;
         }
 
-        DAO.Disconnected();
+
         return true;
 
     }
@@ -76,15 +76,15 @@ public class DAO_Corsi {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             st.executeUpdate("delete from corso where titolo like'" + titolo + "' and CFU="+ CFU);
-            DAO.Disconnected();
+
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
         }
 
     }

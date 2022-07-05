@@ -19,7 +19,6 @@ public class DAO_utente {
 
         try {
 
-            DAO.registerDriver();
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM utente");
 
@@ -33,7 +32,6 @@ public class DAO_utente {
 
             System.out.print(e.getMessage());
         }
-        DAO.Disconnected();
         return out;
     }
 
@@ -43,14 +41,14 @@ public class DAO_utente {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             for(Utente ut: u) {
 
                 if(ut.getAccount().equals(account) && ut.getPassword().equals(pw)){
 
-                    DAO.Disconnected();
+
                     return "User already registered";
                 }
 
@@ -60,11 +58,11 @@ public class DAO_utente {
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return "User already registered";
         }
 
-        DAO.Disconnected();
+
         return role;
 
     }

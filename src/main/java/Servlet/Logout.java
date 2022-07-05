@@ -50,4 +50,9 @@ public class Logout extends HttpServlet {
 
 
     }
+
+    public void destroy() {
+
+        DAO.Disconnected();
+    }
 }

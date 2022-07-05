@@ -17,7 +17,7 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
 
     public void init() {
-        String message = "Hello World!";
+        DAO.registerDriver();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -44,72 +44,71 @@ public class Impostazioni_admin_corsi extends HttpServlet {
 
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        HttpSession s = request.getSession();
 
         String corso = request.getParameter("corso");
         String s_cfu = request.getParameter("cfu");
         ArrayList<Corso> cs = DAO_Corsi.Elenca_corsi();
 
-        if(corso.equals("remove") && s_cfu.equals("0")){
+        if(s.getAttribute("Ruolo").equals("Amministratore")) {
 
-            Rem_tab(out, cs);
-        }
-        else if(s_cfu.equals("1000")){
-
-            if(corso.length()==0){
+            if (corso.equals("remove") && s_cfu.equals("0")) {
 
                 Rem_tab(out, cs);
+            } else if (s_cfu.equals("1000")) {
 
-            }
-            else {
+                if (corso.length() == 0) {
 
-                String[] Cs_rem = corso.split(",");
-                for (int i = 0; i < Cs_rem.length; i++) {
-
-                    String[] Cs_split = Cs_rem[i].split("/");
-                    String titolo_rem = Cs_split[0];
-                    int cfu_rem = Integer.parseInt(Cs_split[1]);
-
-                    DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
-
-                }
-
-                Rem_tab(out, cs);
-            }
-        }
-        else{
-
-            if (corso.equals("")) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome del corso obbligatorio</div>");
-                out.close();
-            }
-            else if (s_cfu.equals("")) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU obbligatorio</div>");
-                out.close();
-            }
-
-            int cfu = Integer.parseInt(s_cfu);
-
-            if (cfu<=0 || cfu>30) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU non corretto!</div>");
-                out.close();
-            }
-            else {
-
-                if (DAO_Corsi.Registered_Courses(corso, cfu)) {
-
-                    out.println("<div class=\"alert alert-success\" role=\"alert\">Corso inserito correttamente!</div>");
-                    out.close();
+                    Rem_tab(out, cs);
 
                 } else {
 
-                    out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Corso già inserito precedentemente</div>");
-                    out.close();
+                    String[] Cs_rem = corso.split(",");
+                    for (int i = 0; i < Cs_rem.length; i++) {
 
+                        String[] Cs_split = Cs_rem[i].split("/");
+                        String titolo_rem = Cs_split[0];
+                        int cfu_rem = Integer.parseInt(Cs_split[1]);
+
+                        DAO_Corsi.Remove_Courses(titolo_rem, cfu_rem);
+
+                    }
+
+                    Rem_tab(out, cs);
+                }
+            } else {
+
+                if (corso.equals("")) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome del corso obbligatorio</div>");
+                    out.close();
+                } else if (s_cfu.equals("") || (Integer.parseInt(s_cfu)<=0 || Integer.parseInt(s_cfu)>=30)) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Numero di CFU non corretto</div>");
+                    out.close();
+                } else {
+
+                    if (DAO_Corsi.Registered_Courses(corso, Integer.parseInt(s_cfu))) {
+
+                        out.println("<div class=\"alert alert-success\" role=\"alert\">Corso inserito correttamente!</div>");
+                        out.close();
+
+                    } else {
+
+                        out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Corso già inserito precedentemente</div>");
+                        out.close();
+
+                    }
                 }
             }
+
+        }
+        else{
+
+            out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Accesso negato</div>");
+            out.close();
+
+
         }
 
 
@@ -148,6 +147,11 @@ public class Impostazioni_admin_corsi extends HttpServlet {
                     "</table></div> ");
 
         out.close();
+    }
+
+    public void destroy() {
+
+        DAO.Disconnected();
     }
 }
 

@@ -22,7 +22,7 @@ public class DAO_Prenotazioni{
 
 
         try {
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM prenotazione where utente like '"+ utente +"' order by stato");
 
@@ -35,11 +35,11 @@ public class DAO_Prenotazioni{
         }catch(SQLException e){
 
             System.out.print(e.getMessage());
-            DAO.Disconnected();
+
 
         }
 
-        DAO.Disconnected();
+
         return out;
     }
 
@@ -52,7 +52,7 @@ public class DAO_Prenotazioni{
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM prenotazione order by stato");
 
@@ -65,10 +65,10 @@ public class DAO_Prenotazioni{
         }catch(SQLException e){
 
             System.out.print(e.getMessage());
-            DAO.Disconnected();
+
         }
 
-        DAO.Disconnected();
+
         return out;
     }
 
@@ -76,17 +76,17 @@ public class DAO_Prenotazioni{
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             st.executeUpdate("Insert into prenotazione values('" + utente + "', '" + corso + "', '" + giorno + "', '" + ora + "', '" + nomeD + "', '" + cognomeD + "', 'attiva') " );
-            DAO.Disconnected();
+
             return true;
 
         } catch (SQLException e) {
 
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return false;
         }
 
@@ -98,7 +98,7 @@ public class DAO_Prenotazioni{
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             for(Prenotazione pz: p){
@@ -107,7 +107,7 @@ public class DAO_Prenotazioni{
 
                     st.executeUpdate("update prenotazione set stato = 'disdetta' where corso like '"+ corso +"' AND giorno like '"+ giorno +"' and ora like '"+ ora +"%' and nome_docente like '"+ nomeD +"' and cognome_docente like '"
                             + cognomeD +"' and stato like 'attiva' and utente like '"+ utente +"'");
-                    DAO.Disconnected();
+
                     return true;
                 }
             }
@@ -115,11 +115,11 @@ public class DAO_Prenotazioni{
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return false;
         }
 
-        DAO.Disconnected();
+
         return false;
 
     }
@@ -129,7 +129,7 @@ public class DAO_Prenotazioni{
         ArrayList<Prenotazione> p = Elenca_Prenotazioni_utente(utente);
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             for(Prenotazione pz: p){
@@ -138,17 +138,17 @@ public class DAO_Prenotazioni{
 
                     st.executeUpdate("update prenotazione set stato = 'effettuata' where corso like '"+ corso +"' AND giorno like '"+ giorno +"' and ora like '"+ ora +"%' and nome_docente like '"+ nomeD +"' and cognome_docente like '"
                             + cognomeD +"' and stato like 'attiva' and utente like '"+ utente +"'");
-                    DAO.Disconnected();
+
                 }
             }
 
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
         }
 
-        DAO.Disconnected();
+
     }
 
 

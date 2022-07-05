@@ -19,7 +19,7 @@ public class DAO_Docenti {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
             rs = st.executeQuery("SELECT * FROM docente");
 
@@ -33,7 +33,7 @@ public class DAO_Docenti {
 
             System.out.print(e.getMessage());
         }
-        DAO.Disconnected();
+
         return out;
     }
 
@@ -43,14 +43,14 @@ public class DAO_Docenti {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             for(Docente dc: d){
 
                 if(dc.getNome().equals(Nome) && dc.getCognome().equals(Cognome)) {
 
-                    DAO.Disconnected();
+
                     return false;
                 }
             }
@@ -61,7 +61,7 @@ public class DAO_Docenti {
         } catch (Exception e) {
 
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return false;
         }
 
@@ -73,16 +73,16 @@ public class DAO_Docenti {
 
         try {
 
-            DAO.registerDriver();
+
             Statement st = getConn1().createStatement();
 
             st.executeUpdate("delete from docente where Cognome like'" + cognome + "' and Nome like '" + nome +"'");
-            DAO.Disconnected();
+
             return true;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            DAO.Disconnected();
+
             return false;
         }
 

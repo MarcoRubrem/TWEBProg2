@@ -1,5 +1,6 @@
 package Servlet;
 
+import DAO.DAO;
 import DAO.DAO_Ripetizioni;
 import Model.Insegnamento;
 import DAO.DAO_Insegnamento;
@@ -16,6 +17,11 @@ import java.util.ArrayList;
 
  @WebServlet("/Home")
 public class Home extends HttpServlet {
+
+     public void init() {
+         DAO.registerDriver();
+     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         processRequest(request, response);
     }
@@ -129,5 +135,10 @@ public class Home extends HttpServlet {
                  "</table></div> ");
 
          out.close();
+     }
+
+     public void destroy() {
+
+         DAO.Disconnected();
      }
 }

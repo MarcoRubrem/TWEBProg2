@@ -17,7 +17,7 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
 
 
     public void init() {
-        String message = "Hello World!";
+        DAO.registerDriver();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -53,76 +53,77 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
 
 
         ArrayList<Ripetizione> rt = DAO_Ripetizioni.Elenca_Ripetizioni();
+        HttpSession s = request.getSession();
 
-        if(nome.equals("remove") && cognome.equals("0")){
 
-            Rem_tab(out, rt);
-        }
-        else if(cognome.equals("1000")){
+        if(s.getAttribute("Ruolo").equals("Amministratore")) {
 
-            if(nome.length()==0){
+            if (nome.equals("remove") && cognome.equals("0")) {
 
                 Rem_tab(out, rt);
+            } else if (cognome.equals("1000")) {
 
-            }
-            else {
+                if (nome.length() == 0) {
 
-
-                String[] rt_rem = nome.split(",");
-
-                for (int i = 0; i < rt_rem.length; i++) {
-
-                    String[] rt_split = rt_rem[i].split("/");
-                    String nome_rem = rt_split[0];
-                    String cognome_rem = rt_split[1];
-                    String corso_rem = rt_split[2];
-                    String giorno_rem = rt_split[3];
-                    String ora_rem = rt_split[4];
-
-                    DAO_Ripetizioni.Remove_Repetitions(nome_rem, cognome_rem, corso_rem, giorno_rem, ora_rem);
-
-                }
-
-                Rem_tab(out, rt);
-            }
-        }
-        else{
-
-            if (nome.equals("")) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome obbligatorio</div>");
-                out.close();
-            }
-            else if (cognome.equals("")) {
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
-                out.close();
-            }
-            else if(corso.equals("")){
-
-                out.println("<div class=\"alert alert-danger\" role=\"alert\">Corso obbligatorio</div>");
-                out.close();
-            }
-            else {
-
-                if (DAO_Ripetizioni.Registered_repetition(nome, cognome, corso, giorno, ora)) {
-
-                    out.println("<div class=\"alert alert-success\" role=\"alert\">Ripetizione inserita correttamente!</div>");
-                    out.close();
+                    Rem_tab(out, rt);
 
                 } else {
 
-                    out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Ripetizione già registrata</div>");
-                    out.close();
 
+                    String[] rt_rem = nome.split(",");
+
+                    for (int i = 0; i < rt_rem.length; i++) {
+
+                        String[] rt_split = rt_rem[i].split("/");
+                        String nome_rem = rt_split[0];
+                        String cognome_rem = rt_split[1];
+                        String corso_rem = rt_split[2];
+                        String giorno_rem = rt_split[3];
+                        String ora_rem = rt_split[4];
+
+                        DAO_Ripetizioni.Remove_Repetitions(nome_rem, cognome_rem, corso_rem, giorno_rem, ora_rem);
+
+                    }
+
+                    Rem_tab(out, rt);
                 }
+            } else {
+
+                if (nome.equals("")) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Nome obbligatorio</div>");
+                    out.close();
+                } else if (cognome.equals("")) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Cognome obbligatorio</div>");
+                    out.close();
+                } else if (corso.equals("")) {
+
+                    out.println("<div class=\"alert alert-danger\" role=\"alert\">Corso obbligatorio</div>");
+                    out.close();
+                } else {
+
+                    if (DAO_Ripetizioni.Registered_repetition(nome, cognome, corso, giorno, ora)) {
+
+                        out.println("<div class=\"alert alert-success\" role=\"alert\">Ripetizione inserita correttamente!</div>");
+                        out.close();
+
+                    } else {
+
+                        out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Ripetizione già registrata</div>");
+                        out.close();
+
+                    }
+                }
+
             }
+        }else{
+
+                out.println("<div class=\"alert alert-danger\" role=\"alert\">ATTENZIONE! Accesso negato</div>");
+                out.close();
+
 
         }
-
-
-
-
 
     }
 
@@ -161,5 +162,10 @@ public class Impostazioni_admin_ripetizioni extends HttpServlet {
                     "</div>");
 
         out.close();
+    }
+
+    public void destroy() {
+
+        DAO.Disconnected();
     }
 }

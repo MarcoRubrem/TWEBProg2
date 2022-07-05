@@ -13,7 +13,7 @@ public class Login extends HttpServlet {
 
 
     public void init() {
-        String message = "Hello World!";
+        DAO.registerDriver();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -55,8 +55,6 @@ public class Login extends HttpServlet {
             out.println("<div class=\"alert alert-danger\" role=\"alert\">Password obbligatoria</div>");
             out.close();
         }
-
-        s.setAttribute("account", account);
         String ris = DAO_utente.Logged_user(account, pw);
 
 
@@ -78,5 +76,7 @@ public class Login extends HttpServlet {
 
 
     public void destroy() {
+
+        DAO.Disconnected();
     }
 }

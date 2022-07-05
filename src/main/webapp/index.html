@@ -61,6 +61,8 @@
                                 <router-link id="Impostazioni_Ripetizioni" class="dropdown-item" to="/Impostazioni_Ripetizioni">Ripetizioni</router-link>
                                 <router-link id="Impostazioni_Docenti" class="dropdown-item" to="/Impostazioni_Docenti">Docenti</router-link>
                                 <router-link id="Impostazioni_Corsi" class="dropdown-item" to="/Impostazioni_Corsi">Corsi</router-link>
+                                <router-link id="Impostazioni_Insegnam" class="dropdown-item" to="/Impostazioni_Insegnam">Insegnamenti</router-link>
+
                             </div>
                         </li>
                     </div>
@@ -203,8 +205,9 @@
 
                         const risp = xhrObj.responseText;
                         const text = risp.split("|");
+                        app.ruolo = text[0];
 
-                        if(text[0] === "Cliente"){
+                        if(app.ruolo === "Cliente"){
 
                             router.push('/');
                             app.account = text[1];
@@ -216,7 +219,7 @@
                             app.Impostazioni_admin = false;
                             app.Reg_view = false;
                         }
-                        else if(text[0] === "Amministratore"){
+                        else if(app.ruolo === "Amministratore"){
 
                             router.push('/');
                             app.account = text[1];
@@ -638,14 +641,17 @@
             '    <form class="form-container">\n' +
             '        <h1>Aggiungi un docente!</h1>\n' +
             '        <div class="form-group">\n' +
+
             '        <div id="accerr"></div>\n' +
             '            <label for="Nome">Nome</label>\n' +
             '            <input type="text" class="form-control" id="Nome" placeholder="Nome">\n' +
             '        </div>\n' +
+
             '        <div class="form-group">\n' +
             '            <label for="Cognome">Cognome</label>\n' +
             '            <input type="text" class="form-control" id="Cognome" placeholder="Cognome" >\n' +
             '        </div>\n' +
+
             '        <div class="sub-button">\n' +
             '            <button type="button" id="Add_teachers" v-on:click="Add_teachers" class="btn btn-secondary">Aggiungi</button>\n' +
             '        </div>\n' +
@@ -869,6 +875,143 @@
 
     }
 
+    const Insegnam_admin = {
+
+
+        data() {
+            return {
+
+                add: false,
+                rem: false,
+                btn_rem: false
+
+            }
+        },
+
+        template:
+            '<article>' +
+            '<div id="home_btn" class="btn-group" role="group" aria-label="Basic example">\n' +
+            '  <button v-on:click="Aggiungi_Insegnam" type="button" class="option_double" class="btn btn-secondary">Aggiungi insegnamento</button>\n' +
+            '  <button v-on:click="Rimuovi_Insegnam" type="button" class="option_double" class="btn btn-secondary">Rimuovi insegnamento</button>\n' +
+            '</div>' +
+            '<div v-if="add">' +
+            '<div class="container-fluid bg">\n' +
+            '    <div class="row">\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12"></div>\n' +
+            '<div class="col-md-4 col-sm-4 col-xs-12">\n' +
+            '    <form class="form-container">\n' +
+            '        <h1>Aggiungi un insegnamento!</h1>\n' +
+            '        <div class="form-group">\n' +
+
+            '        <div id="accerr"></div>\n' +
+            '            <label for="Nome">Nome</label>\n' +
+            '            <input type="text" class="form-control" id="Nome" placeholder="Nome">\n' +
+            '        </div>\n' +
+
+            '        <div class="form-group">\n' +
+            '            <label for="Cognome">Cognome</label>\n' +
+            '            <input type="text" class="form-control" id="Cognome" placeholder="Cognome" >\n' +
+            '        </div>\n' +
+
+                    '<div class="form-group">\n' +
+                        '<label for="Cognome">Corso</label>\n' +
+                        '<input type="text" class="form-control" id="Cognome" placeholder="Corso" >\n' +
+                    '</div>\n' +
+
+            '        <div class="sub-button">\n' +
+            '            <button type="button" id="Add_insegnam" v-on:click="Add_insegnam" class="btn btn-secondary">Aggiungi</button>\n' +
+            '        </div>\n' +
+            '    </form>\n' +
+            '</div>\n' +
+            '</div>\n' +
+            '</div>' +
+            '</div>'+
+            '<div v-if="rem">' +
+            '<div id="result">' +
+            '</div>' +
+            '<button type="button" class="rem_btn" v-on:click="Remove_insegnam()" class="btn btn-danger">Elimina/Aggiorna</button>' +
+            '</div>' +
+            '</article>',
+
+        methods: {
+
+            Aggiungi_Insegnam: function () {
+
+                this.add = true;
+                this.rem = false;
+            },
+
+            Rimuovi_Insegnam: function () {
+
+                this.add = false;
+                this.rem = true;
+                const url = "Impostazioni_admin_insegnam?Nome=remove&Cognome=0";
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Insegnam_admin.methods.updatePage_rem;
+                xhrObj.send(null);
+
+            },
+
+            Add_insegnam: function(){ //metodo aggiungi tupla in db
+
+                /*var Nome = document.getElementById("Nome").value;
+                var Cognome = document.getElementById("Cognome").value;
+
+                const url = "Impostazioni_admin_insegnam?Nome=" + Nome + "&Cognome=" + Cognome;
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Insegnam_admin.methods.updatePage;
+                xhrObj.send(null);*/
+
+            },
+
+            Remove_insegnam: function (){ //metodo rimuovi tuple in db
+
+                var rem = document.querySelectorAll('input[name="insegnam_rem"]:checked');
+                var arr = [];
+
+                for(var x = 0, l = rem.length; x < l;  x++)
+                {
+                    arr.push(rem[x].value);
+                }
+
+                var str = arr.join(',');
+
+                const url = "Impostazioni_admin_insegnamento?Nome="+str+"&Cognome="+str+"&Corso="+str+"";
+
+                xhrObj.open("post", url, true);
+                xhrObj.onreadystatechange =  Insegnam_admin.methods.updatePage_rem;
+                xhrObj.send(null);
+
+            },
+
+            updatePage:function(){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("accerr");
+                        accerr.innerHTML = xhrObj.responseText;
+                    }
+                }
+            },
+
+            updatePage_rem:function(){
+
+                if (xhrObj.readyState === 4) {
+                    if (xhrObj.status === 200) {
+
+                        const accerr = document.getElementById("result");
+                        accerr.innerHTML = xhrObj.responseText;
+
+                    }
+                }
+            }
+
+        }
+
+    }
+
     const routes = [
         { path: '/', component: Home},
         { path: '/Login', component: Login },
@@ -876,8 +1019,8 @@
         { path: '/Registrazione', component: Registrazione },
         { path: '/Impostazioni_Docenti', component: Docenti_admin },
         { path: '/Impostazioni_Ripetizioni', component: Ripetizioni_admin },
-        { path: '/Impostazioni_Corsi', component: Corsi_admin }
-
+        { path: '/Impostazioni_Corsi', component: Corsi_admin },
+        { path: '/Impostazioni_Insegnam', component: Insegnam_admin }
 
     ]
 
@@ -892,6 +1035,7 @@
                 message: 'Benvenuto! Accedi o registrati per prenotare',
                 intro_view: false,
                 account: '',
+                ruolo: '',
                 Login_view: true,
                 Logout: false,
                 Impostazioni_admin: false,
